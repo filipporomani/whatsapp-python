@@ -38,18 +38,11 @@ $ python setup.py install
 ```bash
 # For Windows 
 
-pip install  --upgrade whatsapp-python
+pip install --upgrade whatsapp-python
 
 #For Linux | MAC 
 
 pip3 install --upgrade whatsapp-python
-```
-
-### Running on Docker
-To run an instance in docker run the commands below
-```bash
-$ docker compose build
-$ docker compose up
 ```
 
 ## Setting up
