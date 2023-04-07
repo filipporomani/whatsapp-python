@@ -1,6 +1,6 @@
 # [whatsapp-python](https://pypi.org/project/whatsapp-python/)
 
-![Made in Tanzania](https://img.shields.io/badge/made%20in-italy-008751.svg?style=flat-square)
+![Made in Italy](https://img.shields.io/badge/made%20in-italy-008751.svg?style=flat-square)
 [![Downloads](https://pepy.tech/badge/whatsapp-python)](https://pepy.tech/project/whatsapp-python)
 [![Downloads](https://pepy.tech/badge/whatsapp-python/month)](https://pepy.tech/project/whatsapp-python)
 [![Downloads](https://pepy.tech/badge/whatsapp-python/week)](https://pepy.tech/project/whatsapp-python)
@@ -19,13 +19,14 @@ Forked from [Neurotech-HQ/whatsapp](https://github.com/Neurotech-HQ/heyoo)
 6. Sending template messages
 7. Parsing messages and media received
 
+## Switching from `heyoo`
+As of now (v 1.0.2), switching from heyoo to whatsapp-python doesn't require any change: just uninstall the old, install the new and change the import name from `heyoo` to `whatsapp`.
+
 ## Getting started
 
 To get started with **whatsapp-python**, you have to firstly install the libary either directly or using *pip*.
 
-### Building from source
-
-Use git to clone or you can also manually download the project repository just as shown below;
+### Installing from source
 
 ```bash
 $ git clone https://github.com/filipporomani/whatsapp
@@ -33,7 +34,7 @@ $ cd whatsapp
 $ python setup.py install 
 ```
 
-### Installing via pip
+### Installing from pip
 
 ```bash
 # For Windows 
@@ -68,7 +69,7 @@ To authenticate your application, you need to specify  the ```TOKEN``` and the `
 
 ```python
 >>> from whatsapp import WhatsApp
->>> messenger = WhatsApp('TOKEN',  phone_number_id='104xxxxxx')
+>>> messenger = WhatsApp('TOKEN',  phone_number_id='xxxxxxxxx')
 ```
 
 Once you have authenticated your app you can start using the above mentioned feature as shown above;
@@ -255,7 +256,7 @@ Here an example;
 
 ## Sending a Template Messages
 
-⚠️Warning! the `send_templatev2()` method is being deprecated.
+⚠️Warning! the `send_templatev2()` method has been deprecated and does not exist anymore.
     
 Here how to send a pre-approved template message, Template messages can either be;
 
@@ -381,17 +382,3 @@ This is an opensource project under ```MIT License``` so any one is welcome to c
 ## References
 
 1. [WhatsApp Cloud API official documentation](https://developers.facebook.com/docs/whatsapp/cloud-api/)
-2. [Programming WhatsApp is now even easier for Python Developers](https://mr-collins-llb.medium.com/programming-whatsapp-is-now-even-easier-for-python-developers-e1a4343deed6)
-3. [Meet whatsapp — an Open-source Python Wrapper for WhatsApp Cloud API](https://betterprogramming.pub/programming-whatsapp-is-now-even-easier-for-python-developers-e1a4343deed6)
-4. [Whatsapp Cloud API: How to send WhatsApp messages from Python?](https://medium.com/@today.rafi/whatsapp-cloud-api-how-to-send-whatsapp-messages-from-python-9baa03c93b5d)
-
-## Related
-
-1. [WhatsApp Cloud API PHP Wrapper](https://github.com/pro-cms/whatsappcloud-php)
-2. [whatsapp Javascript](https://github.com/JS-Hub-ZW/whatsapph)
-
-## All the credit
-
-1. [kalebu](https://github.com/Kalebu)
-2. All other contributors
-</samp>
