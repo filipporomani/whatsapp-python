@@ -1,14 +1,13 @@
 <samp>
 
-# [whatsapp](https://pypi.org/project/whatsapp/)
+# [heyoo](https://pypi.org/project/heyoo/)
 
 [![Made in Tanzania](https://img.shields.io/badge/made%20in-tanzania-008751.svg?style=flat-square)](https://github.com/Tanzania-Developers-Community/made-in-tanzania)
-[![Downloads](https://pepy.tech/badge/whatsapp)](https://pepy.tech/project/whatsapp)
-[![Downloads](https://pepy.tech/badge/whatsapp/month)](https://pepy.tech/project/whatsapp)
-[![Downloads](https://pepy.tech/badge/whatsapp/week)](https://pepy.tech/project/whatsapp)
+[![Downloads](https://pepy.tech/badge/heyoo)](https://pepy.tech/project/heyoo)
+[![Downloads](https://pepy.tech/badge/heyoo/month)](https://pepy.tech/project/heyoo)
+[![Downloads](https://pepy.tech/badge/heyoo/week)](https://pepy.tech/project/heyoo)
 
 Unofficial Python wrapper for the [WhatsApp Cloud API](https://developers.facebook.com/docs/whatsapp/cloud-api)
-Forked from [Neurotech-HQ/whatsapp](https://github.com/Neurotech-HQ/whatsapp)
 
 ## Supported features
 
@@ -22,16 +21,16 @@ Forked from [Neurotech-HQ/whatsapp](https://github.com/Neurotech-HQ/whatsapp)
 
 ## Getting started
 
-To get started with **whatsapp**, you have to firstly install the libary either directly or using *pip*.
+To get started with **heyoo**, you have to firstly install the libary either directly or using *pip*.
 
 ### Building from source
 
 Use git to clone or you can also manually download the project repository just as shown below;
 
 ```bash
-$ git clone https://github.com/filipporomani/whatsapp
-$ cd whatsapp
-whatsapp $ python setup.py install
+$ git clone https://github.com/Neurotech-HQ/heyoo
+$ cd heyoo
+heyoo $ python setup.py install 
 ```
 
 ### Installing via pip
@@ -39,11 +38,11 @@ whatsapp $ python setup.py install
 ```bash
 # For Windows 
 
-pip install  --upgrade whatsapp
+pip install  --upgrade heyoo
 
 #For Linux | MAC 
 
-pip3 install --upgrade whatsapp
+pip3 install --upgrade heyoo
 ```
 
 ### Running on Docker
@@ -75,7 +74,7 @@ Once you've followed the above procedures you're ready to start hacking with the
 To authenticate your application, you need to specify  the ```TOKEN``` and the ```phone_number_id``` of your application
 
 ```python
->>> from whatsapp import WhatsApp
+>>> from heyoo import WhatsApp
 >>> messenger = WhatsApp('TOKEN',  phone_number_id='104xxxxxx')
 ```
 
@@ -285,7 +284,7 @@ You can find the available components in the documentation.
 
 ## Webhook
 
-Webhook are useful incase you're wondering how to respond to incoming message send by user, but I have created a [starter webhook](https://github.com/filipporomani/whatsapp/blob/main/hook.py) which you can then customize it according to your own plans.
+Webhook are useful incase you're wondering how to respond to incoming message send by user, but I have created a [starter webhook](https://github.com/Neurotech-HQ/heyoo/blob/main/hook.py) which you can then customize it according to your own plans.
 
 Here an example on how you can use webhook to respond to incoming messages;
 
@@ -390,13 +389,13 @@ This is an opensource project under ```MIT License``` so any one is welcome to c
 
 1. [WhatsApp Cloud API official documentation](https://developers.facebook.com/docs/whatsapp/cloud-api/)
 2. [Programming WhatsApp is now even easier for Python Developers](https://mr-collins-llb.medium.com/programming-whatsapp-is-now-even-easier-for-python-developers-e1a4343deed6)
-3. [Meet whatsapp — an Open-source Python Wrapper for WhatsApp Cloud API](https://betterprogramming.pub/programming-whatsapp-is-now-even-easier-for-python-developers-e1a4343deed6)
+3. [Meet Heyoo — an Open-source Python Wrapper for WhatsApp Cloud API](https://betterprogramming.pub/programming-whatsapp-is-now-even-easier-for-python-developers-e1a4343deed6)
 4. [Whatsapp Cloud API: How to send WhatsApp messages from Python?](https://medium.com/@today.rafi/whatsapp-cloud-api-how-to-send-whatsapp-messages-from-python-9baa03c93b5d)
 
 ## Related
 
 1. [WhatsApp Cloud API PHP Wrapper](https://github.com/pro-cms/whatsappcloud-php)
-2. [whatsapp Javascript](https://github.com/JS-Hub-ZW/whatsapph)
+2. [Heyoo Javascript](https://github.com/JS-Hub-ZW/heyooh)
 
 ## All the credit
 

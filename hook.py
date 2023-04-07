@@ -1,6 +1,6 @@
 import os
 import logging
-from whatsapp import WhatsApp
+from heyoo import WhatsApp
 from dotenv import load_dotenv
 from flask import Flask, request, make_response
 

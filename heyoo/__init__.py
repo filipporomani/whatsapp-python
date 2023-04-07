@@ -30,7 +30,8 @@ class WhatsApp(object):
         """
         self.token = token
         self.phone_number_id = phone_number_id
-        self.base_url = "https://graph.facebook.com/v15.0"
+        self.base_url = "https://graph.facebook.com/v14.0"
+        self.v15_base_url = "https://graph.facebook.com/v15.0"
         self.url = f"{self.base_url}/{phone_number_id}/messages"
 
         self.headers = {
@@ -575,7 +576,7 @@ class WhatsApp(object):
         }
         logging.info(f"Marking message {message_id} as read")
         response = requests.post(
-            f"{self.base_url}/{self.phone_number_id}/messages",
+            f"{self.v15_base_url}/{self.phone_number_id}/messages",
             headers=headers,
             json=json_data,
         ).json()
@@ -613,7 +614,7 @@ class WhatsApp(object):
             button[dict]: A dictionary containing the button data(rows-title may not exceed 20 characters)
             recipient_id[str]: Phone number of the user with country code wihout +
 
-        check https://github.com/Neurotech-HQ/whatsapp#sending-interactive-reply-buttons for an example.
+        check https://github.com/Neurotech-HQ/heyoo#sending-interactive-reply-buttons for an example.
         """
         data = {
             "messaging_product": "whatsapp",

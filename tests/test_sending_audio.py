@@ -1,5 +1,5 @@
 from os import getenv
-from whatsapp import WhatsApp
+from heyoo import WhatsApp
 from dotenv import load_dotenv
 
 def test_sending_audio():
