@@ -1,6 +1,6 @@
 # [whatsapp-python](https://pypi.org/project/whatsapp-python/)
 
-[![Made in Tanzania](https://img.shields.io/badge/made%20in-tanzania-008751.svg?style=flat-square)](https://github.com/Tanzania-Developers-Community/made-in-tanzania)
+![Made in Tanzania](https://img.shields.io/badge/made%20in-italy-008751.svg?style=flat-square)
 [![Downloads](https://pepy.tech/badge/whatsapp-python)](https://pepy.tech/project/whatsapp-python)
 [![Downloads](https://pepy.tech/badge/whatsapp-python/month)](https://pepy.tech/project/whatsapp-python)
 [![Downloads](https://pepy.tech/badge/whatsapp-python/week)](https://pepy.tech/project/whatsapp-python)
