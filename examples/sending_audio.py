@@ -1,5 +1,5 @@
 from os import getenv
-from heyoo import WhatsApp
+from whatsapp import WhatsApp
 from dotenv import load_dotenv
 
 if __name__ == "__main__":
