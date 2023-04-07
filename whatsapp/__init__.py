@@ -6,8 +6,6 @@ import os
 import mimetypes
 import requests
 import logging
-import warnings
-from colorama import Fore, Style
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from typing import Optional, Dict, Any, List, Union, Tuple, Callable
 
@@ -145,11 +143,6 @@ class WhatsApp(object):
         logging.info(f"Status code: {r.status_code}")
         logging.error(f"Response: {r.json()}")
         return r.json()
-
-    def send_templatev2(self, template, recipient_id, components, lang: str = "en_US"):
-        message = f"{Fore.RED}The 'send_templatev2' method is being deprecated and will be removed in the future. Please use the 'send_template' method instead.{Style.RESET_ALL}"
-        warnings.warn(message, DeprecationWarning)
-        return send_template(template, recipient_id, components, lang=lang)
     
     
     def send_location(self, lat, long, name, address, recipient_id):
@@ -614,7 +607,7 @@ class WhatsApp(object):
             button[dict]: A dictionary containing the button data(rows-title may not exceed 20 characters)
             recipient_id[str]: Phone number of the user with country code wihout +
 
-        check https://github.com/Neurotech-HQ/heyoo#sending-interactive-reply-buttons for an example.
+        check https://github.com/Neurotech-HQ/whatsapp#sending-interactive-reply-buttons for an example.
         """
         data = {
             "messaging_product": "whatsapp",
