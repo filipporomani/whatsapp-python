@@ -7,9 +7,6 @@ this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, "README.md")) as f:
     long_description = f.read()
 
-test_deps = ["python-dotenv==0.20.0", "pytest==7.1.3"]
-extras = {"test": test_deps}
-
 setup(
     name="whatsapp-python",
     version="1.0.2",
@@ -22,8 +19,6 @@ setup(
     license="MIT",
     packages=["whatsapp"],
     install_requires=["requests", "requests-toolbelt", "typing"],
-    tests_require=test_deps,
-    extras_require=extras,
     keywords=[
         "whatsapp",
         "whatsapp-libary",
