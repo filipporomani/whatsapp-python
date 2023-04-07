@@ -12,7 +12,7 @@ extras = {"test": test_deps}
 
 setup(
     name="whatsapp-python",
-    version="1.0.1",
+    version="1.0.2",
     description="Opensource Python wrapper to WhatsApp Cloud API",
     long_description=long_description,
     long_description_content_type="text/markdown",
