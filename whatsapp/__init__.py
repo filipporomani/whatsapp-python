@@ -27,7 +27,7 @@ class WhatsApp(object):
         """
 
         # Check if the version is up to date
-        self.VERSION = "1.1.5"
+        self.VERSION = "2.2.2"
         latest = str(requests.get(
             "https://pypi.org/pypi/whatsapp-python/json").json()["info"]["version"])
         if self.VERSION != latest:
