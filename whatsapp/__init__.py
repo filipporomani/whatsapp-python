@@ -20,6 +20,14 @@ class WhatsApp(object):
     """
 
     def __init__(self, token: str = "", phone_number_id: str = "", logger: bool = True):
+        """
+        Initialize the WhatsApp Object
+
+        Args:
+            token[str]: Token for the WhatsApp cloud API obtained from the developer portal
+            phone_number_id[str]: Phone number id for the WhatsApp cloud API obtained from the developer portal
+            logger[bool]: Whether to enable logging or not (default: True)
+        """
         self.VERSION = "1.1.2"
         latest = requests.get("https://pypi.org/pypi/whatsapp-python/json").json()["info"]["version"]
         if self.VERSION != latest:
@@ -27,13 +35,6 @@ class WhatsApp(object):
             latest_int = int(latest.replace(".", ""))
             if version_int < latest_int: # this is to avoid the case where the version is 1.0.10 and the latest is 1.0.2 (possible if user is using the github version)   
                 logging.critical(f"Whatsapp-python is out of date. Please update to the latest version {latest}")
-        """
-        Initialize the WhatsApp Object
-
-        Args:
-            token[str]: Token for the WhatsApp cloud API obtained from the developer portal
-            phone_number_id[str]: Phone number id for the WhatsApp cloud API obtained from the developer portal
-        """
         if token == "" or phone_number_id == "":
             logging.error("Token or phone number id not provided")
             raise ValueError(
