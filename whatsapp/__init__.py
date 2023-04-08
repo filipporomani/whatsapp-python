@@ -36,7 +36,7 @@ class WhatsApp(object):
             # this is to avoid the case where the version is 1.0.10 and the latest is 1.0.2 (possible if user is using the github version)
             if version_int < latest_int:
                 logging.critical(
-                    f"Whatsapp-python is out of date. Please update to the latest version {latest}")
+                    f"Whatsapp-python is out of date. Please update to the latest version {latest}. READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED.")
 
         if token == "" or phone_number_id == "":
             logging.error("Token or phone number id not provided")
