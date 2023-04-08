@@ -12,8 +12,6 @@
 name: "CodeQL"
 
 on:
-  release:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
   schedule:
