@@ -742,18 +742,9 @@ class WhatsApp(object):
             logging.error(f"Error downloading media to {save_file_here}")
             return None
 
-    def preprocess(self, data: Dict[Any, Any]) -> Dict[Any, Any]:
-        """
-        Preprocesses the data received from the webhook.
 
-        This method is designed to only be used internally.
-
-        Args:
-            data[dict]: The data received from the webhook
-        """
-        return data["entry"][0]["changes"][0]["value"]
-
-    def is_message(self, data: Dict[Any, Any]) -> bool:
+    @staticmethod
+    def is_message(data: Dict[Any, Any]) -> bool:
         """is_message checks if the data received from the webhook is a message.
 
         Args:
@@ -762,13 +753,15 @@ class WhatsApp(object):
         Returns:
             bool: True if the data is a message, False otherwise
         """
-        data = self.preprocess(data)
+        data = data["entry"][0]["changes"][0]["value"]
         if "messages" in data:
             return True
         else:
             return False
-
-    def get_mobile(self, data: Dict[Any, Any]) -> Union[str, None]:
+        
+        
+    @staticmethod
+    def get_mobile(data: Dict[Any, Any]) -> Union[str, None]:
         """
         Extracts the mobile number of the sender from the data received from the webhook.
 
@@ -782,11 +775,12 @@ class WhatsApp(object):
             >>> whatsapp = WhatsApp(token, phone_number_id)
             >>> mobile = whatsapp.get_mobile(data)
         """
-        data = self.preprocess(data)
+        data = data["entry"][0]["changes"][0]["value"]
         if "contacts" in data:
             return data["contacts"][0]["wa_id"]
 
-    def get_name(self, data: Dict[Any, Any]) -> Union[str, None]:
+    @staticmethod
+    def get_name(data: Dict[Any, Any]) -> Union[str, None]:
         """
         Extracts the name of the sender from the data received from the webhook.
 
@@ -799,11 +793,12 @@ class WhatsApp(object):
             >>> whatsapp = WhatsApp(token, phone_number_id)
             >>> mobile = whatsapp.get_name(data)
         """
-        contact = self.preprocess(data)
+        contact = data["entry"][0]["changes"][0]["value"]
         if contact:
             return contact["contacts"][0]["profile"]["name"]
 
-    def get_message(self, data: Dict[Any, Any]) -> Union[str, None]:
+    @staticmethod
+    def get_message(data: Dict[Any, Any]) -> Union[str, None]:
         """
         Extracts the text message of the sender from the data received from the webhook.
 
@@ -816,11 +811,12 @@ class WhatsApp(object):
             >>> whatsapp = WhatsApp(token, phone_number_id)
             >>> message = message.get_message(data)
         """
-        data = self.preprocess(data)
+        data = data["entry"][0]["changes"][0]["value"]
         if "messages" in data:
             return data["messages"][0]["text"]["body"]
 
-    def get_message_id(self, data: Dict[Any, Any]) -> Union[str, None]:
+    @staticmethod
+    def get_message_id(data: Dict[Any, Any]) -> Union[str, None]:
         """
         Extracts the message id of the sender from the data received from the webhook.
 
@@ -833,11 +829,12 @@ class WhatsApp(object):
             >>> whatsapp = WhatsApp(token, phone_number_id)
             >>> message_id = whatsapp.get_message_id(data)
         """
-        data = self.preprocess(data)
+        data = data["entry"][0]["changes"][0]["value"]
         if "messages" in data:
             return data["messages"][0]["id"]
 
-    def get_message_timestamp(self, data: Dict[Any, Any]) -> Union[str, None]:
+    @staticmethod
+    def get_message_timestamp(data: Dict[Any, Any]) -> Union[str, None]:
         """ "
         Extracts the timestamp of the message from the data received from the webhook.
 
@@ -850,11 +847,12 @@ class WhatsApp(object):
             >>> whatsapp = WhatsApp(token, phone_number_id)
             >>> whatsapp.get_message_timestamp(data)
         """
-        data = self.preprocess(data)
+        data = data["entry"][0]["changes"][0]["value"]
         if "messages" in data:
             return data["messages"][0]["timestamp"]
 
-    def get_interactive_response(self, data: Dict[Any, Any]) -> Union[Dict, None]:
+    @staticmethod
+    def get_interactive_response(data: Dict[Any, Any]) -> Union[Dict, None]:
         """
          Extracts the response of the interactive message from the data received from the webhook.
 
@@ -871,12 +869,13 @@ class WhatsApp(object):
             >>> message_id = response[interactive_type]["id"]
             >>> message_text = response[interactive_type]["title"]
         """
-        data = self.preprocess(data)
+        data = data["entry"][0]["changes"][0]["value"]
         if "messages" in data:
             if "interactive" in data["messages"][0]:
                 return data["messages"][0]["interactive"]
 
-    def get_location(self, data: Dict[Any, Any]) -> Union[Dict, None]:
+    @staticmethod
+    def get_location(data: Dict[Any, Any]) -> Union[Dict, None]:
         """
         Extracts the location of the sender from the data received from the webhook.
 
@@ -891,12 +890,13 @@ class WhatsApp(object):
             >>> whatsapp = WhatsApp(token, phone_number_id)
             >>> whatsapp.get_location(data)
         """
-        data = self.preprocess(data)
+        data = data["entry"][0]["changes"][0]["value"]
         if "messages" in data:
             if "location" in data["messages"][0]:
                 return data["messages"][0]["location"]
 
-    def get_image(self, data: Dict[Any, Any]) -> Union[Dict, None]:
+    @staticmethod
+    def get_image(data: Dict[Any, Any]) -> Union[Dict, None]:
         """ "
         Extracts the image of the sender from the data received from the webhook.
 
@@ -910,12 +910,13 @@ class WhatsApp(object):
             >>> whatsapp = WhatsApp(token, phone_number_id)
             >>> image_id = whatsapp.get_image(data)
         """
-        data = self.preprocess(data)
+        data = data["entry"][0]["changes"][0]["value"]
         if "messages" in data:
             if "image" in data["messages"][0]:
                 return data["messages"][0]["image"]
 
-    def get_document(self, data: Dict[Any, Any]) -> Union[Dict, None]:
+    @staticmethod
+    def get_document(data: Dict[Any, Any]) -> Union[Dict, None]:
         """ "
         Extracts the document of the sender from the data received from the webhook.
 
@@ -929,12 +930,13 @@ class WhatsApp(object):
             >>> whatsapp = WhatsApp(token, phone_number_id)
             >>> document_id = whatsapp.get_document(data)
         """
-        data = self.preprocess(data)
+        data = data["entry"][0]["changes"][0]["value"]
         if "messages" in data:
             if "document" in data["messages"][0]:
                 return data["messages"][0]["document"]
 
-    def get_audio(self, data: Dict[Any, Any]) -> Union[Dict, None]:
+    @staticmethod
+    def get_audio(data: Dict[Any, Any]) -> Union[Dict, None]:
         """
         Extracts the audio of the sender from the data received from the webhook.
 
@@ -949,12 +951,13 @@ class WhatsApp(object):
             >>> whatsapp = WhatsApp(token, phone_number_id)
             >>> whatsapp.get_audio(data)
         """
-        data = self.preprocess(data)
+        data = data["entry"][0]["changes"][0]["value"]
         if "messages" in data:
             if "audio" in data["messages"][0]:
                 return data["messages"][0]["audio"]
 
-    def get_video(self, data: Dict[Any, Any]) -> Union[Dict, None]:
+    @staticmethod
+    def get_video( data: Dict[Any, Any]) -> Union[Dict, None]:
         """
         Extracts the video of the sender from the data received from the webhook.
 
@@ -969,12 +972,13 @@ class WhatsApp(object):
             >>> whatsapp = WhatsApp(token, phone_number_id)
             >>> whatsapp.get_video(data)
         """
-        data = self.preprocess(data)
+        data = data["entry"][0]["changes"][0]["value"]
         if "messages" in data:
             if "video" in data["messages"][0]:
                 return data["messages"][0]["video"]
 
-    def get_message_type(self, data: Dict[Any, Any]) -> Union[str, None]:
+    @staticmethod
+    def get_message_type(data: Dict[Any, Any]) -> Union[str, None]:
         """
         Gets the type of the message sent by the sender from the data received from the webhook.
 
@@ -990,11 +994,12 @@ class WhatsApp(object):
             >>> whatsapp = WhatsApp(token, phone_number_id)
             >>> whatsapp.get_message_type(data)
         """
-        data = self.preprocess(data)
+        data = data["entry"][0]["changes"][0]["value"]
         if "messages" in data:
             return data["messages"][0]["type"]
 
-    def get_delivery(self, data: Dict[Any, Any]) -> Union[Dict, None]:
+    @staticmethod
+    def get_delivery(data: Dict[Any, Any]) -> Union[Dict, None]:
         """
         Extracts the delivery status of the message from the data received from the webhook.
         Args:
@@ -1003,11 +1008,12 @@ class WhatsApp(object):
         Returns:
             dict: The delivery status of the message and message id of the message
         """
-        data = self.preprocess(data)
+        data = data["entry"][0]["changes"][0]["value"]
         if "statuses" in data:
             return data["statuses"][0]["status"]
 
-    def changed_field(self, data: Dict[Any, Any]) -> str:
+    @staticmethod
+    def changed_field(data: Dict[Any, Any]) -> str:
         """
         Helper function to check if the field changed in the data received from the webhook.
 
