@@ -2,7 +2,7 @@ import os
 import logging
 from whatsapp import WhatsApp
 from dotenv import load_dotenv
-from flask import Flask, request, make_response
+from flask import Flask, request, Response
 
 # Initialize Flask App
 app = Flask(__name__)
@@ -22,9 +22,8 @@ logging.basicConfig(
 def verify_token():
     if request.args.get("hub.verify_token") == VERIFY_TOKEN:
         logging.info("Verified webhook")
-        response = make_response(request.args.get("hub.challenge"), 200)
-        response.mimetype = "text/plain"
-        return response
+        challenge = request.args.get("hub.challenge")
+        return str(challenge)
     logging.error("Webhook Verification failed")
     return "Invalid verification token"
 
@@ -32,6 +31,8 @@ def verify_token():
 def hook():
     # Handle Webhook Subscriptions
     data = request.get_json()
+    if data is None:
+        return Response(status=200)
     logging.info("Received webhook data: %s", data)
     changed_field = messenger.changed_field(data)
     if changed_field == "messages":
@@ -51,6 +52,8 @@ def hook():
 
             elif message_type == "interactive":
                 message_response = messenger.get_interactive_response(data)
+                if message_response is None:
+                    return Response(status=400)
                 interactive_type = message_response.get("type")
                 message_id = message_response[interactive_type]["id"]
                 message_text = message_response[interactive_type]["title"]
@@ -58,12 +61,16 @@ def hook():
 
             elif message_type == "location":
                 message_location = messenger.get_location(data)
+                if message_location is None:
+                    return Response(status=400)
                 message_latitude = message_location["latitude"]
                 message_longitude = message_location["longitude"]
                 logging.info("Location: %s, %s", message_latitude, message_longitude)
 
             elif message_type == "image":
                 image = messenger.get_image(data)
+                if image is None:
+                    return Response(status=400)
                 image_id, mime_type = image["id"], image["mime_type"]
                 image_url = messenger.query_media_url(image_id)
                 image_filename = messenger.download_media(image_url, mime_type)
@@ -71,6 +78,8 @@ def hook():
 
             elif message_type == "video":
                 video = messenger.get_video(data)
+                if video is None:
+                    return Response(status=400)
                 video_id, mime_type = video["id"], video["mime_type"]
                 video_url = messenger.query_media_url(video_id)
                 video_filename = messenger.download_media(video_url, mime_type)
@@ -78,6 +87,8 @@ def hook():
 
             elif message_type == "audio":
                 audio = messenger.get_audio(data)
+                if audio is None:
+                    return Response(status=400)
                 audio_id, mime_type = audio["id"], audio["mime_type"]
                 audio_url = messenger.query_media_url(audio_id)
                 audio_filename = messenger.download_media(audio_url, mime_type)
@@ -85,8 +96,12 @@ def hook():
 
             elif message_type == "document":
                 file = messenger.get_document(data)
+                if file is None:
+                    return Response(status=400)
                 file_id, mime_type = file["id"], file["mime_type"]
                 file_url = messenger.query_media_url(file_id)
+                if file_url is None:
+                    return Response(status=400)
                 file_filename = messenger.download_media(file_url, mime_type)
                 logging.info(f"{mobile} sent file {file_filename}")
             else:
