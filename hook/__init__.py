@@ -9,7 +9,8 @@ app = Flask(__name__)
 
 # Load .env file
 load_dotenv()
-messenger = WhatsApp(os.getenv("TOKEN"), phone_number_id=os.getenv("PHONE_NUMBER_ID"))
+messenger = WhatsApp(os.getenv("TOKEN"),
+                     phone_number_id=os.getenv("PHONE_NUMBER_ID"))
 VERIFY_TOKEN = "30cca545-3838-48b2-80a7-9e43b1ae8ce4"
 
 # Logging
@@ -26,6 +27,7 @@ def verify_token():
         return str(challenge)
     logging.error("Webhook Verification failed")
     return "Invalid verification token"
+
 
 @app.post("/")
 def hook():
@@ -48,7 +50,8 @@ def hook():
                 message = messenger.get_message(data)
                 name = messenger.get_name(data)
                 logging.info("Message: %s", message)
-                messenger.send_message(f"Hi {name}, nice to connect with you", mobile)
+                messenger.send_message(
+                    f"Hi {name}, nice to connect with you", mobile)
 
             elif message_type == "interactive":
                 message_response = messenger.get_interactive_response(data)
@@ -57,7 +60,8 @@ def hook():
                 interactive_type = message_response.get("type")
                 message_id = message_response[interactive_type]["id"]
                 message_text = message_response[interactive_type]["title"]
-                logging.info(f"Interactive Message; {message_id}: {message_text}")
+                logging.info(
+                    f"Interactive Message; {message_id}: {message_text}")
 
             elif message_type == "location":
                 message_location = messenger.get_location(data)
@@ -65,7 +69,8 @@ def hook():
                     return Response(status=400)
                 message_latitude = message_location["latitude"]
                 message_longitude = message_location["longitude"]
-                logging.info("Location: %s, %s", message_latitude, message_longitude)
+                logging.info("Location: %s, %s",
+                             message_latitude, message_longitude)
 
             elif message_type == "image":
                 image = messenger.get_image(data)
