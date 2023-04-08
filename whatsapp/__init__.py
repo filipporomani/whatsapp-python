@@ -18,7 +18,7 @@ class WhatsApp(object):
     WhatsApp Object
     """
 
-    def __init__(self, token=None, phone_number_id=None):
+    def __init__(self, token: str = "", phone_number_id: str = ""):
         """
         Initialize the WhatsApp Object
 
@@ -26,6 +26,9 @@ class WhatsApp(object):
             token[str]: Token for the WhatsApp cloud API obtained from the developer portal
             phone_number_id[str]: Phone number id for the WhatsApp cloud API obtained from the developer portal
         """
+        if token == "" or phone_number_id == "":
+            logging.error("Token or phone number id not provided")
+            raise ValueError("Token or phone number ID not provided but is required")
         self.token = token
         self.phone_number_id = phone_number_id
         self.base_url = "https://graph.facebook.com/v15.0"
@@ -33,7 +36,7 @@ class WhatsApp(object):
 
         self.headers = {
             "Content-Type": "application/json",
-            "Authorization": "Bearer {}".format(self.token),
+            "Authorization": f"Bearer {self.token}"
         }
 
     def send_message(
