@@ -26,7 +26,7 @@ As of now (v1.1.2), switching from heyoo to whatsapp-python doesn't require any 
 
 ## Documentation
 
-The documentation is available under the [wiki section](https://filipporomani.github.io/whatsapp/wiki)
+The documentation is available under the [wiki section](https://github.com/filipporomani/whatsapp/wiki)
 
 
 ## Issues
