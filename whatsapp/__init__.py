@@ -59,7 +59,7 @@ class WhatsApp(object):
             logging.disable(logging.ERROR)
 
     def send_message(
-        self, message, recipient_id, recipient_type="individual", preview_url=True
+        self, message: str, recipient_id: str, recipient_type: str = "individual", preview_url: bool =True
     ):
         """
          Sends a text message to a WhatsApp user
@@ -126,7 +126,7 @@ class WhatsApp(object):
         logging.error(f"Response: {r.json()}")
         return r.json()
 
-    def send_template(self, template, recipient_id, components, lang: str = "en_US"):
+    def send_template(self, template: str, recipient_id: str, components: str, lang: str = "en_US"):
         """
         Sends a template message to a WhatsApp user, Template messages can either be;
             1. Text template
@@ -165,7 +165,7 @@ class WhatsApp(object):
         logging.error(f"Response: {r.json()}")
         return r.json()
 
-    def send_location(self, lat, long, name, address, recipient_id):
+    def send_location(self, lat: str, long: str, name: str, address: str, recipient_id: str):
         """
         Sends a location message to a WhatsApp user
 
@@ -204,11 +204,11 @@ class WhatsApp(object):
 
     def send_image(
         self,
-        image,
-        recipient_id,
-        recipient_type="individual",
-        caption=None,
-        link=True,
+        image: str,
+        recipient_id: str,
+        recipient_type: str ="individual",
+        caption: str = "",
+        link: bool =True,
     ):
         """
         Sends an image message to a WhatsApp user
@@ -255,7 +255,7 @@ class WhatsApp(object):
         logging.error(r.json())
         return r.json()
 
-    def send_sticker(self, sticker: str, recipient_id: str, recipient_type="individual", link=True):
+    def send_sticker(self, sticker: str, recipient_id: str, recipient_type: str = "individual", link: bool = True):
         """
         Sends a sticker message to a WhatsApp user
 
@@ -300,7 +300,7 @@ class WhatsApp(object):
         logging.error(r.json())
         return r.json()
 
-    def send_audio(self, audio, recipient_id, link=True):
+    def send_audio(self, audio: str, recipient_id: str, link: bool = True):
         """
         Sends an audio message to a WhatsApp user
         Audio messages can either be sent by passing the audio id or by passing the audio link.
@@ -340,7 +340,7 @@ class WhatsApp(object):
         return r.json()
 
     def send_video(
-        self, video, recipient_id, caption=None, link=True
+        self, video: str, recipient_id: str, caption: str = "", link: bool = True
     ) -> Dict[Any, Any]:
         """ "
         Sends a video message to a WhatsApp user
@@ -381,7 +381,7 @@ class WhatsApp(object):
         logging.error(f"Response: {r.json()}")
         return r.json()
 
-    def send_custom_json(self, data, recipient_id=None):
+    def send_custom_json(self, data: dict, recipient_id: str = ""):
         """
         Sends a custom json to a WhatsApp user. This can be used to send custom objects to the message endpoint.
 
@@ -416,7 +416,7 @@ class WhatsApp(object):
         return r.json()
 
     def send_document(
-        self, document, recipient_id, caption=None, link=True
+        self, document: str, recipient_id: str, caption: str = "", link: bool = True
     ) -> Dict[Any, Any]:
         """ "
         Sends a document message to a WhatsApp user
