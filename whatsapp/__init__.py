@@ -57,6 +57,8 @@ class WhatsApp(object):
     @property
     def authorized(self) -> bool:
         return requests.get(self.url, headers=self.headers).status_code != 401
+    
+    # all the files starting with _ are imported here, and should not be imported directly.
 
     from ._send_others import send_custom_json, send_contacts
     from ._message import send_message, send_template, reply_to_message, mark_as_read
