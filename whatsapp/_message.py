@@ -43,7 +43,7 @@ def send_template(self, template: str, recipient_id: str, components: str, lang:
     return r.json()
 
 
-## MESSAGE()
+# MESSAGE()
 
 def reply(self, reply_text: str = "", preview_url: bool = True):
     if self.data == {}:
@@ -57,7 +57,7 @@ def reply(self, reply_text: str = "", preview_url: bool = True):
         "context": {"message_id": self.id},
         "text": {"preview_url": preview_url, "body": reply_text},
     }
-    
+
     print(payload)
 
     logging.info(f"Replying to {self.id}")
@@ -69,6 +69,7 @@ def reply(self, reply_text: str = "", preview_url: bool = True):
     logging.info(f"Status code: {r.status_code}")
     logging.error(f"Response: {r.json()}")
     return r.json()
+
 
 def mark_as_read(self):
     payload = {
@@ -85,7 +86,8 @@ def mark_as_read(self):
     else:
         logging.error(response.json())
         return response.json()
-    
+
+
 def send(self, preview_url: bool = True):
     data = {
         "messaging_product": "whatsapp",

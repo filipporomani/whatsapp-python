@@ -301,9 +301,10 @@ def changed_field(data: Dict[Any, Any]) -> str:
     """
     return data["entry"][0]["changes"][0]["field"]
 
+
 @staticmethod
 def get_author(data: Dict[Any, Any]) -> Union[str, None]:
-    try: 
+    try:
         return data["entry"][0]["changes"][0]["value"]["messages"][0]["from"]
     except Exception:
         return None

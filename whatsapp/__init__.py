@@ -58,7 +58,7 @@ class WhatsApp(object):
     @property
     def authorized(self) -> bool:
         return requests.get(self.url, headers=self.headers).status_code != 401
-    
+
     # all the files starting with _ are imported here, and should not be imported directly.
 
     from ._send_others import send_custom_json, send_contacts
@@ -83,49 +83,68 @@ class WhatsApp(object):
     get_video = staticmethod(get_video)
     changed_field = staticmethod(changed_field)
     get_author = staticmethod(get_author)
-    
-    
+
+
 class Message(object):
-    def __init__(self, data: dict = {}, instance: WhatsApp = None, content: str = "", to: str = "", rec_type: str = "individual"): # type: ignore
-        try: self.id = instance.get_message_id(data)
-        except: self.id = None
-        try: self.type = self.instance.get_message_type(data)
-        except: self.type = "text"
+    def __init__(self, data: dict = {}, instance: WhatsApp = None, content: str = "", to: str = "", rec_type: str = "individual"):  # type: ignore
+        try:
+            self.id = instance.get_message_id(data)
+        except:
+            self.id = None
+        try:
+            self.type = self.instance.get_message_type(data)
+        except:
+            self.type = "text"
         self.data = data
         self.rec = rec_type
         self.to = to
-        try: self.content = content if content != "" else self.instance.get_message(data)
-        except: self.content = content
-        try: self.sender = self.instance.get_mobile(data)
-        except: self.sender = None
-        try: self.name = self.instance.get_name(data)
-        except: self.name = None
-    
-    
+        try:
+            self.content = content if content != "" else self.instance.get_message(
+                data)
+        except:
+            self.content = content
+        try:
+            self.sender = self.instance.get_mobile(data)
+        except:
+            self.sender = None
+        try:
+            self.name = self.instance.get_name(data)
+        except:
+            self.name = None
+
         if self.type == "image":
-            try: self.image = self.instance.get_image(data)
-            except: self.image = None
+            try:
+                self.image = self.instance.get_image(data)
+            except:
+                self.image = None
         elif self.type == "video":
-            try: self.video = self.instance.get_video(data)
-            except: self.video = None
+            try:
+                self.video = self.instance.get_video(data)
+            except:
+                self.video = None
         elif self.type == "audio":
-            try: self.audio = self.instance.get_audio(data)
-            except: pass
+            try:
+                self.audio = self.instance.get_audio(data)
+            except:
+                pass
         elif self.type == "document":
-            try: self.document = self.instance.get_document(data)
-            except: pass
+            try:
+                self.document = self.instance.get_document(data)
+            except:
+                pass
         elif self.type == "location":
-            try: self.location = self.instance.get_location(data)
-            except: pass
+            try:
+                self.location = self.instance.get_location(data)
+            except:
+                pass
         elif self.type == "interactive":
-            try: self.interactive = self.instance.get_interactive_response(data)
-            except: pass
-        
-        
-        
+            try:
+                self.interactive = self.instance.get_interactive_response(data)
+            except:
+                pass
+
         self.instance = instance
         self.url = self.instance.url
         self.headers = self.instance.headers
-        
-        
+
     from ._message import send, reply, mark_as_read
