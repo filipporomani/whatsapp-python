@@ -26,15 +26,15 @@ As of now (v 1.0.2), switching from heyoo to whatsapp-python doesn't require any
 
 To get started with **whatsapp-python**, you have to firstly install the libary either directly or using *pip*.
 
-### Installing from source
+### Installing from source - always up to date
 
 ```bash
 $ git clone https://github.com/filipporomani/whatsapp
 $ cd whatsapp
-$ python setup.py install 
+$ python setup.py install
 ```
 
-### Installing from pip
+### Installing from pip - stable version
 
 ```bash
 # For Windows 
