@@ -19,7 +19,7 @@ class WhatsApp(object):
     WhatsApp Object
     """
 
-    def __init__(self, token: str = "", phone_number_id: str = ""):
+    def __init__(self, token: str = "", phone_number_id: str = "", logger: bool = True):
         """
         Initialize the WhatsApp Object
 
@@ -40,6 +40,9 @@ class WhatsApp(object):
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.token}"
         }
+        if logger is False:
+            logging.disable(logging.INFO)
+            logging.disable(logging.ERROR)
 
     def send_message(
         self, message, recipient_id, recipient_type="individual", preview_url=True

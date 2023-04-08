@@ -65,11 +65,11 @@ Once you've followed the above procedures you're ready to start hacking with the
 
 ## Authentication
 
-To authenticate your application, you need to specify  the ```TOKEN``` and the ```phone_number_id``` of your application
+To authenticate your application, you need to specify  the ```TOKEN``` and the ```phone_number_id``` of your application. The `logger` parameter is optional and it's used to disable logging (default: `True`)
 
 ```python
 >>> from whatsapp import WhatsApp
->>> messenger = WhatsApp('TOKEN',  phone_number_id='xxxxxxxxx')
+>>> messenger = WhatsApp('TOKEN',  phone_number_id='xxxxxxxxx', logger=True)
 ```
 
 Once you have authenticated your app you can start using the above mentioned feature as shown above;
@@ -88,6 +88,9 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
 ```
+
+To disable logging, set the `logger` parameter to `False` when initializing the `WhatsApp` object.
+
 
 ## Sending Messanges
 
