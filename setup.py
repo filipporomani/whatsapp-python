@@ -9,7 +9,7 @@ with open(path.join(this_directory, "README.md")) as f:
 
 setup(
     name="whatsapp-python",
-    version="1.0.2",
+    version="1.1.2",
     description="Opensource Python wrapper to WhatsApp Cloud API",
     long_description=long_description,
     long_description_content_type="text/markdown",
