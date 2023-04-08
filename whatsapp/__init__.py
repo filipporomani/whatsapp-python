@@ -20,6 +20,13 @@ class WhatsApp(object):
     """
 
     def __init__(self, token: str = "", phone_number_id: str = "", logger: bool = True):
+        self.VERSION = "1.1.2"
+        latest = requests.get("https://pypi.org/pypi/whatsapp-python/json").json()["info"]["version"]
+        if self.VERSION != latest:
+            version_int = int(self.VERSION.replace(".", ""))
+            latest_int = int(latest.replace(".", ""))
+            if version_int < latest_int: # this is to avoid the case where the version is 1.0.10 and the latest is 1.0.2 (possible if user is using the github version)   
+                logging.critical(f"Whatsapp-python is out of date. Please update to the latest version {latest}")
         """
         Initialize the WhatsApp Object
 
