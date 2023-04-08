@@ -280,7 +280,16 @@ You can find the available components in the documentation.
 ## Webhook
 
 Webhook are useful incase you're wondering how to respond to incoming message sent by users.
-An example of webhook is shown in the [hook.py](hook.py) file.
+An example of webhook is shown in the [hook.py](hook.py) file. 
+
+
+PLEASE NOTE: the webhook requires other libraries to work, you can install them using the following command;
+
+```bash
+pip install flask python-dotenv
+```
+
+This libraries are not included in the requirements.txt file because they are not required for the library to work.
 
 ## Steps to deploy the webhook to Heroku
 
