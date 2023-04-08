@@ -1,5 +1,5 @@
 from os import getenv
-from whatsapp import WhatsApp
+from whatsapp import WhatsApp, Message
 from dotenv import load_dotenv
 
 if __name__ == "__main__":
@@ -7,9 +7,7 @@ if __name__ == "__main__":
 
     messenger = WhatsApp(token=getenv("TOKEN"), phone_number_id=getenv("PHONE_NUMBER_ID"))
 
-    response = messenger.send_message(
-        message="https://www.youtube.com/watch?v=K4TOrB7at0Y",
-        recipient_id="255757xxxxxx",
-    )
+    msg = Message(instance=messenger, content="Hello World!", to="919999999999")
+    response = msg.send()
 
     print(response)

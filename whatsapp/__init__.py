@@ -4,6 +4,7 @@ Unofficial python wrapper for the WhatsApp Cloud API.
 from __future__ import annotations
 
 import requests
+from json import dumps
 import logging
 
 # Setup logging
@@ -61,11 +62,11 @@ class WhatsApp(object):
     # all the files starting with _ are imported here, and should not be imported directly.
 
     from ._send_others import send_custom_json, send_contacts
-    from ._message import send_message, send_template, reply_to_message, mark_as_read
+    from ._message import send_template
     from ._send_media import send_image, send_video, send_audio, send_location, send_sticker, send_document
     from ._media import upload_media, query_media_url, download_media, delete_media
     from ._buttons import send_button, create_button, send_reply_button
-    from ._static import is_message, get_mobile, get_name, get_message, get_message_id, get_message_type, get_message_timestamp, get_audio, get_delivery, get_document, get_image, get_interactive_response, get_location, get_video, changed_field
+    from ._static import is_message, get_mobile, get_author, get_name, get_message, get_message_id, get_message_type, get_message_timestamp, get_audio, get_delivery, get_document, get_image, get_interactive_response, get_location, get_video, changed_field
     is_message = staticmethod(is_message)
     get_mobile = staticmethod(get_mobile)
     get_name = staticmethod(get_name)
@@ -81,3 +82,20 @@ class WhatsApp(object):
     get_location = staticmethod(get_location)
     get_video = staticmethod(get_video)
     changed_field = staticmethod(changed_field)
+    get_author = staticmethod(get_author)
+    
+    
+class Message(object):
+    def __init__(self, data: dict = {}, instance: WhatsApp = None, content: str = "", to: str = "", rec_type: str = "individual"): # type: ignore
+        try: self.id = instance.get_message_id(data)
+        except: self.id = None
+        self.data = data
+        self.rec = rec_type
+        self.to = to
+        self.content = content
+        self.instance = instance
+        self.url = self.instance.url
+        self.headers = self.instance.headers
+        
+        
+    from ._message import send, reply, mark_as_read

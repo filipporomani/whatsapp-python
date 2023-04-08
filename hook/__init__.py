@@ -8,9 +8,9 @@ from flask import Flask, request, Response
 app = Flask(__name__)
 
 # Load .env file
-load_dotenv()
+load_dotenv("../.env")
 messenger = WhatsApp(os.getenv("TOKEN"),
-                     phone_number_id=os.getenv("PHONE_NUMBER_ID"))
+                     phone_number_id=os.getenv("ID"))
 VERIFY_TOKEN = "30cca545-3838-48b2-80a7-9e43b1ae8ce4"
 
 # Logging
@@ -128,4 +128,4 @@ def hook():
 
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=False)
+    app.run(port=6869, debug=False)

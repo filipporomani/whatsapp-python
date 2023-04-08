@@ -20,7 +20,8 @@ Forked from [Neurotech-HQ/heyoo](https://github.com/Neurotech-HQ/heyoo)
 7. Parsing messages and media received
 
 ## Switching from `Neurotech-HQ/heyoo`
-As of now (v1.1.2), switching from heyoo to whatsapp-python doesn't require any change: just uninstall the old, install the new and change the import name from `heyoo` to `whatsapp`.
+Switching from heyoo to whatsapp-python doesn't require any change for versions up to 1.1.2: just uninstall the old, install the new and change the import name from `heyoo` to `whatsapp`.
+For version which are GREATER THEN 1.1.2, messages have became objects, so you need to change your code to use the new methods.
 
 
 
