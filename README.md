@@ -9,7 +9,7 @@ Unofficial Python wrapper for the [WhatsApp Cloud API](https://developers.facebo
 Forked from [Neurotech-HQ/heyoo](https://github.com/Neurotech-HQ/heyoo)
 
 ## ⚠️ WARNING ⚠️
-Any version newer than 1.1.3 is incompatible with the original `heyoo` library! Be careful updating! Read the docs first!
+Any version newer than 1.1.2 is incompatible with the original `heyoo` library! Be careful updating! Read the docs first!
 
 You can ignore this warning if it's your first time using the library.
 
