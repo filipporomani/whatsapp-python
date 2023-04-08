@@ -360,11 +360,9 @@ Here an example on how you can use webhook to respond to incoming messages;
 
 Incase you want a hustle free automatic deployment of the webhook to the Heroku platform, then we have made it simpler for you. With Just a click of a button you can deploy your webhook to Heroku.
 
-## steps to Deploy webhook to Heroku
+## Steps to deploy the webhook to Heroku
 
-1. Click the deploy button and the Heroku webpage will open for authentication, after authentication sit back and relax for deployment to finish.
-                             [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/JAXPARROW/whatsapi-flask-webhook)
-
+1. Click the deploy button and the Heroku webpage will open for authentication, after authentication sit back and relax for deployment to finish. [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/JAXPARROW/whatsapi-flask-webhook) -- the template repo uses an outdated version of the library
 2. From Heroku settings configure your Environment varibles of your WhatsAapp application.
 3. Setup and verify your webhook url and token then subscribe to messages.
 
@@ -373,11 +371,11 @@ To learn more about webhook and how to configure in your Facebook developer dash
 
 ## Issues
 
-If you will face any issue with the usage of this package please raise one so as we can quickly fix it as soon as possible;
+If you are facing any issues or have any questions, please open an issue on the [GitHub repository](https://github.com/filipporomani/whatsapp/issues)
 
 ## Contributing
 
-This is an opensource project under ```MIT License``` so any one is welcome to contribute from typo to source code or documentation, ```JUST FORK IT```.
+This is an opensource project published under the ```MIT License``` so anyone is welcome to contribute.
 
 ## References
 
