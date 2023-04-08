@@ -7,7 +7,7 @@ import mimetypes
 import requests
 import logging
 from requests_toolbelt.multipart.encoder import MultipartEncoder
-from typing import Optional, Dict, Any, List, Union, Tuple, Callable
+from typing import Dict, Any, List, Union
 
 
 # Setup logging
