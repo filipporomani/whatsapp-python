@@ -73,6 +73,8 @@ def hook():
                     return Response(status=400)
                 image_id, mime_type = image["id"], image["mime_type"]
                 image_url = messenger.query_media_url(image_id)
+                if image_url is None:
+                    return Response(status=400)
                 image_filename = messenger.download_media(image_url, mime_type)
                 logging.info(f"{mobile} sent image {image_filename}")
 
@@ -82,6 +84,8 @@ def hook():
                     return Response(status=400)
                 video_id, mime_type = video["id"], video["mime_type"]
                 video_url = messenger.query_media_url(video_id)
+                if video_url is None:
+                    return Response(status=400)
                 video_filename = messenger.download_media(video_url, mime_type)
                 logging.info(f"{mobile} sent video {video_filename}")
 
@@ -91,6 +95,8 @@ def hook():
                     return Response(status=400)
                 audio_id, mime_type = audio["id"], audio["mime_type"]
                 audio_url = messenger.query_media_url(audio_id)
+                if audio_url is None:
+                    return Response(status=400)
                 audio_filename = messenger.download_media(audio_url, mime_type)
                 logging.info(f"{mobile} sent audio {audio_filename}")
 
