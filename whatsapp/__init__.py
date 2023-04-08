@@ -703,6 +703,7 @@ class WhatsApp(object):
         r = requests.get(media_url, headers=self.headers)
         content = r.content
         extension = mime_type.split("/")[1]
+        save_file_here = None
         # create a temporary file
         try:
 
@@ -715,7 +716,7 @@ class WhatsApp(object):
             return f.name
         except Exception as e:
             logging.info(e)
-            logging.ERROR(f"Error downloading media to {save_file_here}")
+            logging.error(f"Error downloading media to {save_file_here}")
             return None
 
     def preprocess(self, data: Dict[Any, Any]) -> Dict[Any, Any]:
