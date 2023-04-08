@@ -35,7 +35,7 @@ If you are facing any issues or have any questions, please open an issue on the 
 
 ## Contributing
 
-This is an opensource project published under the ```MIT License``` so anyone is welcome to contribute.
+This is an opensource project published under the ```MIT License```. Please refer to the [LICENSE](LICENSE) file.
 
 ## References
 
