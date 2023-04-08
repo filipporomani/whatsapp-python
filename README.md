@@ -6,7 +6,7 @@
 [![Downloads](https://pepy.tech/badge/whatsapp-python/week)](https://pepy.tech/project/whatsapp-python)
 
 Unofficial Python wrapper for the [WhatsApp Cloud API](https://developers.facebook.com/docs/whatsapp/cloud-api)
-Forked from [Neurotech-HQ/whatsapp](https://github.com/Neurotech-HQ/heyoo)
+Forked from [Neurotech-HQ/heyoo](https://github.com/Neurotech-HQ/heyoo)
 
 
 ## Supported features
@@ -19,7 +19,7 @@ Forked from [Neurotech-HQ/whatsapp](https://github.com/Neurotech-HQ/heyoo)
 6. Sending template messages
 7. Parsing messages and media received
 
-## Switching from `heyoo`
+## Switching from `Neurotech-HQ/heyoo`
 As of now (v1.1.2), switching from heyoo to whatsapp-python doesn't require any change: just uninstall the old, install the new and change the import name from `heyoo` to `whatsapp`.
 
 
