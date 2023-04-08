@@ -1,6 +1,6 @@
 import os
 import logging
-from whatsapp import WhatsApp
+from whatsapp import WhatsApp, Message
 from dotenv import load_dotenv
 from flask import Flask, request, Response
 
@@ -40,21 +40,22 @@ def hook():
     if changed_field == "messages":
         new_message = messenger.is_message(data)
         if new_message:
-            mobile = messenger.get_mobile(data)
-            name = messenger.get_name(data)
-            message_type = messenger.get_message_type(data)
+            msg = Message(instance=messenger, data=data)
+            mobile = msg.sender
+            name = msg.name
+            message_type = msg.type
             logging.info(
                 f"New Message; sender:{mobile} name:{name} type:{message_type}"
             )
             if message_type == "text":
-                message = messenger.get_message(data)
-                name = messenger.get_name(data)
+                message = msg.content
+                name = msg.name
                 logging.info("Message: %s", message)
-                messenger.send_message(
-                    f"Hi {name}, nice to connect with you", mobile)
+                m = Message(instance=messenger, to=mobile, content="Hello World")
+                m.send()
 
             elif message_type == "interactive":
-                message_response = messenger.get_interactive_response(data)
+                message_response = msg.interactive
                 if message_response is None:
                     return Response(status=400)
                 interactive_type = message_response.get("type")
@@ -64,7 +65,7 @@ def hook():
                     f"Interactive Message; {message_id}: {message_text}")
 
             elif message_type == "location":
-                message_location = messenger.get_location(data)
+                message_location = msg.location
                 if message_location is None:
                     return Response(status=400)
                 message_latitude = message_location["latitude"]
@@ -73,7 +74,7 @@ def hook():
                              message_latitude, message_longitude)
 
             elif message_type == "image":
-                image = messenger.get_image(data)
+                image = msg.image
                 if image is None:
                     return Response(status=400)
                 image_id, mime_type = image["id"], image["mime_type"]
@@ -84,7 +85,7 @@ def hook():
                 logging.info(f"{mobile} sent image {image_filename}")
 
             elif message_type == "video":
-                video = messenger.get_video(data)
+                video = msg.video
                 if video is None:
                     return Response(status=400)
                 video_id, mime_type = video["id"], video["mime_type"]
@@ -95,7 +96,7 @@ def hook():
                 logging.info(f"{mobile} sent video {video_filename}")
 
             elif message_type == "audio":
-                audio = messenger.get_audio(data)
+                audio = msg.audio
                 if audio is None:
                     return Response(status=400)
                 audio_id, mime_type = audio["id"], audio["mime_type"]
@@ -106,7 +107,7 @@ def hook():
                 logging.info(f"{mobile} sent audio {audio_filename}")
 
             elif message_type == "document":
-                file = messenger.get_document(data)
+                file = msg.document
                 if file is None:
                     return Response(status=400)
                 file_id, mime_type = file["id"], file["mime_type"]
