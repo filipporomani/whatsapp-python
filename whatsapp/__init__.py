@@ -57,7 +57,11 @@ class WhatsApp(object):
         if logger is False:
             logging.disable(logging.INFO)
             logging.disable(logging.ERROR)
-
+    
+    @property 
+    def authorized(self) -> bool:
+        return requests.get(self.url, headers=self.headers).status_code != 401
+    
     def send_message(
         self, message: str, recipient_id: str, recipient_type: str = "individual", preview_url: bool =True
     ):
