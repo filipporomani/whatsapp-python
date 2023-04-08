@@ -293,13 +293,9 @@ This libraries are not included in the requirements.txt file because they are no
 
 ## Steps to deploy the webhook to Heroku
 
-1. Click the deploy button and the Heroku webpage will open for authentication, after authentication sit back and relax for deployment to finish. 
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/JAXPARROW/whatsapi-flask-webhook) 
-
--- the template repo uses an outdated version of the library
-2. From Heroku settings configure your Environment varibles of your WhatsAapp application.
-3. Setup and verify your webhook url and token then subscribe to messages.
+1. Click the deploy button and the Heroku webpage will open for authentication, after authentication sit back and relax for deployment to finish. [You can deply clicking here](https://heroku.com/deploy?template=https://github.com/JAXPARROW/whatsapi-flask-webhook). NOTE: the template repo uses an outdated version of the library
+1. From Heroku settings configure your Environment varibles of your WhatsAapp application.
+2. Setup and verify your webhook url and token then subscribe to messages.
 
 To learn more about webhook and how to configure in your Facebook developer dashboard please [have a look here](https://developers.facebook.com/docs/whatsapp/cloud-api/guides/set-up-webhooks).
 
