@@ -13,6 +13,7 @@ from typing import Dict, Any, List, Union
 # Setup logging
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
+
 class WhatsApp(object):
     """ "
     WhatsApp Object
@@ -28,7 +29,8 @@ class WhatsApp(object):
         """
         if token == "" or phone_number_id == "":
             logging.error("Token or phone number id not provided")
-            raise ValueError("Token or phone number ID not provided but is required")
+            raise ValueError(
+                "Token or phone number ID not provided but is required")
         self.token = token
         self.phone_number_id = phone_number_id
         self.base_url = "https://graph.facebook.com/v15.0"
@@ -145,8 +147,7 @@ class WhatsApp(object):
         logging.info(f"Status code: {r.status_code}")
         logging.error(f"Response: {r.json()}")
         return r.json()
-    
-    
+
     def send_location(self, lat, long, name, address, recipient_id):
         """
         Sends a location message to a WhatsApp user
@@ -382,7 +383,8 @@ class WhatsApp(object):
         if recipient_id:
             if "to" in data.keys():
                 data_recipient_id = data["to"]
-                logging.info(f"Recipient Id is defined in data ({data_recipient_id}) and recipient_id parameter ({recipient_id})")
+                logging.info(
+                    f"Recipient Id is defined in data ({data_recipient_id}) and recipient_id parameter ({recipient_id})")
             else:
                 data["to"] = recipient_id
 
@@ -535,7 +537,8 @@ class WhatsApp(object):
             media_id[str]: Id of the media to be deleted
         """
         logging.info(f"Deleting media {media_id}")
-        r = requests.delete(f"{self.base_url}/{media_id}", headers=self.headers)
+        r = requests.delete(
+            f"{self.base_url}/{media_id}", headers=self.headers)
         if r.status_code == 200:
             logging.info(f"Media {media_id} deleted")
             return r.json()
