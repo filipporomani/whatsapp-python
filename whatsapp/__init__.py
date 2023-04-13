@@ -1,5 +1,5 @@
 """
-Unofficial python wrapper for the WhatsApp Cloud API.
+Unofficial Python wrapper for the WhatsApp Cloud API.
 """
 from __future__ import annotations
 
@@ -21,13 +21,13 @@ class WhatsApp(object):
         Initialize the WhatsApp Object
 
         Args:
-            token[str]: Token for the WhatsApp cloud API obtained from the developer portal
+            token[str]: Token for the WhatsApp cloud API obtained from the Facebook developer portal
             phone_number_id[str]: Phone number id for the WhatsApp cloud API obtained from the developer portal
             logger[bool]: Whether to enable logging or not (default: True)
         """
 
         # Check if the version is up to date
-        self.VERSION = "2.2.2"
+        self.VERSION = "2.2.3"
         latest = str(requests.get(
             "https://pypi.org/pypi/whatsapp-python/json").json()["info"]["version"])
         if self.VERSION != latest:
@@ -37,6 +37,9 @@ class WhatsApp(object):
             if version_int < latest_int:
                 logging.critical(
                     f"Whatsapp-python is out of date. Please update to the latest version {latest}. READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED.")
+            if version_int > latest_int:
+                logging.critical(
+                    f"You are using a development version of whatsapp-python. Please report any issue on GitHub.")
 
         if token == "" or phone_number_id == "":
             logging.error("Token or phone number id not provided")
@@ -55,12 +58,9 @@ class WhatsApp(object):
             logging.disable(logging.INFO)
             logging.disable(logging.ERROR)
 
-    @property
-    def authorized(self) -> bool:
-        return requests.get(self.url, headers=self.headers).status_code != 401
-
     # all the files starting with _ are imported here, and should not be imported directly.
 
+    from ._property import authorized
     from ._send_others import send_custom_json, send_contacts
     from ._message import send_template
     from ._send_media import send_image, send_video, send_audio, send_location, send_sticker, send_document
@@ -83,6 +83,8 @@ class WhatsApp(object):
     get_video = staticmethod(get_video)
     changed_field = staticmethod(changed_field)
     get_author = staticmethod(get_author)
+
+    authorized = property(authorized)
 
 
 class Message(object):
