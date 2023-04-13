@@ -27,11 +27,14 @@ You can ignore this warning if it's your first time using the library.
 Switching from heyoo to whatsapp-python doesn't require any change for versions up to 1.1.2: just uninstall the old, install the new and change the import name from `heyoo` to `whatsapp`.
 For version which are GREATER THEN 1.1.2, messages have became objects, so you need to change your code to use the new methods.
 
+Note: docs for version 1.1.2 are available in the [wiki dedicated page](https://github.com/filipporomani/whatsapp/wiki/v1.1.2)
 
 
 ## Documentation
 
-The documentation is available under the [wiki section](https://github.com/filipporomani/whatsapp/wiki)
+The documentation for the latest GitHub version is available under the [wiki section](https://github.com/filipporomani/whatsapp/wiki)
+
+The documentation for the latest Pip version is available [on pypi](https://pypi.org/project/whatsapp-python/)
 
 
 ## Issues
