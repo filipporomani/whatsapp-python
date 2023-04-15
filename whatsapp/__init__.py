@@ -85,6 +85,19 @@ class WhatsApp(object):
     get_author = staticmethod(get_author)
 
     authorized = property(authorized)
+    
+    def create_message(self, **kwargs) -> Message:
+        """
+        Create a message object
+
+        Args:
+            data[dict]: The message data
+            content[str]: The message content
+            to[str]: The recipient
+            rec_type[str]: The recipient type (individual/group)
+        """
+        return Message(**kwargs, instance=self)
+    
 
 
 class Message(object):
