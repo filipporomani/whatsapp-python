@@ -32,9 +32,7 @@ Note: docs for version 1.1.2 are available in the [wiki dedicated page](https://
 
 ## Documentation
 
-The documentation for the latest GitHub version is available under the [wiki section](https://github.com/filipporomani/whatsapp/wiki)
-
-The documentation for the latest Pip version is available [on pypi](https://pypi.org/project/whatsapp-python/)
+The documentation for the is available in the [wiki section](https://github.com/filipporomani/whatsapp/wiki)
 
 
 ## Issues
