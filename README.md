@@ -19,8 +19,8 @@ Forked from [Neurotech-HQ/heyoo](https://github.com/Neurotech-HQ/heyoo)
 7. Parsing messages and media received
 
 ## Switching from `Neurotech-HQ/heyoo`
-Any version newer than 1.1.2 is incompatible with the original `heyoo` library! Be careful updating! Read the docs first!
-
+Any version >1.1.2 is incompatible with the original `heyoo` library! Be careful updating! Read the docs first!
+Any version <=1.1.2 is fully compatible with the original `heyoo` library and doesn't include any breaking change.
 You can ignore this warning if it's your first time using the library.
 
 
