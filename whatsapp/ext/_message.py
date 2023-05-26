@@ -16,7 +16,7 @@ def send_template(self, template: str, recipient_id: str, components: str, lang:
         template[str]: Template name to be sent to the user
         recipient_id[str]: Phone number of the user with country code wihout +
         lang[str]: Language of the template message
-        components[list]: List of components to be sent to the user  # CHANGE
+        components[list]: List of components to be sent to the user  # \
     Example:
         >>> from whatsapp import WhatsApp
         >>> whatsapp = WhatsApp(token, phone_number_id)

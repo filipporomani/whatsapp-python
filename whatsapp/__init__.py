@@ -6,6 +6,8 @@ from __future__ import annotations
 import requests
 from json import dumps
 import logging
+from flask import Flask, request, Response
+
 
 # Setup logging
 logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -163,3 +165,44 @@ class Message(object):
         self.headers = self.instance.headers
 
     from ext._message import send, reply, mark_as_read
+
+
+
+
+class Hook(object):
+
+    def __init__(self, instance: WhatsApp = None, host: str = "localhost", port: int = 8080, verify_token: str = "", handler: function = None):
+        self.instance = instance
+        self.host = host
+        self.port = port
+        self.token = verify_token
+        self.app = Flask(__name__)
+        self.handler = handler
+    
+        @self.app.get("/")
+        def verify_token():
+            if request.args.get("hub.verify_token") == self.token:
+                logging.info("Verified webhook")
+                challenge = request.args.get("hub.challenge")
+                return str(challenge)
+            logging.error("Webhook Verification failed")
+            return "Invalid verification token"
+
+
+        @self.app.post("/")
+        def hook():
+            # Handle Webhook Subscriptions
+            data = request.get_json()
+            if data is None:
+                return Response(status=200)
+            logging.info("Received webhook data: %s", data)
+            changed_field = self.instance.changed_field(data)
+            if changed_field == "messages":
+                new_message = self.instance.is_message(data)
+                if new_message:
+                    msg = Message(instance=self.instance, data=data)
+                    self.handler(msg)
+            return "OK", 200
+
+    def run(self):
+        self.app.run(host=self.host, port=self.port)
