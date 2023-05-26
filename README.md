@@ -18,6 +18,7 @@ Forked from [Neurotech-HQ/heyoo](https://github.com/Neurotech-HQ/heyoo)
 5. Sending interactive buttons
 6. Sending template messages
 7. Parsing messages and media received
+8. Receiving and parsing messages - [hook object](https://github.com/filipporomani/whatsapp/wiki/Hook()-object)
 
 ## Documentation
 
