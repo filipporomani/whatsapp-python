@@ -20,6 +20,21 @@ Forked from [Neurotech-HQ/heyoo](https://github.com/Neurotech-HQ/heyoo)
 7. Parsing messages and media received
 8. Receiving and parsing messages - [hook object](https://github.com/filipporomani/whatsapp/wiki/Hook()-object)
 
+## App events
+
+App events are being tested! To test them out, you can install the package from the `dev` branch:
+
+```bash
+git clone https://github.com/filipporomani/whatsapp.git
+cd whatsapp
+git checkout dev
+python3 setup.py install
+```
+
+The "docs" (still not complete) are available in the [/whatsapp/event docs.md file.](https://github.com/filipporomani/whatsapp/blob/dev/whatsapp/event%20docs.md)
+
+Please test this feature out and leave feedbacks/report issues on GitHub!
+
 ## Installation
 
 To install the library you can either use pip:
