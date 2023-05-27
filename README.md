@@ -22,7 +22,7 @@ Forked from [Neurotech-HQ/heyoo](https://github.com/Neurotech-HQ/heyoo)
 
 ## App events
 
-App events are now available! 
+Asynchronous app events are now available!
 
 The docs are available in the [wiki](https://github.com/filipporomani/whatsapp/wiki/App-events)
 
