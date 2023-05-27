@@ -20,6 +20,20 @@ Forked from [Neurotech-HQ/heyoo](https://github.com/Neurotech-HQ/heyoo)
 7. Parsing messages and media received
 8. Receiving and parsing messages - [hook object](https://github.com/filipporomani/whatsapp/wiki/Hook()-object)
 
+## Installation
+
+To install the library you can either use pip:
+
+``pip install whatsapp-python``
+
+or git:
+
+```bash
+git clone https://github.com/filipporomani/whatsapp.git
+cd whatsapp
+python3 setup.py install
+```
+
 ## Documentation
 
 The documentation for the is available in the [**wiki**](https://github.com/filipporomani/whatsapp/wiki)
