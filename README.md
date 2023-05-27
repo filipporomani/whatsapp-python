@@ -31,10 +31,9 @@ git checkout dev
 python3 setup.py install
 ```
 
-The "docs" (still not complete) are available in the [/whatsapp/event docs.md file.](https://github.com/filipporomani/whatsapp/blob/dev/whatsapp/event%20docs.md)
+The "docs" (still not complete) are available in the [wiki](https://github.com/filipporomani/whatsapp/wiki/App-events)
 
 Please test this feature out and leave feedbacks/report issues on GitHub!
-
 
 ## Installation
 
