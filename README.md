@@ -22,16 +22,9 @@ Forked from [Neurotech-HQ/heyoo](https://github.com/Neurotech-HQ/heyoo)
 
 ## App events
 
-App events are being tested! To test them out, you can install the package from the `dev` branch:
+App events are now available! 
 
-```bash
-git clone https://github.com/filipporomani/whatsapp.git
-cd whatsapp
-git checkout dev
-python3 setup.py install
-```
-
-The "docs" (still not complete) are available in the [wiki](https://github.com/filipporomani/whatsapp/wiki/App-events)
+The docs are available in the [wiki](https://github.com/filipporomani/whatsapp/wiki/App-events)
 
 Please test this feature out and leave feedbacks/report issues on GitHub!
 
