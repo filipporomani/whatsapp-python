@@ -51,7 +51,7 @@ class WhatsApp(object):
         self.base_url = "https://graph.facebook.com/v15.0"
         self.url = f"{self.base_url}/{phone_number_id}/messages"
 
-        def base():
+        async def base():
             pass
         self.message_handler = base
         self.other_handler = base
@@ -69,7 +69,7 @@ class WhatsApp(object):
         # Verification handler has 1 argument: challenge (str | bool): str if verification is successful, False if not
 
         @self.app.get("/")
-        def verify_token():
+        async def verify_token():
             if request.args.get("hub.verify_token") == self.token:
                 logging.info("Verified webhook")
                 challenge = request.args.get("hub.challenge")
@@ -77,12 +77,12 @@ class WhatsApp(object):
                 self.other_handler(challenge)
                 return str(challenge)
             logging.error("Webhook Verification failed")
-            self.verification_handler(False)
-            self.other_handler(False)
+            await self.verification_handler(False)
+            await self.other_handler(False)
             return "Invalid verification token"
 
         @self.app.post("/")
-        def hook():
+        async def hook():
             # Handle Webhook Subscriptions
             data = request.get_json()
             if data is None:
@@ -93,8 +93,8 @@ class WhatsApp(object):
                 new_message = self.instance.is_message(data)
                 if new_message:
                     msg = Message(instance=self.instance, data=data)
-                    self.message_handler(msg)
-                    self.other_handler(msg)
+                    await self.message_handler(msg)
+                    await self.other_handler(msg)
             return "OK", 200
 
     # all the files starting with _ are imported here, and should not be imported directly.
