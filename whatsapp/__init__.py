@@ -14,7 +14,7 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
 class WhatsApp(object):
-    """ "
+    """
     WhatsApp Object
     """
 
@@ -60,7 +60,7 @@ class WhatsApp(object):
             logging.disable(logging.INFO)
             logging.disable(logging.ERROR)
 
-    # all the files starting with _ are imported here, and should not be imported directly.
+    # all the files starting with _ are imported here, and should not be imported directly as they are internals
 
     from ext._property import authorized
     from ext._send_others import send_custom_json, send_contacts
