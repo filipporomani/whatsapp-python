@@ -24,8 +24,11 @@ class WhatsApp(object):
             logger[bool]: Whether to enable logging or not (default: True)
         """
 
+        # version here MUST be changed manually after every change to deferentiate between PYPI and GitHub versions
         # Check if the version is up to date
+
         self.VERSION = "2.9.3"
+
         latest = str(requests.get(
             "https://pypi.org/pypi/whatsapp-python/json").json()["info"]["version"])
         if self.VERSION != latest:
@@ -95,6 +98,7 @@ class WhatsApp(object):
             return "OK", 200
 
     # all the files starting with _ are imported here, and should not be imported directly.
+
 
     from ext._property import authorized
     from ext._send_others import send_custom_json, send_contacts

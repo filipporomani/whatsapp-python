@@ -1,5 +1,7 @@
-from whatsapp import Message
+from whatsapp import Message, Hook, WhatsApp
 from flask import Response
+from os import getenv
+from dotenv import load_dotenv
 
 def handler(msg: Message):
     message_type = msg.type
@@ -72,3 +74,9 @@ def handler(msg: Message):
             return Response(status=400)
         file_filename = messenger.download_media(file_url, mime_type)
         # Do some action
+
+
+messenger = WhatsApp(token=getenv("TOKEN"), phone_number_id=getenv("PHONE_NUMBER_ID"))
+hook = Hook(instance=messenger, handler=handler, port=5000, host="0.0.0.0", verify_token=getenv("VERIFY_TOKEN"))
+
+hook.run()

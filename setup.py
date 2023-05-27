@@ -2,6 +2,7 @@ from os import path
 from setuptools import setup
 
 # read the contents of your description file
+# the version in this file should be updated ONLY on a new PYPI release
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, "README.md")) as f:
