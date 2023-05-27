@@ -36,7 +36,7 @@ python3 setup.py install
 
 ## Documentation
 
-The documentation for the is available in the [**wiki**](https://github.com/filipporomani/whatsapp/wiki)
+The documentation for the library is available in the [**wiki**](https://github.com/filipporomani/whatsapp/wiki)
 
 ## Costs of the API
 
