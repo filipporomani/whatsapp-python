@@ -27,7 +27,7 @@ class WhatsApp(object):
         # version here MUST be changed manually after every change to deferentiate between PYPI and GitHub versions
         # Check if the version is up to date
 
-        self.VERSION = "2.9.3"
+        self.VERSION = "2.9.6"
 
         latest = str(requests.get(
             "https://pypi.org/pypi/whatsapp-python/json").json()["info"]["version"])
@@ -64,7 +64,7 @@ class WhatsApp(object):
             logging.disable(logging.INFO)
             logging.disable(logging.ERROR)
 
-        self.app = Flask(__name__)
+        self.app = FastAPI()
 
         # Verification handler has 1 argument: challenge (str | bool): str if verification is successful, False if not
 
