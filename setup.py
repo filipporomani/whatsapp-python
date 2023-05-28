@@ -17,6 +17,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/filipporomani/whatsapp",
+    download_url="https://github.com/filipporomani/whatsapp/releases/latest",
     author="Filippo Romani",
     author_email="mail@filipporomani.it",
     license="MIT",
