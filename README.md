@@ -11,14 +11,15 @@ Forked from [Neurotech-HQ/heyoo](https://github.com/Neurotech-HQ/heyoo)
 
 ## Supported features
 
-1. Sending messages
-2. Marking messages as read
-3. Sending Media (images, audio, video and documents)
-4. Sending location
-5. Sending interactive buttons
-6. Sending template messages
-7. Parsing messages and media received
-8. Receiving and parsing messages - [hook object](https://github.com/filipporomani/whatsapp/wiki/Hook()-object)
+1. Listening to events
+2. Sending messages
+3. Marking messages as read
+4. Sending Media (images, audio, video and documents)
+5. Sending location
+6. Sending interactive buttons
+7. Sending template messages
+8. Parsing messages and media received
+9. Receiving and parsing messages - [hook object](https://github.com/filipporomani/whatsapp/wiki/Hook()-object)
 
 ## App events
 
