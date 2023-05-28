@@ -1,3 +1,3 @@
 # internal use only
 
-VERSION = "2.9.6"
+VERSION = "3.0.0"

@@ -6,3 +6,8 @@ def update_version():
 
     with open("./constants.py", "w+") as f1:
         f1.write(f)
+    
+    from constants import VERSION
+    
+    with open("./.version", "w+") as f2:
+        f2.write(VERSION)
