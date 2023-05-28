@@ -62,6 +62,9 @@ def send_reply_button(
     Note:
         The maximum number of buttons is 3, more than 3 buttons will rise an error.
     """
+    if len(button["action"]["buttons"]) > 3:
+        raise ValueError("The maximum number of buttons is 3.")
+    
     data = {
         "messaging_product": "whatsapp",
         "recipient_type": "individual",
