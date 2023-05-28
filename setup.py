@@ -19,7 +19,7 @@ setup(
     author_email="mail@filipporomani.it",
     license="MIT",
     packages=["whatsapp"],
-    install_requires=["requests", "requests-toolbelt", "typing"],
+    install_requires=["requests", "requests-toolbelt", "typing", "flask"],
     keywords=[
         "whatsapp",
         "whatsapp-libary",
