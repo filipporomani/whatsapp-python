@@ -6,7 +6,7 @@ from __future__ import annotations
 import requests
 from json import dumps
 import logging
-from flask import Flask, request, Response
+from fastapi import FastAPI, Request, Response
 
 
 # Setup logging
@@ -69,24 +69,24 @@ class WhatsApp(object):
         # Verification handler has 1 argument: challenge (str | bool): str if verification is successful, False if not
 
         @self.app.get("/")
-        async def verify_token():
-            if request.args.get("hub.verify_token") == self.token:
+        async def verify_endpoint(r: Request):
+            if r.query_params.get("hub.verify_token") == self.token:
                 logging.info("Verified webhook")
-                challenge = request.args.get("hub.challenge")
+                challenge = r.query_params.get("hub.challenge")
                 self.verification_handler(challenge)
                 self.other_handler(challenge)
                 return str(challenge)
             logging.error("Webhook Verification failed")
             await self.verification_handler(False)
             await self.other_handler(False)
-            return "Invalid verification token"
+            return {"success": False}
 
         @self.app.post("/")
-        async def hook():
+        async def hook(r: Request):
             # Handle Webhook Subscriptions
-            data = request.get_json()
+            data = await r.json()
             if data is None:
-                return Response(status=200)
+                return {"success": False}
             logging.info("Received webhook data: %s", data)
             changed_field = self.instance.changed_field(data)
             if changed_field == "messages":
@@ -95,7 +95,7 @@ class WhatsApp(object):
                     msg = Message(instance=self.instance, data=data)
                     await self.message_handler(msg)
                     await self.other_handler(msg)
-            return "OK", 200
+            return {"success": True}
 
     # all the files starting with _ are imported here, and should not be imported directly.
 
