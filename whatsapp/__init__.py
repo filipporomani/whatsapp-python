@@ -6,7 +6,8 @@ from __future__ import annotations
 import requests
 from json import dumps
 import logging
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Request
+from constants import VERSION
 
 
 # Setup logging
@@ -27,7 +28,7 @@ class WhatsApp(object):
         # version here MUST be changed manually after every change to deferentiate between PYPI and GitHub versions
         # Check if the version is up to date
 
-        self.VERSION = "2.9.6"
+        self.VERSION = VERSION
 
         latest = str(requests.get(
             "https://pypi.org/pypi/whatsapp-python/json").json()["info"]["version"])

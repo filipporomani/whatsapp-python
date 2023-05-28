@@ -1,6 +1,9 @@
 from os import path
 from setuptools import setup
-
+from pre_dist import update_version
+update_version()
+from constants import VERSION
+print(VERSION)
 # read the contents of your description file
 # the version in this file should be updated ONLY on a new PYPI release
 
@@ -10,7 +13,7 @@ with open(path.join(this_directory, "README.md")) as f:
 
 setup(
     name="whatsapp-python",
-    version="2.9.6",
+    version=VERSION,
     description="Opensource Python wrapper to WhatsApp Cloud API",
     long_description=long_description,
     long_description_content_type="text/markdown",
