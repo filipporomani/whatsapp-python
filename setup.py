@@ -13,7 +13,7 @@ with open(path.join(this_directory, "README.md")) as f:
 setup(
     name="whatsapp-python",
     version=VERSION,
-    description="Opensource Python wrapper to WhatsApp Cloud API",
+    description="Open source Python wrapper for the WhatsApp Cloud API",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/filipporomani/whatsapp",
@@ -21,7 +21,7 @@ setup(
     author_email="mail@filipporomani.it",
     license="MIT",
     packages=["whatsapp"],
-    install_requires=["requests", "requests-toolbelt", "typing", "flask"],
+    install_requires=["requests", "requests-toolbelt", "typing", "fastapi"],
     keywords=[
         "whatsapp",
         "whatsapp-libary",
