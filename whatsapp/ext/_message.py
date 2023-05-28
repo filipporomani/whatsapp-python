@@ -57,9 +57,6 @@ def reply(self, reply_text: str = "", preview_url: bool = True):
         "context": {"message_id": self.id},
         "text": {"preview_url": preview_url, "body": reply_text},
     }
-
-    print(payload)
-
     logging.info(f"Replying to {self.id}")
     r = requests.post(self.url, headers=self.headers, json=payload)
     if r.status_code == 200:

@@ -3,7 +3,6 @@ from setuptools import setup
 from pre_dist import update_version
 update_version()
 from constants import VERSION
-print(VERSION)
 # read the contents of your description file
 # the version in this file should be updated ONLY on a new PYPI release
 
