@@ -3,11 +3,12 @@ from flask import Response
 from os import getenv
 from dotenv import load_dotenv
 
+
 def handler(msg: Message):
     message_type = msg.type
     messenger = msg.instance
     mobile = msg.sender
-    
+
     if message_type == "text":
         message = msg.content
         name = msg.name
@@ -63,7 +64,7 @@ def handler(msg: Message):
             return Response(status=400)
         audio_filename = messenger.download_media(audio_url, mime_type)
         # Do some action
-        
+
     elif message_type == "document":
         file = msg.document
         if file is None:
@@ -76,7 +77,9 @@ def handler(msg: Message):
         # Do some action
 
 
-messenger = WhatsApp(token=getenv("TOKEN"), phone_number_id=getenv("PHONE_NUMBER_ID"))
-hook = Hook(instance=messenger, handler=handler, port=5000, host="0.0.0.0", verify_token=getenv("VERIFY_TOKEN"))
+messenger = WhatsApp(token=getenv("TOKEN"),
+                     phone_number_id=getenv("PHONE_NUMBER_ID"))
+hook = Hook(instance=messenger, handler=handler, port=5000,
+            host="0.0.0.0", verify_token=getenv("VERIFY_TOKEN"))
 
 hook.run()

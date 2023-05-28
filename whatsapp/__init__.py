@@ -99,7 +99,6 @@ class WhatsApp(object):
 
     # all the files starting with _ are imported here, and should not be imported directly.
 
-
     from ext._property import authorized
     from ext._send_others import send_custom_json, send_contacts
     from ext._message import send_template

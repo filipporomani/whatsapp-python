@@ -51,7 +51,8 @@ def hook():
                 message = msg.content
                 name = msg.name
                 logging.info("Message: %s", message)
-                m = Message(instance=messenger, to=mobile, content="Hello World")
+                m = Message(instance=messenger, to=mobile,
+                            content="Hello World")
                 m.send()
 
             elif message_type == "interactive":
