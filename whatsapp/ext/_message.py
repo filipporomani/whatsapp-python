@@ -1,9 +1,8 @@
 import logging
 import requests
-from typing import Dict, Any
 
 
-def send_template(self, template: str, recipient_id: str, components: str, lang: str = "en_US"):
+def send_template(self, template: str, recipient_id: str, components: str, lang: str = "en_US") -> dict:
     """
     Sends a template message to a WhatsApp user, Template messages can either be;
         1. Text template
@@ -45,7 +44,7 @@ def send_template(self, template: str, recipient_id: str, components: str, lang:
 
 # MESSAGE()
 
-def reply(self, reply_text: str = "", preview_url: bool = True):
+def reply(self, reply_text: str = "", preview_url: bool = True) -> dict:
     if self.data == {}:
         return {"error": "No data provided"}
     author = self.instance.get_author(self.data)
@@ -68,7 +67,7 @@ def reply(self, reply_text: str = "", preview_url: bool = True):
     return r.json()
 
 
-def mark_as_read(self):
+def mark_as_read(self) -> dict:
     payload = {
         "messaging_product": "whatsapp",
         "status": "read",
@@ -85,7 +84,7 @@ def mark_as_read(self):
         return response.json()
 
 
-def send(self, preview_url: bool = True):
+def send(self, preview_url: bool = True) -> dict:
     data = {
         "messaging_product": "whatsapp",
         "recipient_type": self.rec,
