@@ -4,7 +4,6 @@ Unofficial Python wrapper for the WhatsApp Cloud API.
 from __future__ import annotations
 
 import requests
-from json import dumps
 import logging
 from fastapi import FastAPI, Request
 from constants import VERSION
