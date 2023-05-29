@@ -10,8 +10,6 @@ from fastapi import FastAPI, Request
 from constants import VERSION
 
 
-# Setup logging
-logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
 class WhatsApp(object):
@@ -26,6 +24,8 @@ class WhatsApp(object):
         """
 
         # Check if the version is up to date
+        logging.getLogger(__name__).addHandler(logging.NullHandler())
+        
 
         self.VERSION = VERSION
         if update_check is True:
