@@ -1,9 +1,8 @@
 import logging
 import requests
-from typing import Dict, Any
 
 
-def send_location(self, lat: str, long: str, name: str, address: str, recipient_id: str):
+def send_location(self, lat: str, long: str, name: str, address: str, recipient_id: str) -> dict:
     """
     Sends a location message to a WhatsApp user
 
@@ -48,7 +47,7 @@ def send_image(
     recipient_type: str = "individual",
     caption: str = "",
     link: bool = True,
-):
+) -> dict:
     """
     Sends an image message to a WhatsApp user
 
@@ -95,7 +94,7 @@ def send_image(
     return r.json()
 
 
-def send_sticker(self, sticker: str, recipient_id: str, recipient_type: str = "individual", link: bool = True):
+def send_sticker(self, sticker: str, recipient_id: str, recipient_type: str = "individual", link: bool = True) -> dict:
     """
     Sends a sticker message to a WhatsApp user
 
@@ -141,7 +140,7 @@ def send_sticker(self, sticker: str, recipient_id: str, recipient_type: str = "i
     return r.json()
 
 
-def send_audio(self, audio: str, recipient_id: str, link: bool = True):
+def send_audio(self, audio: str, recipient_id: str, link: bool = True) -> dict:
     """
     Sends an audio message to a WhatsApp user
     Audio messages can either be sent by passing the audio id or by passing the audio link.
@@ -183,7 +182,7 @@ def send_audio(self, audio: str, recipient_id: str, link: bool = True):
 
 def send_video(
     self, video: str, recipient_id: str, caption: str = "", link: bool = True
-) -> Dict[Any, Any]:
+) -> dict:
     """ "
     Sends a video message to a WhatsApp user
     Video messages can either be sent by passing the video id or by passing the video link.
@@ -226,7 +225,7 @@ def send_video(
 
 def send_document(
     self, document: str, recipient_id: str, caption: str = "", link: bool = True
-) -> Dict[Any, Any]:
+) -> dict:
     """ "
     Sends a document message to a WhatsApp user
     Document messages can either be sent by passing the document id or by passing the document link.
