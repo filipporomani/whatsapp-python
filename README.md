@@ -9,6 +9,11 @@ Free, open-source Python wrapper for the [WhatsApp Cloud API](https://developers
 
 Forked from [Neurotech-HQ/heyoo](https://github.com/Neurotech-HQ/heyoo)
 
+## Important Infos
+I'm sorry for my inactivity in the last months. I'm away from home to work, the development will resume in ~ 9-10 days. 
+Discord has sent an email telling that some people wrote to me on discord, but I lost the access on my phone and I won't be able to answer until I'm back home.
+Thanks for your comprehension and see you soon!
+
 ## Supported features
 
 1. Listening to events (messages, media, etc.)
