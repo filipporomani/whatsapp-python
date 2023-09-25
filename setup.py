@@ -1,7 +1,5 @@
 from os import path
 from setuptools import setup
-from pre_dist import update_version
-update_version()
 from constants import VERSION
 
 this_directory = path.abspath(path.dirname(__file__))
