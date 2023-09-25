@@ -1,5 +1,5 @@
 from os import path
-from setuptools import setup
+from setuptools import setup, find_packages
 from constants import VERSION
 
 this_directory = path.abspath(path.dirname(__file__))
@@ -17,7 +17,7 @@ setup(
     author="Filippo Romani",
     author_email="mail@filipporomani.it",
     license="MIT",
-    packages=["whatsapp"],
+    packages=find_packages(),
     install_requires=["requests", "requests-toolbelt", "typing", "fastapi"],
     keywords=[
         "whatsapp",

@@ -6,7 +6,15 @@ from __future__ import annotations
 import requests
 import logging
 from fastapi import FastAPI, Request
-from constants import VERSION
+from .constants import VERSION
+from . import ext
+from .ext._property import authorized
+from .ext._send_others import send_custom_json, send_contacts
+from .ext._message import send_template
+from .ext._send_media import send_image, send_video, send_audio, send_location, send_sticker, send_document
+from .ext._media import upload_media, query_media_url, download_media, delete_media
+from .ext._buttons import send_button, create_button, send_reply_button
+from .ext._static import is_message, get_mobile, get_author, get_name, get_message, get_message_id, get_message_type, get_message_timestamp, get_audio, get_delivery, get_document, get_image, get_interactive_response, get_location, get_video, changed_field
 
 
 
@@ -103,13 +111,6 @@ class WhatsApp(object):
 
     # all the files starting with _ are imported here, and should not be imported directly.
 
-    from ext._property import authorized
-    from ext._send_others import send_custom_json, send_contacts
-    from ext._message import send_template
-    from ext._send_media import send_image, send_video, send_audio, send_location, send_sticker, send_document
-    from ext._media import upload_media, query_media_url, download_media, delete_media
-    from ext._buttons import send_button, create_button, send_reply_button
-    from ext._static import is_message, get_mobile, get_author, get_name, get_message, get_message_id, get_message_type, get_message_timestamp, get_audio, get_delivery, get_document, get_image, get_interactive_response, get_location, get_video, changed_field
     is_message = staticmethod(is_message)
     get_mobile = staticmethod(get_mobile)
     get_name = staticmethod(get_name)
@@ -234,4 +235,4 @@ class Message(object):
         self.url = self.instance.url
         self.headers = self.instance.headers
 
-    from ext._message import send, reply, mark_as_read
+    from .ext._message import send, reply, mark_as_read
