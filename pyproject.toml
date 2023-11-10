@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name="whatsapp-python"
+version="3.0.2.post1"
+authors = [{name="Filippo Romani", email="mail@filipporomani.it"}]
+description="Open source Python wrapper for the WhatsApp Cloud API"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers=[
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Build Tools",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/filipporomani/whatsapp"
+"Bug Tracker" = "https://github.com/filipporomani/whatsapp/issues"
+"Download" = "https://github.com/filipporomani/whatsapp/releases/latest"
