@@ -33,7 +33,7 @@ Leave feedbacks/report issues freely on GitHub! I'll be glad to help you!
 
 To install the library you can either use pip (latest release version):
 
-``pip install whatsapp-python``
+``pip install -i https://test.pypi.org/simple/ whatsapp-python==3.0.2.post1`` (the production link doesn't actually work, I'm working on this issue - #16)
 
 or git (latest development version):
 
