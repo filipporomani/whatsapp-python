@@ -1,6 +1,6 @@
 from os import path
 from setuptools import setup, find_packages
-from constants import VERSION
+from whatsapp.constants import VERSION
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, "README.md")) as f:
