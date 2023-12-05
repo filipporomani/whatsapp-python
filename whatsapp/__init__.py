@@ -174,11 +174,11 @@ class WhatsApp(object):
 
 
 class Message(object):
-    def __init__(self, data: dict = {}, instance: WhatsApp = None, content: str = "", to: str = "", rec_type: str = "individual"):  # type: ignore
+    def __init__(self, id: int = None, data: dict = {}, instance: WhatsApp = None, content: str = "", to: str = "", rec_type: str = "individual"):  # type: ignore
         try:
             self.id = instance.get_message_id(data)
         except:
-            self.id = None
+            self.id = id
         try:
             self.type = self.instance.get_message_type(data)
         except:
