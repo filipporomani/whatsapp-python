@@ -68,7 +68,7 @@ class WhatsApp(object):
                 "Phone number ID not provided but required")
         self.token = token
         self.phone_number_id = phone_number_id
-        self.base_url = "https://graph.facebook.com/v17.0"
+        self.base_url = "https://graph.facebook.com/v18.0"
         self.url = f"{self.base_url}/{phone_number_id}/messages"
 
         async def base():
