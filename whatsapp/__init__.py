@@ -58,10 +58,14 @@ class WhatsApp(object):
                     logging.critical(
                         f"You are using a development version of whatsapp-python. Please report any issue on GitHub.")
 
-        if token == "" or phone_number_id == "":
-            logging.error("Token or phone number id not provided")
+        
+        if token == "":
+            logging.error("Token not provided")
+            raise ValueError("Token not provided but required")
+        if phone_number_id == "":
+            logging.error("Phone number id not provided")
             raise ValueError(
-                "Token or phone number ID not provided but is required")
+                "Phone number ID not provided but required")
         self.token = token
         self.phone_number_id = phone_number_id
         self.base_url = "https://graph.facebook.com/v17.0"
