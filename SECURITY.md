@@ -9,5 +9,5 @@
 
 ## Reporting a Vulnerability
 
-Please report any vulnerability at Filippo Romani via e-mail: mail@filipporomani.it.
+Please report any vulnerability via e-mail: mail@filipporomani.it.
 I'll review vulnerabilities as soon as possible, with maximum prioirity. 
