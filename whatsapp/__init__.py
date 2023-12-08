@@ -17,8 +17,6 @@ from .ext._buttons import send_button, create_button, send_reply_button
 from .ext._static import is_message, get_mobile, get_author, get_name, get_message, get_message_id, get_message_type, get_message_timestamp, get_audio, get_delivery, get_document, get_image, get_interactive_response, get_location, get_video, changed_field
 
 
-
-
 class WhatsApp(object):
     def __init__(self, token: str = "", phone_number_id: str = "", logger: bool = True, update_check: bool = True):
         """
@@ -32,19 +30,25 @@ class WhatsApp(object):
 
         # Check if the version is up to date
         logging.getLogger(__name__).addHandler(logging.NullHandler())
-        
 
         self.VERSION = VERSION
         if update_check is True:
             latest = str(requests.get(
                 "https://pypi.org/pypi/whatsapp-python/json").json()["info"]["version"])
             if self.VERSION != latest:
-                version_int = int(self.VERSION.replace(".", ""))
+                try:
+                    version_int = int(self.VERSION.replace(".", ""))
+                except:
+                    version_int = 0
                 latest_int = int(latest.replace(".", ""))
                 # this is to avoid the case where the version is 1.0.10 and the latest is 1.0.2 (possible if user is using the github version)
                 if version_int < latest_int:
-                    logging.critical(
-                        f"Whatsapp-python is out of date. Please update to the latest version {latest}. READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED.")
+                    if version_int == 0:
+                        logging.critical(
+                            f"There was an error while checking for updates, please update the package manually or report the issue on GitHub.")
+                    else:
+                        logging.critical(
+                            f"Whatsapp-python is out of date. Please update to the latest version {latest}. READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED.")
                 if version_int > latest_int:
                     latest_beta = int(str(requests.get(
                         "https://raw.githubusercontent.com/filipporomani/whatsapp/main/.version").text).replace(".", ""))
