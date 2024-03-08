@@ -6,6 +6,7 @@ from __future__ import annotations
 import requests
 import logging
 from fastapi import FastAPI, Request
+from uvicorn import run as _run
 from .constants import VERSION
 from . import ext
 from .ext._property import authorized
@@ -177,8 +178,8 @@ class WhatsApp(object):
         """
         self.verification_handler = handler
 
-    def run(self, host: str = "localhost", port: int = 5000, debug: bool = False, **options):
-        self.app.run(host=host, port=port, debug=debug, **options)
+    def run(self, host: str = "localhost", port: int = 5000, **options):
+        _run(self.app, host=host, port=port, **options)
 
 
 class Message(object):
