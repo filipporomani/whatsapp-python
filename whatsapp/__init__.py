@@ -72,7 +72,7 @@ class WhatsApp(object):
         self.base_url = "https://graph.facebook.com/v18.0"
         self.url = f"{self.base_url}/{phone_number_id}/messages"
 
-        async def base():
+        async def base(*args):
             pass
         self.message_handler = base
         self.other_handler = base
@@ -96,7 +96,7 @@ class WhatsApp(object):
                 challenge = r.query_params.get("hub.challenge")
                 self.verification_handler(challenge)
                 self.other_handler(challenge)
-                return str(challenge)
+                return int(challenge)
             logging.error("Webhook Verification failed")
             await self.verification_handler(False)
             await self.other_handler(False)
