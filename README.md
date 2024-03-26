@@ -1,36 +1,12 @@
-# [whatsapp-python](https://pypi.org/project/whatsapp-python/)
-
-![Made in Italy](https://img.shields.io/badge/made%20in-italy-008751.svg?style=flat-square)
-[![Downloads](https://static.pepy.tech/personalized-badge/whatsapp-python?period=total&units=none&left_color=grey&right_color=blue&left_text=Downloads)](https://pepy.tech/project/whatsapp-python)
-[![Downloads](https://pepy.tech/badge/whatsapp-python/month)](https://pepy.tech/project/whatsapp-python)
-[![Downloads](https://pepy.tech/badge/whatsapp-python/week)](https://pepy.tech/project/whatsapp-python)
-
-Free, open-source Python wrapper for the [WhatsApp Cloud API](https://developers.facebook.com/docs/whatsapp/cloud-api).
-
-Forked from [Neurotech-HQ/heyoo](https://github.com/Neurotech-HQ/heyoo)
-
-## Supported features
-
-1. Listening to events (messages, media, etc.)
-2. Sending messages
-3. Marking messages as read
-4. Sending Media (images, audio, video and documents)
-5. Sending location
-6. Sending interactive buttons
-7. Sending template messages
-8. Parsing messages and media received
-
-## Docs 
-
-Docs are available in the [**wiki**](https://github.com/filipporomani/whatsapp/wiki) section on GitHub.
-
-## Why choose this library?
-
-The main reason why I decided to fork the original library is that it uses an old version of the API and doesn't support many features.
-
-In this library I added app events (to listen to incoming messages) and implemented an easier way to send/receive messages and media by creating the `Message`object.
-
-I fixed some bugs and added some features, but the library still needs a lot of work to be done even if it's working and usable.
+<div align="center">
+  <img src="https://gist.githubusercontent.com/boywithkeyboard/e8dc5b1810bd29e1d70346ca11d7f09d/raw/7f7eeea482f5047e62944e54182aa26c89cc299a/whatsapp_python.svg" alt="logo" width="128px">
+  <h1>whatsapp-python</h1>
+  <p>Free, open-source Python wrapper for the <a href="https://developers.facebook.com/docs/whatsapp/cloud-api">WhatsApp Cloud API</a>.<br>Forked from <a href="https://github.com/Neurotech-HQ/heyoo">Neurotech-HQ/heyoo</a>.</p>
+  <img src="https://img.shields.io/badge/made%20in-italy-008751.svg?style=flat-square" alt="Made in Italy">
+  <a href="https://pepy.tech/project/whatsapp-python"><img src="https://static.pepy.tech/personalized-badge/whatsapp-python?period=total&units=none&left_color=grey&right_color=blue&left_text=Downloads" alt="Downloads"></a>
+  <a href="https://pepy.tech/project/whatsapp-python"><img src="https://pepy.tech/badge/whatsapp-python/month" alt="Monthly Downloads"></a>
+  <a href="https://pepy.tech/project/whatsapp-python"><img src="https://pepy.tech/badge/whatsapp-python/week" alt="Weekly Downloads"></a>
+</div>
 
 ## Installation
 
@@ -46,44 +22,64 @@ cd whatsapp
 python3 setup.py install
 ```
 
+Documentation is available in the [wiki section](https://github.com/filipporomani/whatsapp/wiki) on GitHub.
+
+## Why choose this library?
+
+The main reason why I decided to fork the original library is that it uses an old version of the API and doesn't support many features.
+
+In this library I added app events (to listen to incoming messages) and implemented an easier way to send/receive messages and media by creating the `Message`object.
+
+I fixed some bugs and added some features, but the library still needs a lot of work to be done even if it's working and usable.
+
+### Supported features:
+
+- Listening to events (messages, media, etc.)
+- Sending messages
+- Marking messages as read
+- Sending Media (images, audio, video and documents)
+- Sending location
+- Sending interactive buttons
+- Sending template messages
+- Parsing messages and media received
+
 ## Obtaining the WhatsApp API credentials
 
 To use the WhatsApp API you need to create a Facebook Business account and a WhatsApp Business account.
 
-**To create an account, I recomend to follow [this video](https://youtu.be/d6lNxP2gadA?si=_hbis7aP7MoKkck0)**
+> [!TIP]  
+> To create an account, I recommend to follow [this video](https://youtu.be/d6lNxP2gadA).
 
-## Costs of the API
+## Pricing of the API
 
-While using third-party API providers of the WhatsApp API may have some monthly fees, using the WhatsApp API provided directly by Facebook is way cheaper, even if the billing docs are pretty hard to understand.
-The first 1000 chats created are free, then there is a pay-as-you-go fee that is paid for each conversation started.
+Whereas using third-party providers of the WhatsApp API can result in monthly fees, using the WhatsApp API[^1] offered directly by Facebook is much cheaper, even if the billing documentation is quite difficult to understand.
 
-**IMPORTANT**: it is now mandatory (at least it was for me) to add a credit card to the whatsapp account to use the service. I eventually got billed for using a non-test number (~1,20€), so be carefull using the API! I'm not responsible for any costs you may have using the API. 
+> [!CAUTION]  
+> It is now mandatory to add a credit card to the WhatsApp account (at least for me) in order to use the service. I was even charged a fee for using a non-test phone number (~€1.20), so be careful when using the API! I'm not responsible for any costs you may face by using the API.
 
-A suggestion I can give you is to use a test number (you can get one for free and use it for testing purposes only).
+All the prices are available in the [**WhatsApp API docs**](https://developers.facebook.com/docs/whatsapp/pricing).
 
-All the prices are available in the [**WhatsApp API docs**](https://developers.facebook.com/docs/whatsapp/pricing)
+> [!TIP]  
+> One recommendation I can give you is to use a test number (you can get a free phone number and use it for testing purposes only).
 
-## Switching from `Neurotech-HQ/heyoo`
+## Migrating from `Neurotech-HQ/heyoo`
+
 *You can ignore this if it's your first time using the library.*
-Any version >1.1.2 is incompatible with the original `heyoo` library! Be careful updating! Read the docs first!
-Any version <=1.1.2 is fully compatible with the original `heyoo` library and doesn't include any breaking change..
+
+- Any version >1.1.2 is incompatible with the original `heyoo` library! Be careful updating! Read the docs first!
+- Any version <=1.1.2 is fully compatible with the original `heyoo` library and doesn't include breaking changes.
 
 Switching from heyoo to whatsapp-python doesn't require any change for versions up to 1.1.2: just uninstall `heyoo`, install `whatsapp-python==1.1.2` and change the import name from `heyoo` to `whatsapp`.
-For version which are GREATER THEN 1.1.2, messages have became objects, so you need to change your code to use the new methods.
 
-**Note**: docs for version 1.1.2 are available in the [**dedicated wiki page**](https://github.com/filipporomani/whatsapp/wiki/v1.1.2).
+For versions GREATER THAN 1.1.2, messages have became objects, so you need to change your code to use the new methods.
 
-
-
-
-## Issues
-
-If you are facing any issues or have any questions, please open an issue on the [**GitHub repository**](https://github.com/filipporomani/whatsapp/issues)
+> [!NOTE]  
+> Documentation for version 1.1.2 can be found [here](https://github.com/filipporomani/whatsapp/wiki/v1.1.2).
 
 ## Contributing
 
-This is an opensource project published under the ```MIT License```: [**LICENSE**](LICENSE).
+If you are facing any issues or have any questions, please [open a new issue](https://github.com/filipporomani/whatsapp/issues/new/choose)!
 
-## References
+*This is an open source project published under the [MIT License](LICENSE).*
 
-1. [WhatsApp Cloud API official documentation](https://developers.facebook.com/docs/whatsapp/cloud-api/)
+[^1]: https://developers.facebook.com/docs/whatsapp/cloud-api
