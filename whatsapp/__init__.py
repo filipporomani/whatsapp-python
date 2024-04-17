@@ -184,6 +184,10 @@ class WhatsApp(object):
 
 class Message(object):
     def __init__(self, id: int = None, data: dict = {}, instance: WhatsApp = None, content: str = "", to: str = "", rec_type: str = "individual"):  # type: ignore
+        self.instance = instance
+        self.url = self.instance.url
+        self.headers = self.instance.headers
+        
         try:
             self.id = instance.get_message_id(data)
         except:
@@ -239,9 +243,6 @@ class Message(object):
                 self.interactive = self.instance.get_interactive_response(data)
             except:
                 pass
-
-        self.instance = instance
-        self.url = self.instance.url
-        self.headers = self.instance.headers
+        
 
     from .ext._message import send, reply, mark_as_read
