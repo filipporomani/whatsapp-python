@@ -137,6 +137,23 @@ class WhatsApp(object):
     changed_field = staticmethod(changed_field)
     get_author = staticmethod(get_author)
 
+    send_button = send_button
+    create_button = create_button
+    send_reply_button = send_reply_button
+    send_image = send_image
+    send_video = send_video
+    send_audio = send_audio
+    send_location = send_location
+    send_sticker = send_sticker
+    send_document = send_document
+    upload_media = upload_media
+    query_media_url = query_media_url
+    download_media = download_media
+    delete_media = delete_media
+    send_template = send_template
+    send_custom_json = send_custom_json
+    send_contacts = send_contacts
+
     authorized = property(authorized)
 
     def create_message(self, **kwargs) -> Message:
