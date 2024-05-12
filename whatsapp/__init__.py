@@ -19,7 +19,7 @@ from .ext._static import is_message, get_mobile, get_author, get_name, get_messa
 import json
 
 class WhatsApp(object):
-    def __init__(self, token: str = "", phone_number_id: str = "", logger: bool = True, update_check: bool = True):
+    def __init__(self, token: str = "", phone_number_id: str = "", logger: bool = True, update_check: bool = True, verify_token: str = ""):
         """
         Initialize the WhatsApp Object
 
@@ -71,6 +71,7 @@ class WhatsApp(object):
         self.phone_number_id = phone_number_id
         self.base_url = "https://graph.facebook.com/v18.0"
         self.url = f"{self.base_url}/{phone_number_id}/messages"
+        self.verify_token = verify_token
         
 
         async def base(*args):
@@ -92,7 +93,7 @@ class WhatsApp(object):
 
         @self.app.get("/")
         async def verify_endpoint(r: Request):
-            if r.query_params.get("hub.verify_token") == self.token:
+            if r.query_params.get("hub.verify_token") == self.verify_token:
                 logging.info("Verified webhook")
                 challenge = r.query_params.get("hub.challenge")
                 self.verification_handler(challenge)
