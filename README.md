@@ -14,7 +14,7 @@ To install the library you can either use pip (latest release version):
 
 ``pip install whatsapp-python``
 
-or git (latest development version):
+However I personally recomend you to install the GitHub version (always up to date)
 
 ```bash
 git clone https://github.com/filipporomani/whatsapp.git
