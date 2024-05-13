@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import requests
 import logging
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from uvicorn import run as _run
 from .constants import VERSION
 from . import ext
@@ -16,10 +16,10 @@ from .ext._send_media import send_image, send_video, send_audio, send_location, 
 from .ext._media import upload_media, query_media_url, download_media, delete_media
 from .ext._buttons import send_button, create_button, send_reply_button
 from .ext._static import is_message, get_mobile, get_author, get_name, get_message, get_message_id, get_message_type, get_message_timestamp, get_audio, get_delivery, get_document, get_image, get_interactive_response, get_location, get_video, changed_field
-
+import json
 
 class WhatsApp(object):
-    def __init__(self, token: str = "", phone_number_id: str = "", logger: bool = True, update_check: bool = True):
+    def __init__(self, token: str = "", phone_number_id: str = "", logger: bool = True, update_check: bool = True, verify_token: str = ""):
         """
         Initialize the WhatsApp Object
 
@@ -71,6 +71,8 @@ class WhatsApp(object):
         self.phone_number_id = phone_number_id
         self.base_url = "https://graph.facebook.com/v18.0"
         self.url = f"{self.base_url}/{phone_number_id}/messages"
+        self.verify_token = verify_token
+        
 
         async def base(*args):
             pass
@@ -91,7 +93,7 @@ class WhatsApp(object):
 
         @self.app.get("/")
         async def verify_endpoint(r: Request):
-            if r.query_params.get("hub.verify_token") == self.token:
+            if r.query_params.get("hub.verify_token") == self.verify_token:
                 logging.info("Verified webhook")
                 challenge = r.query_params.get("hub.challenge")
                 self.verification_handler(challenge)
@@ -104,19 +106,32 @@ class WhatsApp(object):
 
         @self.app.post("/")
         async def hook(r: Request):
-            # Handle Webhook Subscriptions
-            data = await r.json()
-            if data is None:
-                return {"success": False}
-            logging.info("Received webhook data: %s", data)
-            changed_field = self.instance.changed_field(data)
-            if changed_field == "messages":
-                new_message = self.instance.is_message(data)
-                if new_message:
-                    msg = Message(instance=self.instance, data=data)
-                    await self.message_handler(msg)
-                    await self.other_handler(msg)
-            return {"success": True}
+            try:
+                # Handle Webhook Subscriptions
+                data = await r.json()
+                if data is None:
+                    return {"success": False}
+                logging.info("Received webhook data: %s", data)
+                data_str = json.dumps(data, indent=4)
+                logging.debug(f"Received webhook data: {data_str}")
+                
+                changed_field = self.changed_field(data)
+                if changed_field == "messages":
+                    new_message = self.is_message(data)
+                    if new_message:
+                        msg = Message(instance=self, data=data)
+                        await self.message_handler(msg)
+                        await self.other_handler(msg)
+                return {"success": True}
+            except Exception as e:
+                logging.error(f"Error parsing message: {e}")
+                raise HTTPException(status_code=500, detail={
+                    "success": False,
+                    "error": str(e)
+                })
+
+                
+            
 
     # all the files starting with _ are imported here, and should not be imported directly.
 
