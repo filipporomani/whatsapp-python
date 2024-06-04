@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name="whatsapp-python"
-version="3.0.6"
+version="3.1.0"
 authors = [{name="Filippo Romani", email="mail@filipporomani.it"}]
 description="Open source Python wrapper for the WhatsApp Cloud API"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 classifiers=[
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
