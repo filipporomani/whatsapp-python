@@ -14,7 +14,7 @@ To install the library you can either use pip (latest release version):
 
 ``pip install whatsapp-python``
 
-However I personally recomend you to install the GitHub version (always up to date)
+You can also install the development GitHub version (always up to date):
 
 ```bash
 git clone https://github.com/filipporomani/whatsapp.git
@@ -28,7 +28,7 @@ Documentation is available in the [wiki section](https://github.com/filipporoman
 
 The main reason why I decided to fork the original library is that it uses an old version of the API and doesn't support many features.
 
-In this library I added app events (to listen to incoming messages) and implemented an easier way to send/receive messages and media by creating the `Message`object.
+In this library I added app events (to listen to incoming messages) and implemented an easier way to send/receive messages and media by creating the `Message` object.
 
 I fixed some bugs and added some features, but the library still needs a lot of work to be done even if it's working and usable.
 
