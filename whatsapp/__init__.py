@@ -50,14 +50,6 @@ class WhatsApp(object):
                     else:
                         logging.critical(
                             f"Whatsapp-python is out of date. Please update to the latest version {latest}. READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED.")
-                if version_int > latest_int:
-                    latest_beta = int(str(requests.get(
-                        "https://raw.githubusercontent.com/filipporomani/whatsapp/main/.version").text).replace(".", ""))
-                    if latest_beta > version_int:
-                        logging.critical(
-                            "A new beta version is available. Please update to the latest version. READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED.")
-                    logging.critical(
-                        f"You are using a development version of whatsapp-python. Please report any issue on GitHub.")
 
         
         if token == "":
