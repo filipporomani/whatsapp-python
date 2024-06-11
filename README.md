@@ -19,7 +19,16 @@ You can also install the development GitHub version (always up to date):
 ```bash
 git clone https://github.com/filipporomani/whatsapp.git
 cd whatsapp
-python3 setup.py install
+pip install .
+```
+
+If you want to use a local enviroment you can also use hatch:
+  
+```bash
+git clone https://github.com/filipporomani/whatsapp.git
+cd whatsapp
+pip install hatch
+hatch shell
 ```
 
 Documentation is available in the [wiki section](https://github.com/filipporomani/whatsapp/wiki) on GitHub.
