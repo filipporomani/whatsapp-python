@@ -4,7 +4,6 @@ build-backend = "hatchling.build"
 
 [project]
 name="whatsapp-python"
-version="3.1.1"
 authors = [{name="Filippo Romani", email="mail@filipporomani.it"}]
 description="Open source Python wrapper for the WhatsApp Cloud API"
 readme = "README.md"
@@ -21,12 +20,19 @@ classifiers=[
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
+dynamic = [
+  "version"
+]
 dependencies = ["fastapi", "uvicorn","requests_toolbelt", "requests", "python-dotenv"]
 
 [project.urls]
 "Homepage" = "https://github.com/filipporomani/whatsapp"
 "Bug Tracker" = "https://github.com/filipporomani/whatsapp/issues"
 "Download" = "https://github.com/filipporomani/whatsapp/releases/latest"
+
+[tool.hatch.version]
+path = "whatsapp/constants.py"
+variable = "VERSION"
 
 [tool.hatch.build.targets.wheel]
 packages = ["whatsapp"]
