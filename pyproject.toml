@@ -11,14 +11,22 @@ requires-python = ">=3.10"
 classifiers=[
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
+    "Intended Audience :: Customer Service",
+    "Intended Audience :: Education",
+    "Intended Audience :: Telecommunications Industry",
     "Topic :: Software Development :: Build Tools",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Communications :: Chat",
+    "Topic :: Communications :: Telephony",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+    "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+
 ]
 dynamic = [
   "version"
@@ -26,9 +34,12 @@ dynamic = [
 dependencies = ["fastapi", "uvicorn","requests_toolbelt", "requests", "python-dotenv"]
 
 [project.urls]
-"Homepage" = "https://github.com/filipporomani/whatsapp"
-"Bug Tracker" = "https://github.com/filipporomani/whatsapp/issues"
-"Download" = "https://github.com/filipporomani/whatsapp/releases/latest"
+Homepage = "https://github.com/filipporomani/whatsapp-python"
+Docs = "https://github.com/filipporomani/whatsapp-python/wiki"
+"Issue Tracker" = "https://github.com/filipporomani/whatsapp-python/issues"
+Download = "https://github.com/filipporomani/whatsapp-python/releases/latest"
+Changelog = "https://github.com/filipporomani/whatsapp-python/releases"
+
 
 [tool.hatch.version]
 path = "whatsapp/constants.py"
