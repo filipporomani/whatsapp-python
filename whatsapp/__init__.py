@@ -18,6 +18,7 @@ from .ext._buttons import send_button, create_button, send_reply_button
 from .ext._static import is_message, get_mobile, get_author, get_name, get_message, get_message_id, get_message_type, get_message_timestamp, get_audio, get_delivery, get_document, get_image, get_interactive_response, get_location, get_video, changed_field
 import json
 
+
 class WhatsApp(object):
     def __init__(self, token: str = "", phone_number_id: str = "", logger: bool = True, update_check: bool = True, verify_token: str = ""):
         """
@@ -51,7 +52,6 @@ class WhatsApp(object):
                         logging.critical(
                             f"Whatsapp-python is out of date. Please update to the latest version {latest}. READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED.")
 
-        
         if token == "":
             logging.error("Token not provided")
             raise ValueError("Token not provided but required")
@@ -64,7 +64,6 @@ class WhatsApp(object):
         self.base_url = "https://graph.facebook.com/v18.0"
         self.url = f"{self.base_url}/{phone_number_id}/messages"
         self.verify_token = verify_token
-        
 
         async def base(*args):
             pass
@@ -106,7 +105,7 @@ class WhatsApp(object):
                 logging.info("Received webhook data: %s", data)
                 data_str = json.dumps(data, indent=4)
                 logging.debug(f"Received webhook data: {data_str}")
-                
+
                 changed_field = self.changed_field(data)
                 if changed_field == "messages":
                     new_message = self.is_message(data)
@@ -121,9 +120,6 @@ class WhatsApp(object):
                     "success": False,
                     "error": str(e)
                 })
-
-                
-            
 
     # all the files starting with _ are imported here, and should not be imported directly.
 
@@ -211,7 +207,7 @@ class Message(object):
         self.instance = instance
         self.url = self.instance.url
         self.headers = self.instance.headers
-        
+
         try:
             self.id = instance.get_message_id(data)
         except:
@@ -267,6 +263,5 @@ class Message(object):
                 self.interactive = self.instance.get_interactive_response(data)
             except:
                 pass
-        
 
     from .ext._message import send, reply, mark_as_read
