@@ -8,7 +8,6 @@ import logging
 from fastapi import FastAPI, HTTPException, Request
 from uvicorn import run as _run
 from .constants import VERSION
-from . import ext
 from .ext._property import authorized
 from .ext._send_others import send_custom_json, send_contacts
 from .ext._message import send_template
@@ -20,7 +19,7 @@ import json
 
 
 class WhatsApp(object):
-    def __init__(self, token: str = "", phone_number_id: str = "", logger: bool = True, update_check: bool = True, verify_token: str = ""):
+    def __init__(self, token: str = "", phone_number_id: str = "", logger: bool = True, update_check: bool = True, verify_token: str = "", debug: bool = False):
         """
         Initialize the WhatsApp Object
 
@@ -77,6 +76,11 @@ class WhatsApp(object):
         if logger is False:
             logging.disable(logging.INFO)
             logging.disable(logging.ERROR)
+        if debug is False:
+            logging.disable(logging.DEBUG)
+            logging.disable(logging.ERROR)
+
+            
 
         self.app = FastAPI()
 
@@ -85,12 +89,12 @@ class WhatsApp(object):
         @self.app.get("/")
         async def verify_endpoint(r: Request):
             if r.query_params.get("hub.verify_token") == self.verify_token:
-                logging.info("Verified webhook")
+                logging.debug("Verified webhook")
                 challenge = r.query_params.get("hub.challenge")
                 self.verification_handler(challenge)
                 self.other_handler(challenge)
                 return int(challenge)
-            logging.error("Webhook Verification failed")
+            logging.error("Webhook Verification failed - token mismatch")
             await self.verification_handler(False)
             await self.other_handler(False)
             return {"success": False}
@@ -102,9 +106,8 @@ class WhatsApp(object):
                 data = await r.json()
                 if data is None:
                     return {"success": False}
-                logging.info("Received webhook data: %s", data)
                 data_str = json.dumps(data, indent=4)
-                logging.debug(f"Received webhook data: {data_str}")
+                logging.debug(f"Received webhook data: {data_str}") # log the data received only if the log level is debug
 
                 changed_field = self.changed_field(data)
                 if changed_field == "messages":
