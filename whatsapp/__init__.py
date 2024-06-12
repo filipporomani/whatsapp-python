@@ -19,7 +19,7 @@ import json
 
 
 class WhatsApp(object):
-    def __init__(self, token: str = "", phone_number_id: str = "", logger: bool = True, update_check: bool = True, verify_token: str = "", debug: bool = False):
+    def __init__(self, token: str = "", phone_number_id: str = "", logger: bool = True, update_check: bool = True, verify_token: str = "", debug: bool = True):
         """
         Initialize the WhatsApp Object
 
