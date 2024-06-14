@@ -44,7 +44,7 @@ def upload_media(self, media: str) -> Union[Dict[Any, Any], None]:
         return r.json()
     logging.info(f"Error uploading media {media}")
     logging.info(f"Status code: {r.status_code}")
-    logging.info(f"Response: {r.json()}")
+    logging.debug(f"Response: {r.json()}")
     return None
 
 
