@@ -55,7 +55,7 @@ class WhatsApp(object):
             logging.error("Token not provided")
             raise ValueError("Token not provided but required")
         if phone_number_id == "":
-            logging.error("Phone number id not provided")
+            logging.error("Phone number ID not provided")
             raise ValueError(
                 "Phone number ID not provided but required")
         self.token = token
@@ -89,7 +89,7 @@ class WhatsApp(object):
         @self.app.get("/")
         async def verify_endpoint(r: Request):
             if r.query_params.get("hub.verify_token") == self.verify_token:
-                logging.debug("Verified webhook")
+                logging.debug("Webhook verified successfully")
                 challenge = r.query_params.get("hub.challenge")
                 self.verification_handler(challenge)
                 self.other_handler(challenge)
