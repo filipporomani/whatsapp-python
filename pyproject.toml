@@ -31,12 +31,12 @@ classifiers=[
 dynamic = [
   "version"
 ]
-dependencies = ["fastapi", "uvicorn","requests_toolbelt", "requests", "python-dotenv"]
+dependencies = ["fastapi", "uvicorn", "requests_toolbelt", "requests", "python-dotenv"]
 
 [project.urls]
 Homepage = "https://github.com/filipporomani/whatsapp-python"
 Docs = "https://github.com/filipporomani/whatsapp-python/wiki"
-"Issue Tracker" = "https://github.com/filipporomani/whatsapp-python/issues"
+"Issues Reporting" = "https://github.com/filipporomani/whatsapp-python/issues"
 Download = "https://github.com/filipporomani/whatsapp-python/releases/latest"
 Changelog = "https://github.com/filipporomani/whatsapp-python/releases"
 
