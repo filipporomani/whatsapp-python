@@ -80,8 +80,6 @@ class WhatsApp(object):
             logging.disable(logging.DEBUG)
             logging.disable(logging.ERROR)
 
-            
-
         self.app = FastAPI()
 
         # Verification handler has 1 argument: challenge (str | bool): str if verification is successful, False if not
@@ -107,7 +105,8 @@ class WhatsApp(object):
                 if data is None:
                     return {"success": False}
                 data_str = json.dumps(data, indent=4)
-                logging.debug(f"Received webhook data: {data_str}") # log the data received only if the log level is debug
+                # log the data received only if the log level is debug
+                logging.debug(f"Received webhook data: {data_str}")
 
                 changed_field = self.changed_field(data)
                 if changed_field == "messages":
