@@ -180,6 +180,25 @@ def get_image(data: Dict[Any, Any]) -> Union[Dict, None]:
         if "image" in data["messages"][0]:
             return data["messages"][0]["image"]
 
+@staticmethod
+def get_sticker(data: Dict[Any, Any]) -> Union[Dict, None]:
+    """ "
+    Extracts the sticker of the sender from the data received from the webhook.
+
+    Args:
+        data[dict]: The data received from the webhook
+    Returns:
+        dict: The sticker_id of an sticker sent by the sender
+
+    Example:
+        >>> from whatsapp import WhatsApp
+        >>> whatsapp = WhatsApp(token, phone_number_id)
+        >>> sticker_id = whatsapp.get_sticker(data)
+    """
+    data = data["entry"][0]["changes"][0]["value"]
+    if "messages" in data:
+        if "sticker" in data["messages"][0]:
+            return data["messages"][0]["sticker"]
 
 @staticmethod
 def get_document(data: Dict[Any, Any]) -> Union[Dict, None]:
