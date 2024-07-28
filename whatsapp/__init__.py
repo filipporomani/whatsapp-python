@@ -14,7 +14,7 @@ from .ext._message import send_template
 from .ext._send_media import send_image, send_video, send_audio, send_location, send_sticker, send_document
 from .ext._media import upload_media, query_media_url, download_media, delete_media
 from .ext._buttons import send_button, create_button, send_reply_button
-from .ext._static import is_message, get_mobile, get_author, get_name, get_message, get_message_id, get_message_type, get_message_timestamp, get_audio, get_delivery, get_document, get_image, get_interactive_response, get_location, get_video, changed_field
+from .ext._static import is_message, get_mobile, get_author, get_name, get_message, get_message_id, get_message_type, get_message_timestamp, get_audio, get_delivery, get_document, get_image, get_sticker, get_interactive_response, get_location, get_video, changed_field
 import json
 
 
@@ -136,6 +136,7 @@ class WhatsApp(object):
     get_delivery = staticmethod(get_delivery)
     get_document = staticmethod(get_document)
     get_image = staticmethod(get_image)
+    get_sticker = staticmethod(get_sticker)
     get_interactive_response = staticmethod(get_interactive_response)
     get_location = staticmethod(get_location)
     get_video = staticmethod(get_video)
@@ -240,6 +241,11 @@ class Message(object):
                 self.image = self.instance.get_image(data)
             except:
                 self.image = None
+        if self.type == "sticker":
+            try:
+                self.sticker = self.instance.get_sticker(data)
+            except:
+                self.sticker = None
         elif self.type == "video":
             try:
                 self.video = self.instance.get_video(data)
