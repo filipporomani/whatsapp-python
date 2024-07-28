@@ -85,6 +85,17 @@ def hook():
                 image_filename = messenger.download_media(image_url, mime_type)
                 logging.info(f"{mobile} sent image {image_filename}")
 
+            elif message_type == "sticker":
+                sticker = msg.sticker
+                if sticker is None:
+                    return Response(status=400)
+                sticker_id, mime_type = sticker["id"], sticker["mime_type"]
+                sticker_url = messenger.query_media_url(sticker_id)
+                if sticker_url is None:
+                    return Response(status=400)
+                sticker_filename = messenger.download_media(sticker_url, mime_type)
+                logging.info(f"{mobile} sent sticker {sticker_filename}")
+
             elif message_type == "video":
                 video = msg.video
                 if video is None:
