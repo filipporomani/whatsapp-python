@@ -5,8 +5,6 @@ from __future__ import annotations
 
 import requests
 import logging
-from fastapi import FastAPI, HTTPException, Request
-from uvicorn import run as _run
 from .constants import VERSION
 from .ext._property import authorized
 from .ext._send_others import send_custom_json, send_contacts
@@ -33,23 +31,23 @@ class WhatsApp(object):
         logging.getLogger(__name__).addHandler(logging.NullHandler())
 
         self.VERSION = VERSION
-        if update_check is True:
-            latest = str(requests.get(
-                "https://pypi.org/pypi/whatsapp-python/json").json()["info"]["version"])
-            if self.VERSION != latest:
-                try:
-                    version_int = int(self.VERSION.replace(".", ""))
-                except:
-                    version_int = 0
-                latest_int = int(latest.replace(".", ""))
-                # this is to avoid the case where the version is 1.0.10 and the latest is 1.0.2 (possible if user is using the github version)
-                if version_int < latest_int:
-                    if version_int == 0:
-                        logging.critical(
-                            f"There was an error while checking for updates, please update the package manually or report the issue on GitHub.")
-                    else:
-                        logging.critical(
-                            f"Whatsapp-python is out of date. Please update to the latest version {latest}. READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED.")
+        # if update_check is True:
+        #     latest = str(requests.get(
+        #         "https://pypi.org/pypi/whatsapp-python/json").json()["info"]["version"])
+        #     if self.VERSION != latest:
+        #         try:
+        #             version_int = int(self.VERSION.replace(".", ""))
+        #         except:
+        #             version_int = 0
+        #         latest_int = int(latest.replace(".", ""))
+        #         # this is to avoid the case where the version is 1.0.10 and the latest is 1.0.2 (possible if user is using the github version)
+        #         if version_int < latest_int:
+        #             if version_int == 0:
+        #                 logging.critical(
+        #                     f"There was an error while checking for updates, please update the package manually or report the issue on GitHub.")
+        #             else:
+        #                 logging.critical(
+        #                     f"Whatsapp-python is out of date. Please update to the latest version {latest}. READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED.")
 
         if token == "":
             logging.error("Token not provided")
@@ -80,48 +78,40 @@ class WhatsApp(object):
             logging.disable(logging.DEBUG)
             logging.disable(logging.ERROR)
 
-        self.app = FastAPI()
-
         # Verification handler has 1 argument: challenge (str | bool): str if verification is successful, False if not
 
-        @self.app.get("/")
-        async def verify_endpoint(r: Request):
-            if r.query_params.get("hub.verify_token") == self.verify_token:
-                logging.debug("Webhook verified successfully")
-                challenge = r.query_params.get("hub.challenge")
-                self.verification_handler(challenge)
-                self.other_handler(challenge)
-                return int(challenge)
-            logging.error("Webhook Verification failed - token mismatch")
-            await self.verification_handler(False)
-            await self.other_handler(False)
-            return {"success": False}
+    async def verify_endpoint(self, query_params: dict):
+        if query_params.get("hub.verify_token") == self.verify_token:
+            logging.debug("Webhook verified successfully")
+            challenge = query_params.get("hub.challenge")
+            self.verification_handler(challenge)
+            self.other_handler(challenge)
+            return int(challenge)
+        logging.error("Webhook Verification failed - token mismatch")
+        await self.verification_handler(False)
+        await self.other_handler(False)
+        return {"success": False}
 
-        @self.app.post("/")
-        async def hook(r: Request):
-            try:
-                # Handle Webhook Subscriptions
-                data = await r.json()
-                if data is None:
-                    return {"success": False}
-                data_str = json.dumps(data, indent=4)
-                # log the data received only if the log level is debug
-                logging.debug(f"Received webhook data: {data_str}")
+    async def hook(request: dict):
+        try:
+            # Handle Webhook Subscriptions
+            data = request.get('data')
+            if data is None:
+                return {"success": False}
+            data_str = json.dumps(data, indent=4)
+            # log the data received only if the log level is debug
+            logging.debug(f"Received webhook data: {data_str}")
 
-                changed_field = self.changed_field(data)
-                if changed_field == "messages":
-                    new_message = self.is_message(data)
-                    if new_message:
-                        msg = Message(instance=self, data=data)
-                        await self.message_handler(msg)
-                        await self.other_handler(msg)
-                return {"success": True}
-            except Exception as e:
-                logging.error(f"Error parsing message: {e}")
-                raise HTTPException(status_code=500, detail={
-                    "success": False,
-                    "error": str(e)
-                })
+            changed_field = self.changed_field(data)
+            if changed_field == "messages":
+                new_message = self.is_message(data)
+                if new_message:
+                    msg = Message(instance=self, data=data)
+                    await self.message_handler(msg)
+                    await self.other_handler(msg)
+            return {"success": True}
+        except Exception as e:
+            logging.error(f"Error parsing message: {e}")
 
     # all the files starting with _ are imported here, and should not be imported directly.
 
@@ -199,9 +189,6 @@ class WhatsApp(object):
             handler[function]: The handler function
         """
         self.verification_handler = handler
-
-    def run(self, host: str = "localhost", port: int = 5000, **options):
-        _run(self.app, host=host, port=port, **options)
 
 
 class Message(object):
