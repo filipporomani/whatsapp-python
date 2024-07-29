@@ -34,11 +34,11 @@ dynamic = [
 dependencies = ["requests_toolbelt", "requests", "python-dotenv"]
 
 [project.urls]
-Homepage = "https://github.com/filipporomani/whatsapp-python"
-Docs = "https://github.com/filipporomani/whatsapp-python/wiki"
-"Issues Reporting" = "https://github.com/filipporomani/whatsapp-python/issues"
-Download = "https://github.com/filipporomani/whatsapp-python/releases/latest"
-Changelog = "https://github.com/filipporomani/whatsapp-python/releases"
+Homepage = "https://github.com/yoandresaav/whatsapp-python-cloud-api"
+Docs = "https://github.com/yoandresaav/whatsapp-python-cloud-api/wiki"
+"Issues Reporting" = "https://github.com/yoandresaav/whatsapp-python-cloud-api/issues"
+Download = "https://github.com/yoandresaav/whatsapp-python-cloud-api/releases/latest"
+Changelog = "https://github.com/yoandresaav/whatsapp-python-cloud-api/releases"
 
 
 [tool.hatch.version]
