@@ -2,6 +2,25 @@ import logging
 import requests
 
 
+def react(self, emoji: str) -> dict:
+    data = {
+        "messaging_product": "whatsapp",
+        "recipient_type":"individual",
+        "to": self.sender,
+        "type": "reaction",
+        "reaction": {"message_id": self.id, "emoji": emoji},
+    }
+    logging.info(f"Reacting to {self.id}")
+    r = requests.post(self.url, headers=self.headers, json=data)
+    if r.status_code == 200:
+        logging.info(f"Reaction sent to {self.to}")
+        return r.json()
+    logging.info(f"Reaction not sent to {self.to}")
+    logging.info(f"Status code: {r.status_code}")
+    logging.debug(f"Response: {r.json()}")
+    return r.json()
+
+
 def send_template(self, template: str, recipient_id: str, components: str, lang: str = "en_US") -> dict:
     """
     Sends a template message to a WhatsApp user, Template messages can either be;

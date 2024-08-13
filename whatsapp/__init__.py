@@ -272,4 +272,4 @@ class Message(object):
             except:
                 pass
 
-    from .ext._message import send, reply, mark_as_read
+    from .ext._message import send, reply, mark_as_read, react
