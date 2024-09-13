@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import requests
 import logging
+from typing import Union
 from fastapi import FastAPI, HTTPException, Request
 from uvicorn import run as _run
 from .constants import VERSION
@@ -19,7 +20,7 @@ import json
 
 
 class WhatsApp(object):
-    def __init__(self, token: str = "", phone_number_id: str = "", logger: bool = True, update_check: bool = True, verify_token: str = "", debug: bool = True):
+    def __init__(self, token: str = "", phone_number_id: Union[str, dict] = "", logger: bool = True, update_check: bool = True, verify_token: str = "", debug: bool = True):
         """
         Initialize the WhatsApp Object
 
@@ -31,6 +32,25 @@ class WhatsApp(object):
 
         # Check if the version is up to date
         logging.getLogger(__name__).addHandler(logging.NullHandler())
+
+        self.l = phone_number_id
+        print(self.l)
+
+        if isinstance(phone_number_id, dict):
+            # use first phone number id as default
+            phone_number_id = phone_number_id[list(phone_number_id.keys())[0]]
+            print(phone_number_id)
+
+        elif phone_number_id == "":
+            logging.error("Phone number ID not provided")
+            raise ValueError(
+                "Phone number ID not provided but required")
+        elif isinstance(phone_number_id, str):
+            logging.critical(
+                "The phone number ID should be a dictionary of phone numbers and their IDs. Using strings is deprecated and will be removed in the next version.")
+            print(phone_number_id)
+        else:
+            pass
 
         self.VERSION = VERSION
         if update_check is True:
@@ -206,10 +226,12 @@ class WhatsApp(object):
 
 
 class Message(object):
-    def __init__(self, id: int = None, data: dict = {}, instance: WhatsApp = None, content: str = "", to: str = "", rec_type: str = "individual"):  # type: ignore
+    # type: ignore
+    def __init__(self, id: int = None, data: dict = {}, instance: WhatsApp = None, content: str = "", to: str = "", rec_type: str = "individual"):
         self.instance = instance
         self.url = self.instance.url
         self.headers = self.instance.headers
+        
 
         try:
             self.id = instance.get_message_id(data)
@@ -227,10 +249,6 @@ class Message(object):
                 data)
         except:
             self.content = content
-        try:
-            self.sender = self.instance.get_mobile(data)
-        except:
-            self.sender = None
         try:
             self.name = self.instance.get_name(data)
         except:
@@ -272,4 +290,94 @@ class Message(object):
             except:
                 pass
 
-    from .ext._message import send, reply, mark_as_read, react
+    def reply(self, reply_text: str = "", preview_url: bool = True) -> dict:
+        if self.data == {}:
+            return {"error": "No data provided"}
+        author = self.instance.get_author(self.data)
+        payload = {
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": str(author),
+            "type": "text",
+            "context": {"message_id": self.id},
+            "text": {"preview_url": preview_url, "body": reply_text},
+        }
+        logging.info(f"Replying to {self.id}")
+        r = requests.post(self.url, headers=self.headers, json=payload)
+        if r.status_code == 200:
+            logging.info(f"Message sent to {
+                         self.instance.get_author(self.data)}")
+            return r.json()
+        logging.info(f"Message not sent to {
+                     self.instance.get_author(self.data)}")
+        logging.info(f"Status code: {r.status_code}")
+        logging.error(f"Response: {r.json()}")
+        return r.json()
+
+    def mark_as_read(self) -> dict:
+        
+        payload = {
+            "messaging_product": "whatsapp",
+            "status": "read",
+            "message_id": self.id,
+        }
+
+        response = requests.post(
+            f"{self.instance.url}", headers=self.instance.headers, json=payload)
+        if response.status_code == 200:
+            logging.info(response.json())
+            return response.json()
+        else:
+            logging.error(response.json())
+            return response.json()
+
+    def send(self,sender, preview_url: bool = True) -> dict:
+        print(sender)
+        try:
+            sender = dict(self.instance.l)[sender]
+            print(self.instance.l)
+            print(sender)
+            
+            
+            print(12)
+
+        except:
+            print(22)
+            sender = self.instance.phone_number_id
+
+        url = f"https://graph.facebook.com/v18.0/{sender}/messages"
+        data = {
+            "messaging_product": "whatsapp",
+            "recipient_type": self.rec,
+            "to": self.to,
+            "type": "text",
+            "text": {"preview_url": preview_url, "body": self.content},
+        }
+        logging.info(f"Sending message to {self.to}")
+        print(url)
+        r = requests.post(url, headers=self.headers, json=data)
+        if r.status_code == 200:
+            logging.info(f"Message sent to {self.to}")
+            return r.json()
+        logging.info(f"Message not sent to {self.to}")
+        logging.info(f"Status code: {r.status_code}")
+        logging.error(f"Response: {r.json()}")
+        return r.json()
+
+    def react(self, emoji: str) -> dict:
+        data = {
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": self.to,
+            "type": "reaction",
+            "reaction": {"message_id": self.id, "emoji": emoji},
+        }
+        logging.info(f"Reacting to {self.id}")
+        r = requests.post(self.url, headers=self.headers, json=data)
+        if r.status_code == 200:
+            logging.info(f"Reaction sent to {self.to}")
+            return r.json()
+        logging.info(f"Reaction not sent to {self.to}")
+        logging.info(f"Status code: {r.status_code}")
+        logging.debug(f"Response: {r.json()}")
+        return r.json()

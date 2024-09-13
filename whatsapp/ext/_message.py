@@ -104,6 +104,8 @@ def mark_as_read(self) -> dict:
 
 
 def send(self, preview_url: bool = True) -> dict:
+    print(self.sender)
+    url = f"https://graph.facebook.com/v18.0/{self.sender}/messages"
     data = {
         "messaging_product": "whatsapp",
         "recipient_type": self.rec,
@@ -112,7 +114,7 @@ def send(self, preview_url: bool = True) -> dict:
         "text": {"preview_url": preview_url, "body": self.content},
     }
     logging.info(f"Sending message to {self.to}")
-    r = requests.post(f"{self.url}", headers=self.headers, json=data)
+    r = requests.post(f"{url}", headers=self.headers, json=data)
     if r.status_code == 200:
         logging.info(f"Message sent to {self.to}")
         return r.json()
