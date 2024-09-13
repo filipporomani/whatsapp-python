@@ -2,7 +2,7 @@ import logging
 import requests
 
 
-def send_location(self, lat: str, long: str, name: str, address: str, recipient_id: str) -> dict:
+def send_location(self, lat: str, long: str, name: str, address: str, recipient_id: str, sender = None) -> dict:
     """
     Sends a location message to a WhatsApp user
 
@@ -18,6 +18,22 @@ def send_location(self, lat: str, long: str, name: str, address: str, recipient_
         >>> whatsapp = WhatsApp(token, phone_number_id)
         >>> whatsapp.send_location("-23.564", "-46.654", "My Location", "Rua dois, 123", "5511999999999")
     """
+    try:
+        sender = dict(self.instance.l)[sender]
+        print(self.instance.l)
+        print(sender)
+        
+        
+        print(12)
+
+    except:
+        print(22)
+        sender = self.instance.phone_number_id
+        
+    if sender == None:
+        sender = self.instance.phone_number_id
+
+    url = f"https://graph.facebook.com/v18.0/{sender}/messages"
     data = {
         "messaging_product": "whatsapp",
         "to": recipient_id,
@@ -30,7 +46,7 @@ def send_location(self, lat: str, long: str, name: str, address: str, recipient_
         },
     }
     logging.info(f"Sending location to {recipient_id}")
-    r = requests.post(self.url, headers=self.headers, json=data)
+    r = requests.post(url, headers=self.headers, json=data)
     if r.status_code == 200:
         logging.info(f"Location sent to {recipient_id}")
         return r.json()
@@ -47,6 +63,7 @@ def send_image(
     recipient_type: str = "individual",
     caption: str = "",
     link: bool = True,
+    sender = None
 ) -> dict:
     """
     Sends an image message to a WhatsApp user
@@ -67,6 +84,22 @@ def send_image(
         >>> whatsapp = WhatsApp(token, phone_number_id)
         >>> whatsapp.send_image("https://i.imgur.com/Fh7XVYY.jpeg", "5511999999999")
     """
+    try:
+        sender = dict(self.l)[sender]
+        print(self.l)
+        print(sender)
+        
+        
+        print(12)
+
+    except:
+        print(22)
+        sender = self.phone_number_id
+        
+    if sender == None:
+        sender = self.phone_number_id
+
+    url = f"https://graph.facebook.com/v18.0/{sender}/messages"
     if link:
         data = {
             "messaging_product": "whatsapp",
@@ -84,7 +117,7 @@ def send_image(
             "image": {"id": image, "caption": caption},
         }
     logging.info(f"Sending image to {recipient_id}")
-    r = requests.post(self.url, headers=self.headers, json=data)
+    r = requests.post(url, headers=self.headers, json=data)
     if r.status_code == 200:
         logging.info(f"Image sent to {recipient_id}")
         return r.json()
@@ -94,7 +127,7 @@ def send_image(
     return r.json()
 
 
-def send_sticker(self, sticker: str, recipient_id: str, recipient_type: str = "individual", link: bool = True) -> dict:
+def send_sticker(self, sticker: str, recipient_id: str, recipient_type: str = "individual", link: bool = True, sender = None) -> dict:
     """
     Sends a sticker message to a WhatsApp user
 
@@ -113,6 +146,22 @@ def send_sticker(self, sticker: str, recipient_id: str, recipient_type: str = "i
         >>> whatsapp = WhatsApp(token, phone_number_id)
         >>> whatsapp.send_sticker("170511049062862", "5511999999999", link=False)
     """
+    try:
+        sender = dict(self.l)[sender]
+        print(self.l)
+        print(sender)
+        
+        
+        print(12)
+
+    except:
+        print(22)
+        sender = self.phone_number_id
+        
+    if sender == None:
+        sender = self.phone_number_id
+
+    url = f"https://graph.facebook.com/v18.0/{sender}/messages"
     if link:
         data = {
             "messaging_product": "whatsapp",
@@ -130,7 +179,7 @@ def send_sticker(self, sticker: str, recipient_id: str, recipient_type: str = "i
             "sticker": {"id": sticker},
         }
     logging.info(f"Sending sticker to {recipient_id}")
-    r = requests.post(self.url, headers=self.headers, json=data)
+    r = requests.post(url, headers=self.headers, json=data)
     if r.status_code == 200:
         logging.info(f"Sticker sent to {recipient_id}")
         return r.json()
@@ -140,7 +189,7 @@ def send_sticker(self, sticker: str, recipient_id: str, recipient_type: str = "i
     return r.json()
 
 
-def send_audio(self, audio: str, recipient_id: str, link: bool = True) -> dict:
+def send_audio(self, audio: str, recipient_id: str, link: bool = True, sender = None) -> dict:
     """
     Sends an audio message to a WhatsApp user
     Audio messages can either be sent by passing the audio id or by passing the audio link.
@@ -155,6 +204,22 @@ def send_audio(self, audio: str, recipient_id: str, link: bool = True) -> dict:
         >>> whatsapp = WhatsApp(token, phone_number_id)
         >>> whatsapp.send_audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", "5511999999999")
     """
+    try:
+        sender = dict(self.l)[sender]
+        print(self.l)
+        print(sender)
+        
+        
+        print(12)
+
+    except:
+        print(22)
+        sender = self.phone_number_id
+        
+    if sender == None:
+        sender = self.phone_number_id
+
+    url = f"https://graph.facebook.com/v18.0/{sender}/messages"
     if link:
         data = {
             "messaging_product": "whatsapp",
@@ -170,7 +235,7 @@ def send_audio(self, audio: str, recipient_id: str, link: bool = True) -> dict:
             "audio": {"id": audio},
         }
     logging.info(f"Sending audio to {recipient_id}")
-    r = requests.post(self.url, headers=self.headers, json=data)
+    r = requests.post(url, headers=self.headers, json=data)
     if r.status_code == 200:
         logging.info(f"Audio sent to {recipient_id}")
         return r.json()
@@ -181,7 +246,7 @@ def send_audio(self, audio: str, recipient_id: str, link: bool = True) -> dict:
 
 
 def send_video(
-    self, video: str, recipient_id: str, caption: str = "", link: bool = True
+    self, video: str, recipient_id: str, caption: str = "", link: bool = True, sender = None
 ) -> dict:
     """ "
     Sends a video message to a WhatsApp user
@@ -198,6 +263,22 @@ def send_video(
         >>> whatsapp = WhatsApp(token, phone_number_id)
         >>> whatsapp.send_video("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "5511999999999")
     """
+    try:
+        sender = dict(self.l)[sender]
+        print(self.l)
+        print(sender)
+        
+        
+        print(12)
+
+    except:
+        print(22)
+        sender = self.phone_number_id
+        
+    if sender == None:
+        sender = self.phone_number_id
+
+    url = f"https://graph.facebook.com/v18.0/{sender}/messages"
     if link:
         data = {
             "messaging_product": "whatsapp",
@@ -213,7 +294,7 @@ def send_video(
             "video": {"id": video, "caption": caption},
         }
     logging.info(f"Sending video to {recipient_id}")
-    r = requests.post(self.url, headers=self.headers, json=data)
+    r = requests.post(url, headers=self.headers, json=data)
     if r.status_code == 200:
         logging.info(f"Video sent to {recipient_id}")
         return r.json()
@@ -241,6 +322,22 @@ def send_document(
         >>> whatsapp = WhatsApp(token, phone_number_id)
         >>> whatsapp.send_document("https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf", "5511999999999")
     """
+    try:
+        sender = dict(self.l)[sender]
+        print(self.l)
+        print(sender)
+        
+        
+        print(12)
+
+    except:
+        print(22)
+        sender = self.phone_number_id
+        
+    if sender == None:
+        sender = self.phone_number_id
+
+    url = f"https://graph.facebook.com/v18.0/{sender}/messages"
     if link:
         data = {
             "messaging_product": "whatsapp",
@@ -257,7 +354,7 @@ def send_document(
         }
 
     logging.info(f"Sending document to {recipient_id}")
-    r = requests.post(self.url, headers=self.headers, json=data)
+    r = requests.post(url, headers=self.headers, json=data)
     if r.status_code == 200:
         logging.info(f"Document sent to {recipient_id}")
         return r.json()

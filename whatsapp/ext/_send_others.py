@@ -3,7 +3,7 @@ import requests
 import logging
 
 
-def send_custom_json(self, data: dict, recipient_id: str = ""):
+def send_custom_json(self, data: dict, recipient_id: str = "", sender= None):
     """
     Sends a custom json to a WhatsApp user. This can be used to send custom objects to the message endpoint.
 
@@ -18,6 +18,22 @@ def send_custom_json(self, data: dict, recipient_id: str = ""):
                 "type": "audio",
                 "audio": {"id": audio}}, "5511999999999")
     """
+    try:
+        sender = dict(self.l)[sender]
+        print(self.l)
+        print(sender)
+        
+        
+        print(12)
+
+    except:
+        print(22)
+        sender = self.phone_number_id
+        
+    if sender == None:
+        sender = self.phone_number_id
+
+    url = f"https://graph.facebook.com/v18.0/{sender}/messages"
 
     if recipient_id:
         if "to" in data.keys():
@@ -28,7 +44,7 @@ def send_custom_json(self, data: dict, recipient_id: str = ""):
             data["to"] = recipient_id
 
     logging.info(f"Sending custom json to {recipient_id}")
-    r = requests.post(self.url, headers=self.headers, json=data)
+    r = requests.post(url, headers=self.headers, json=data)
     if r.status_code == 200:
         logging.info(f"Custom json sent to {recipient_id}")
         return r.json()
@@ -39,7 +55,7 @@ def send_custom_json(self, data: dict, recipient_id: str = ""):
 
 
 def send_contacts(
-    self, contacts: List[Dict[Any, Any]], recipient_id: str
+    self, contacts: List[Dict[Any, Any]], recipient_id: str, sender=None
 ) -> Dict[Any, Any]:
     """send_contacts
 
@@ -68,6 +84,22 @@ def send_contacts(
 
     REFERENCE: https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#contacts-object
     """
+    try:
+        sender = dict(self.l)[sender]
+        print(self.l)
+        print(sender)
+        
+        
+        print(12)
+
+    except:
+        print(22)
+        sender = self.phone_number_id
+        
+    if sender == None:
+        sender = self.phone_number_id
+
+    url = f"https://graph.facebook.com/v18.0/{sender}/messages"
 
     data = {
         "messaging_product": "whatsapp",
@@ -76,7 +108,7 @@ def send_contacts(
         "contacts": contacts,
     }
     logging.info(f"Sending contacts to {recipient_id}")
-    r = requests.post(self.url, headers=self.headers, json=data)
+    r = requests.post(url, headers=self.headers, json=data)
     if r.status_code == 200:
         logging.info(f"Contacts sent to {recipient_id}")
         return r.json()
