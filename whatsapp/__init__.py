@@ -331,8 +331,8 @@ class Message(object):
             logging.error(response.json())
             return response.json()
 
-    def send(self,sender, preview_url: bool = True) -> dict:
-        print(sender)
+    def send(self,sender = None, preview_url: bool = True) -> dict:
+        
         try:
             sender = dict(self.instance.l)[sender]
             print(self.instance.l)
@@ -343,6 +343,9 @@ class Message(object):
 
         except:
             print(22)
+            sender = self.instance.phone_number_id
+            
+        if sender == None:
             sender = self.instance.phone_number_id
 
         url = f"https://graph.facebook.com/v18.0/{sender}/messages"
