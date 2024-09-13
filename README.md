@@ -45,6 +45,7 @@ I fixed some bugs and added many features, however the library still needs a lot
 
 - Listening to events (messages, media, etc.)
 - Sending messages
+- Sending messages from different numbers individually
 - Marking messages as read
 - Reacting to messages
 - Sending Media (images, audio, video and documents)
