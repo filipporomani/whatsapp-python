@@ -104,7 +104,6 @@ def mark_as_read(self) -> dict:
 
 
 def send(self, preview_url: bool = True) -> dict:
-    print(self.sender)
     url = f"https://graph.facebook.com/v18.0/{self.sender}/messages"
     data = {
         "messaging_product": "whatsapp",

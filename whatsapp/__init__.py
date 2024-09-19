@@ -34,12 +34,10 @@ class WhatsApp(object):
         logging.getLogger(__name__).addHandler(logging.NullHandler())
 
         self.l = phone_number_id
-        print(self.l)
 
         if isinstance(phone_number_id, dict):
             # use first phone number id as default
             phone_number_id = phone_number_id[list(phone_number_id.keys())[0]]
-            print(phone_number_id)
 
         elif phone_number_id == "":
             logging.error("Phone number ID not provided")
@@ -48,7 +46,6 @@ class WhatsApp(object):
         elif isinstance(phone_number_id, str):
             logging.critical(
                 "The phone number ID should be a dictionary of phone numbers and their IDs. Using strings is deprecated and will be removed in the next version.")
-            print(phone_number_id)
         else:
             pass
 
@@ -335,14 +332,10 @@ class Message(object):
         
         try:
             sender = dict(self.instance.l)[sender]
-            print(self.instance.l)
-            print(sender)
             
             
-            print(12)
 
         except:
-            print(22)
             sender = self.instance.phone_number_id
             
         if sender == None:
@@ -357,7 +350,6 @@ class Message(object):
             "text": {"preview_url": preview_url, "body": self.content},
         }
         logging.info(f"Sending message to {self.to}")
-        print(url)
         r = requests.post(url, headers=self.headers, json=data)
         if r.status_code == 200:
             logging.info(f"Message sent to {self.to}")

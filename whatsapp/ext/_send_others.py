@@ -20,14 +20,10 @@ def send_custom_json(self, data: dict, recipient_id: str = "", sender= None):
     """
     try:
         sender = dict(self.l)[sender]
-        print(self.l)
-        print(sender)
         
         
-        print(12)
 
     except:
-        print(22)
         sender = self.phone_number_id
         
     if sender == None:
@@ -86,14 +82,10 @@ def send_contacts(
     """
     try:
         sender = dict(self.l)[sender]
-        print(self.l)
-        print(sender)
+    
         
-        
-        print(12)
 
     except:
-        print(22)
         sender = self.phone_number_id
         
     if sender == None:

@@ -20,14 +20,10 @@ def send_location(self, lat: str, long: str, name: str, address: str, recipient_
     """
     try:
         sender = dict(self.instance.l)[sender]
-        print(self.instance.l)
-        print(sender)
         
         
-        print(12)
 
     except:
-        print(22)
         sender = self.instance.phone_number_id
         
     if sender == None:
@@ -86,14 +82,10 @@ def send_image(
     """
     try:
         sender = dict(self.l)[sender]
-        print(self.l)
-        print(sender)
         
         
-        print(12)
 
     except:
-        print(22)
         sender = self.phone_number_id
         
     if sender == None:
@@ -148,14 +140,10 @@ def send_sticker(self, sticker: str, recipient_id: str, recipient_type: str = "i
     """
     try:
         sender = dict(self.l)[sender]
-        print(self.l)
-        print(sender)
         
         
-        print(12)
 
     except:
-        print(22)
         sender = self.phone_number_id
         
     if sender == None:
@@ -206,14 +194,10 @@ def send_audio(self, audio: str, recipient_id: str, link: bool = True, sender = 
     """
     try:
         sender = dict(self.l)[sender]
-        print(self.l)
-        print(sender)
         
         
-        print(12)
 
     except:
-        print(22)
         sender = self.phone_number_id
         
     if sender == None:
@@ -265,14 +249,10 @@ def send_video(
     """
     try:
         sender = dict(self.l)[sender]
-        print(self.l)
-        print(sender)
         
         
-        print(12)
 
     except:
-        print(22)
         sender = self.phone_number_id
         
     if sender == None:
@@ -324,14 +304,10 @@ def send_document(
     """
     try:
         sender = dict(self.l)[sender]
-        print(self.l)
-        print(sender)
         
         
-        print(12)
 
     except:
-        print(22)
         sender = self.phone_number_id
         
     if sender == None:
