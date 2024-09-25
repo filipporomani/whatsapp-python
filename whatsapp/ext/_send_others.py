@@ -3,7 +3,7 @@ import requests
 import logging
 
 
-def send_custom_json(self, data: dict, recipient_id: str = "", sender= None):
+def send_custom_json(self, data: dict, recipient_id: str = "", sender=None):
     """
     Sends a custom json to a WhatsApp user. This can be used to send custom objects to the message endpoint.
 
@@ -20,12 +20,10 @@ def send_custom_json(self, data: dict, recipient_id: str = "", sender= None):
     """
     try:
         sender = dict(self.l)[sender]
-        
-        
 
     except:
         sender = self.phone_number_id
-        
+
     if sender == None:
         sender = self.phone_number_id
 
@@ -35,7 +33,8 @@ def send_custom_json(self, data: dict, recipient_id: str = "", sender= None):
         if "to" in data.keys():
             data_recipient_id = data["to"]
             logging.info(
-                f"Recipient Id is defined in data ({data_recipient_id}) and recipient_id parameter ({recipient_id})")
+                f"Recipient Id is defined in data ({data_recipient_id}) and recipient_id parameter ({recipient_id})"
+            )
         else:
             data["to"] = recipient_id
 
@@ -82,12 +81,10 @@ def send_contacts(
     """
     try:
         sender = dict(self.l)[sender]
-    
-        
 
     except:
         sender = self.phone_number_id
-        
+
     if sender == None:
         sender = self.phone_number_id
 
