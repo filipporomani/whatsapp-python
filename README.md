@@ -71,7 +71,7 @@ Whereas using third-party providers of the WhatsApp API can result in monthly fe
 All the prices are available in the [**WhatsApp API docs**](https://developers.facebook.com/docs/whatsapp/pricing).
 
 > [!TIP]  
-> One recommendation I can give you is to use a test number (you can get a free phone number and use it for testing purposes only).
+> I recomend to use a test number, as you you can get a free one and use it for testing purposes.
 
 ## Migrating from `Neurotech-HQ/heyoo`
 
