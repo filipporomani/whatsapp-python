@@ -58,12 +58,13 @@ class WhatsApp(object):
                     version_int = int(self.VERSION.replace(".", ""))
                 except:
                     version_int = 0
-                latest_int = int(latest.replace(".", ""))
+                try: latest_int = int(latest.replace(".", ""))
+                except: latest_int = 0
                 # this is to avoid the case where the version is 1.0.10 and the latest is 1.0.2 (possible if user is using the github version)
                 if version_int < latest_int:
                     if version_int == 0:
                         logging.critical(
-                            f"There was an error while checking for updates, please update the package manually or report the issue on GitHub.")
+                            f"There was an error while checking for updates, please check for updates manually. This may be due to the version being a post-release version (e.g. 1.0.0.post1) or a pre-release version (e.g. 1.0.0a1). READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED.")
                     else:
                         logging.critical(
                             f"Whatsapp-python is out of date. Please update to the latest version {latest}. READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED.")
