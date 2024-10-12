@@ -19,15 +19,15 @@ def send_location(self, lat: str, long: str, name: str, address: str, recipient_
         >>> whatsapp.send_location("-23.564", "-46.654", "My Location", "Rua dois, 123", "5511999999999")
     """
     try:
-        sender = dict(self.instance.l)[sender]
+        sender = dict(self.l)[sender]
         
         
 
     except:
-        sender = self.instance.phone_number_id
+        sender = self.phone_number_id
         
     if sender == None:
-        sender = self.instance.phone_number_id
+        sender = self.phone_number_id
 
     url = f"https://graph.facebook.com/v18.0/{sender}/messages"
     data = {
