@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import requests
 import logging
+from bs4 import BeautifulSoup
 from fastapi import FastAPI, HTTPException, Request
 from uvicorn import run as _run
 from .constants import VERSION
@@ -17,9 +18,8 @@ from .ext._buttons import send_button, create_button, send_reply_button
 from .ext._static import is_message, get_mobile, get_author, get_name, get_message, get_message_id, get_message_type, get_message_timestamp, get_audio, get_delivery, get_document, get_image, get_sticker, get_interactive_response, get_location, get_video, changed_field
 import json
 
-
 class WhatsApp(object):
-    def __init__(self, token: str = "", phone_number_id: dict = "", logger: bool = True, update_check: bool = True, verify_token: str = "", debug: bool = True):
+    def __init__(self, token: str = "", phone_number_id: dict = "", logger: bool = True, update_check: bool = True, verify_token: str = "", debug: bool = True, version: str = "latest"):
         """
         Initialize the WhatsApp Object
 
@@ -51,7 +51,27 @@ class WhatsApp(object):
             pass
 
         self.VERSION = VERSION #package version
-        self.LATEST = "21.0" #latest version of the API
+        r = requests.get("https://developers.facebook.com/docs/graph-api/changelog/").text
+        
+        ## dynamically get the latest version of the API
+        if version == "latest":
+            soup = BeautifulSoup(r, features="html.parser")
+            t1 =  soup.findAll("table")
+            def makeversion(table):
+                result = []
+                allrows = table.findAll('tr')
+                for row in allrows:
+                    result.append([])
+                    allcols = row.findAll('td')
+                    for col in allcols:
+                        thestrings = [(s) for s in col.findAll(text=True)]
+                        thetext = ''.join(thestrings)
+                        result[-1].append(thetext)
+                return result[0][1]
+            self.LATEST = makeversion(t1[0]) # latest version of the API
+        else:
+            self.LATEST = version
+
         if update_check is True:
             latest = str(requests.get(
                 "https://pypi.org/pypi/whatsapp-python/json").json()["info"]["version"])

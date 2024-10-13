@@ -31,7 +31,7 @@ classifiers=[
 dynamic = [
   "version"
 ]
-dependencies = ["fastapi", "uvicorn", "requests_toolbelt", "requests", "python-dotenv"]
+dependencies = ["fastapi", "uvicorn", "requests_toolbelt", "requests", "python-dotenv", "BeautifulSoup4"]
 
 [project.urls]
 Homepage = "https://github.com/filipporomani/whatsapp-python"
