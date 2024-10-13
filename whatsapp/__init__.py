@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import requests
 import logging
-from typing import Union
 from fastapi import FastAPI, HTTPException, Request
 from uvicorn import run as _run
 from .constants import VERSION
@@ -20,7 +19,7 @@ import json
 
 
 class WhatsApp(object):
-    def __init__(self, token: str = "", phone_number_id: Union[str, dict] = "", logger: bool = True, update_check: bool = True, verify_token: str = "", debug: bool = True):
+    def __init__(self, token: str = "", phone_number_id: dict = "", logger: bool = True, update_check: bool = True, verify_token: str = "", debug: bool = True):
         """
         Initialize the WhatsApp Object
 
@@ -45,7 +44,9 @@ class WhatsApp(object):
                 "Phone number ID not provided but required")
         elif isinstance(phone_number_id, str):
             logging.critical(
-                "The phone number ID should be a dictionary of phone numbers and their IDs. Using strings is deprecated and will be removed in the next version.")
+                "The phone number ID should be a dictionary of phone numbers and their IDs. Using strings is deprecated.")
+            raise ValueError(
+                "Phone number ID should be a dictionary of phone numbers and their IDs")
         else:
             pass
 
