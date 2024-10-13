@@ -49,7 +49,8 @@ class WhatsApp(object):
         else:
             pass
 
-        self.VERSION = VERSION
+        self.VERSION = VERSION #package version
+        self.LATEST = "21.0" #latest version of the API
         if update_check is True:
             latest = str(requests.get(
                 "https://pypi.org/pypi/whatsapp-python/json").json()["info"]["version"])
@@ -78,7 +79,7 @@ class WhatsApp(object):
                 "Phone number ID not provided but required")
         self.token = token
         self.phone_number_id = phone_number_id
-        self.base_url = "https://graph.facebook.com/v18.0"
+        self.base_url = "https://graph.facebook.com/v{self.LATEST}"
         self.url = f"{self.base_url}/{phone_number_id}/messages"
         self.verify_token = verify_token
 
@@ -340,7 +341,7 @@ class Message(object):
         if sender == None:
             sender = self.instance.phone_number_id
 
-        url = f"https://graph.facebook.com/v18.0/{sender}/messages"
+        url = f"https://graph.facebook.com/v{self.instance.LATEST}/{sender}/messages"
         data = {
             "messaging_product": "whatsapp",
             "recipient_type": self.rec,

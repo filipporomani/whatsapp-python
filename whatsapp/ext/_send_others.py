@@ -27,7 +27,7 @@ def send_custom_json(self, data: dict, recipient_id: str = "", sender=None):
     if sender == None:
         sender = self.phone_number_id
 
-    url = f"https://graph.facebook.com/v18.0/{sender}/messages"
+    url = f"https://graph.facebook.com/v{self.LATEST}/{sender}/messages"
 
     if recipient_id:
         if "to" in data.keys():
@@ -88,7 +88,7 @@ def send_contacts(
     if sender == None:
         sender = self.phone_number_id
 
-    url = f"https://graph.facebook.com/v18.0/{sender}/messages"
+    url = f"https://graph.facebook.com/v{self.LATEST}/{sender}/messages"
 
     data = {
         "messaging_product": "whatsapp",
