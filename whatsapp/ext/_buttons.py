@@ -22,7 +22,7 @@ def create_button(self, button: Dict[Any, Any]) -> Dict[Any, Any]:
     return data
 
 
-def send_button(self, button: Dict[Any, Any], recipient_id: str) -> Dict[Any, Any]:
+def send_button(self, button: Dict[Any, Any], recipient_id: str, sender=None) -> Dict[Any, Any]:
     """
     Sends an interactive buttons message to a WhatsApp user
 
@@ -32,6 +32,16 @@ def send_button(self, button: Dict[Any, Any], recipient_id: str) -> Dict[Any, An
 
     check https://github.com/Neurotech-HQ/whatsapp#sending-interactive-reply-buttons for an example.
     """
+    try:
+        sender = dict(self.l)[sender]
+
+    except:
+        sender = self.phone_number_id
+
+    if sender == None:
+        sender = self.phone_number_id
+
+    url = f"https://graph.facebook.com/v{self.LATEST}/{sender}/messages"
     data = {
         "messaging_product": "whatsapp",
         "to": recipient_id,
@@ -39,7 +49,7 @@ def send_button(self, button: Dict[Any, Any], recipient_id: str) -> Dict[Any, An
         "interactive": self.create_button(button),
     }
     logging.info(f"Sending buttons to {recipient_id}")
-    r = requests.post(self.url, headers=self.headers, json=data)
+    r = requests.post(url, headers=self.headers, json=data)
     if r.status_code == 200:
         logging.info(f"Buttons sent to {recipient_id}")
         return r.json()

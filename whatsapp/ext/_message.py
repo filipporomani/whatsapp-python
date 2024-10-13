@@ -5,7 +5,7 @@ import requests
 def react(self, emoji: str) -> dict:
     data = {
         "messaging_product": "whatsapp",
-        "recipient_type":"individual",
+        "recipient_type": "individual",
         "to": self.sender,
         "type": "reaction",
         "reaction": {"message_id": self.id, "emoji": emoji},
@@ -21,7 +21,7 @@ def react(self, emoji: str) -> dict:
     return r.json()
 
 
-def send_template(self, template: str, recipient_id: str, components: str, lang: str = "en_US") -> dict:
+def send_template(self, template: str, recipient_id: str, components: str = None, lang: str = "en_US", sender = None) -> dict:
     """
     Sends a template message to a WhatsApp user, Template messages can either be;
         1. Text template
@@ -40,6 +40,16 @@ def send_template(self, template: str, recipient_id: str, components: str, lang:
         >>> whatsapp = WhatsApp(token, phone_number_id)
         >>> whatsapp.send_template("hello_world", "5511999999999", lang="en_US"))
     """
+    try:
+        sender = dict(self.l)[sender]
+
+    except:
+        sender = self.phone_number_id
+
+    if sender == None:
+        sender = self.phone_number_id
+
+    url = f"https://graph.facebook.com/v{self.LATEST}/{sender}/messages"
     data = {
         "messaging_product": "whatsapp",
         "to": recipient_id,
@@ -51,7 +61,7 @@ def send_template(self, template: str, recipient_id: str, components: str, lang:
         },
     }
     logging.info(f"Sending template to {recipient_id}")
-    r = requests.post(self.url, headers=self.headers, json=data)
+    r = requests.post(url, headers=self.headers, json=data)
     if r.status_code == 200:
         logging.info(f"Template sent to {recipient_id}")
         return r.json()

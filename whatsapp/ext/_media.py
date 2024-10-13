@@ -6,7 +6,7 @@ from requests_toolbelt.multipart.encoder import MultipartEncoder
 from typing import Union, Dict, Any
 
 
-def upload_media(self, media: str) -> Union[Dict[Any, Any], None]:
+def upload_media(self, media: str, sender=None) -> Union[Dict[Any, Any], None]:
     """
     Uploads a media to the cloud api and returns the id of the media
 
@@ -20,6 +20,16 @@ def upload_media(self, media: str) -> Union[Dict[Any, Any], None]:
 
     REFERENCE: https://developers.facebook.com/docs/whatsapp/cloud-api/reference/media#
     """
+    try:
+        sender = dict(self.l)[sender]
+
+    except:
+        sender = self.phone_number_id
+
+    if sender == None:
+        sender = self.phone_number_id
+
+    url = f"https://graph.facebook.com/v{self.LATEST}/{sender}/media"
     form_data = {
         "file": (
             media,
@@ -35,7 +45,7 @@ def upload_media(self, media: str) -> Union[Dict[Any, Any], None]:
     logging.info(f"Content-Type: {form_data.content_type}")
     logging.info(f"Uploading media {media}")
     r = requests.post(
-        f"{self.base_url}/{self.phone_number_id}/media",
+        url=url,
         headers=headers,
         data=form_data,
     )

@@ -285,8 +285,7 @@ def send_video(
 
 
 def send_document(
-    self, document: str, recipient_id: str, caption: str = "", link: bool = True
-) -> dict:
+    self, document: str, recipient_id: str, caption: str = "", link: bool = True, sender = None) -> dict:
     """ "
     Sends a document message to a WhatsApp user
     Document messages can either be sent by passing the document id or by passing the document link.
