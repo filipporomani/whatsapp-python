@@ -49,7 +49,7 @@ def send_template(self, template: str, recipient_id: str, components: str = None
     if sender == None:
         sender = self.phone_number_id
 
-    url = f"https://graph.facebook.com/v{self.LATEST}/{sender}/messages"
+    url = f"https://graph.facebook.com/{self.instance.LATEST}/{sender}/messages"
     data = {
         "messaging_product": "whatsapp",
         "to": recipient_id,
@@ -114,7 +114,7 @@ def mark_as_read(self) -> dict:
 
 
 def send(self, preview_url: bool = True) -> dict:
-    url = f"https://graph.facebook.com/v{self.LATEST}/{self.sender}/messages"
+    url = f"https://graph.facebook.com/{self.LATEST}/{self.sender}/messages"
     data = {
         "messaging_product": "whatsapp",
         "recipient_type": self.rec,
@@ -123,11 +123,11 @@ def send(self, preview_url: bool = True) -> dict:
         "text": {"preview_url": preview_url, "body": self.content},
     }
     logging.info(f"Sending message to {self.to}")
-    r = requests.post(f"{url}", headers=self.headers, json=data)
+    r = requests.post(url, headers=self.headers, json=data)
     if r.status_code == 200:
         logging.info(f"Message sent to {self.to}")
         return r.json()
     logging.info(f"Message not sent to {self.to}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(f"Response: {r.json()}")
+    logging.error(f"Response fddfscsad: {r.json()}")
     return r.json()

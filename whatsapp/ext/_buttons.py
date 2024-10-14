@@ -41,7 +41,7 @@ def send_button(self, button: Dict[Any, Any], recipient_id: str, sender=None) ->
     if sender == None:
         sender = self.phone_number_id
 
-    url = f"https://graph.facebook.com/v{self.LATEST}/{sender}/messages"
+    url = f"https://graph.facebook.com/{self.instance.LATEST}/{sender}/messages"
     data = {
         "messaging_product": "whatsapp",
         "to": recipient_id,
@@ -60,7 +60,7 @@ def send_button(self, button: Dict[Any, Any], recipient_id: str, sender=None) ->
 
 
 def send_reply_button(
-    self, button: Dict[Any, Any], recipient_id: str
+    self, button: Dict[Any, Any], recipient_id: str, sender=None
 ) -> Dict[Any, Any]:
     """
     Sends an interactive reply buttons[menu] message to a WhatsApp user
@@ -72,6 +72,16 @@ def send_reply_button(
     Note:
         The maximum number of buttons is 3, more than 3 buttons will rise an error.
     """
+    try:
+        sender = dict(self.l)[sender]
+
+    except:
+        sender = self.phone_number_id
+
+    if sender == None:
+        sender = self.phone_number_id
+
+    url = f"https://graph.facebook.com/{self.instance.LATEST}/{sender}/messages"
     if len(button["action"]["buttons"]) > 3:
         raise ValueError("The maximum number of buttons is 3.")
 
@@ -82,7 +92,7 @@ def send_reply_button(
         "type": "interactive",
         "interactive": button,
     }
-    r = requests.post(self.url, headers=self.headers, json=data)
+    r = requests.post(url, headers=self.headers, json=data)
     if r.status_code == 200:
         logging.info(f"Reply buttons sent to {recipient_id}")
         return r.json()

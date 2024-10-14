@@ -103,7 +103,7 @@ class WhatsApp(object):
                 "Phone number ID not provided but required")
         self.token = token
         self.phone_number_id = phone_number_id
-        self.base_url = "https://graph.facebook.com/v{self.LATEST}"
+        self.base_url = f"https://graph.facebook.com/{self.LATEST}"
         self.url = f"{self.base_url}/{phone_number_id}/messages"
         self.verify_token = verify_token
 
@@ -362,7 +362,7 @@ class Message(object):
         if sender == None:
             sender = self.instance.phone_number_id
 
-        url = f"https://graph.facebook.com/v{self.instance.LATEST}/{sender}/messages"
+        url = f"https://graph.facebook.com/{self.instance.LATEST}/{sender}/messages"
         data = {
             "messaging_product": "whatsapp",
             "recipient_type": self.rec,

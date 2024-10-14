@@ -29,7 +29,7 @@ def send_location(self, lat: str, long: str, name: str, address: str, recipient_
     if sender == None:
         sender = self.phone_number_id
 
-    url = f"https://graph.facebook.com/v{self.LATEST}/{sender}/messages"
+    url = f"https://graph.facebook.com/{self.instance.LATEST}/{sender}/messages"
     data = {
         "messaging_product": "whatsapp",
         "to": recipient_id,
@@ -91,7 +91,7 @@ def send_image(
     if sender == None:
         sender = self.phone_number_id
 
-    url = f"https://graph.facebook.com/v{self.LATEST}/{sender}/messages"
+    url = f"https://graph.facebook.com/{self.instance.LATEST}/{sender}/messages"
     if link:
         data = {
             "messaging_product": "whatsapp",
@@ -149,7 +149,7 @@ def send_sticker(self, sticker: str, recipient_id: str, recipient_type: str = "i
     if sender == None:
         sender = self.phone_number_id
 
-    url = f"https://graph.facebook.com/v{self.LATEST}/{sender}/messages"
+    url = f"https://graph.facebook.com/{self.instance.LATEST}/{sender}/messages"
     if link:
         data = {
             "messaging_product": "whatsapp",
@@ -203,7 +203,7 @@ def send_audio(self, audio: str, recipient_id: str, link: bool = True, sender = 
     if sender == None:
         sender = self.phone_number_id
 
-    url = f"https://graph.facebook.com/v{self.LATEST}/{sender}/messages"
+    url = f"https://graph.facebook.com/{self.instance.LATEST}/{sender}/messages"
     if link:
         data = {
             "messaging_product": "whatsapp",
@@ -258,7 +258,7 @@ def send_video(
     if sender == None:
         sender = self.phone_number_id
 
-    url = f"https://graph.facebook.com/v{self.LATEST}/{sender}/messages"
+    url = f"https://graph.facebook.com/{self.instance.LATEST}/{sender}/messages"
     if link:
         data = {
             "messaging_product": "whatsapp",
@@ -312,7 +312,7 @@ def send_document(
     if sender == None:
         sender = self.phone_number_id
 
-    url = f"https://graph.facebook.com/v{self.LATEST}/{sender}/messages"
+    url = f"https://graph.facebook.com/{self.instance.LATEST}/{sender}/messages"
     if link:
         data = {
             "messaging_product": "whatsapp",

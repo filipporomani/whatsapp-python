@@ -29,7 +29,7 @@ def upload_media(self, media: str, sender=None) -> Union[Dict[Any, Any], None]:
     if sender == None:
         sender = self.phone_number_id
 
-    url = f"https://graph.facebook.com/v{self.LATEST}/{sender}/media"
+    url = f"https://graph.facebook.com/{self.instance.LATEST}/{sender}/media"
     form_data = {
         "file": (
             media,
