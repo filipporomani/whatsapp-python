@@ -18,7 +18,7 @@ permissions:
 jobs:
   deployment:
 
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     environment: publish
     steps:
     - uses: actions/checkout@v4
