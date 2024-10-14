@@ -14,7 +14,7 @@ To install the library you can either use pip (latest release version):
 
 ``pip install whatsapp-python``
 
-You can also install the development GitHub version (always up to date):
+You can also install the development GitHub version (always up to date, with the latest features and bug fixes):
 
 ```bash
 git clone https://github.com/filipporomani/whatsapp.git
@@ -31,15 +31,16 @@ pip install hatch
 hatch shell
 ```
 
-Documentation is available in the [wiki section](https://github.com/filipporomani/whatsapp/wiki) on GitHub.
+Documentation is available in the [wiki](https://github.com/filipporomani/whatsapp/wiki) here on GitHub.
 
 ## Why choose this library?
 
-The main reason why I decided to fork the original library is that it uses an old version of the API, it's missing many useful features and it's almost not mantained anymore.
+The main reason why I decided to fork the original library is that it uses an old version of the API, it's missing many and it's not mantained anymore.
 
 In this fork I added app events (to listen to incoming messages) and implemented an easier way to send/receive messages and media by using the `Message` object.
+The API version is always up to date and I'm always adding new features and fixing bugs.
 
-I fixed some bugs and added many features, however the library still needs a lot of work to be done even if it's working and usable.
+I fixed some bugs and added many features, however the library can still be improved.
 
 ### Supported features:
 
@@ -47,12 +48,14 @@ I fixed some bugs and added many features, however the library still needs a lot
 - Sending messages
 - Sending messages from different numbers individually
 - Marking messages as read
+- Replying to messages
 - Reacting to messages
 - Sending Media (images, audio, video and documents)
 - Sending location
 - Sending interactive buttons
 - Sending template messages
 - Parsing messages and media received
+- Sending contacts
 
 ## Obtaining the WhatsApp API credentials
 
@@ -66,7 +69,9 @@ To use the WhatsApp API you need to create a Facebook Business account and a Wha
 Whereas using third-party providers of the WhatsApp API can result in monthly fees, using the WhatsApp API[^1] offered directly by Facebook is much cheaper, even if the billing documentation is quite difficult to understand.
 
 > [!CAUTION]  
-> It is now mandatory to add a credit card to the WhatsApp account (at least for me) in order to use the service. I was even charged a fee for using a non-test phone number (~€1.20), so be careful when using the API! I'm not responsible for any costs you may face by using the API.
+> It is now mandatory to add a credit card to the WhatsApp account (at least for me) in order to use the service. I was even charged a tiny fee for using a non-test phone number (~€1.20), so be careful when using the API! I'm not responsible for any costs you may face by using the API.
+>
+> The API should be, however, free for testing purposes with the provided test phone number.
 
 All the prices are available in the [**WhatsApp API docs**](https://developers.facebook.com/docs/whatsapp/pricing).
 
@@ -91,6 +96,6 @@ For versions GREATER THAN 1.1.2, messages have became objects, so you need to ch
 
 If you are facing any issues or have any questions, please [open a new issue](https://github.com/filipporomani/whatsapp/issues/new/choose)!
 
-*This is an open source project published under the [MIT License](LICENSE).*
+*This is an open source project published under the [GNU Affero General Public License v3](LICENSE).*
 
 [^1]: https://developers.facebook.com/docs/whatsapp/cloud-api
