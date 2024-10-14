@@ -2,7 +2,6 @@
 Unofficial Python wrapper for the WhatsApp Cloud API.
 """
 from __future__ import annotations
-
 import requests
 import logging
 from bs4 import BeautifulSoup
@@ -17,6 +16,7 @@ from .ext._media import upload_media, query_media_url, download_media, delete_me
 from .ext._buttons import send_button, create_button, send_reply_button
 from .ext._static import is_message, get_mobile, get_author, get_name, get_message, get_message_id, get_message_type, get_message_timestamp, get_audio, get_delivery, get_document, get_image, get_sticker, get_interactive_response, get_location, get_video, changed_field
 import json
+
 
 class WhatsApp(object):
     def __init__(self, token: str = "", phone_number_id: dict = "", logger: bool = True, update_check: bool = True, verify_token: str = "", debug: bool = True, version: str = "latest"):
@@ -50,13 +50,14 @@ class WhatsApp(object):
         else:
             pass
 
-        self.VERSION = VERSION #package version
+        self.VERSION = VERSION  # package version
         r = requests.get("https://developers.facebook.com/docs/graph-api/changelog/").text
-        
-        ## dynamically get the latest version of the API
+
+        # dynamically get the latest version of the API
         if version == "latest":
             soup = BeautifulSoup(r, features="html.parser")
-            t1 =  soup.findAll("table")
+            t1 = soup.findAll("table")
+
             def makeversion(table):
                 result = []
                 allrows = table.findAll('tr')
@@ -68,7 +69,7 @@ class WhatsApp(object):
                         thetext = ''.join(thestrings)
                         result[-1].append(thetext)
                 return result[0][1]
-            self.LATEST = makeversion(t1[0]) # latest version of the API
+            self.LATEST = makeversion(t1[0])  # latest version of the API
         else:
             self.LATEST = version
 
@@ -80,8 +81,10 @@ class WhatsApp(object):
                     version_int = int(self.VERSION.replace(".", ""))
                 except:
                     version_int = 0
-                try: latest_int = int(latest.replace(".", ""))
-                except: latest_int = 0
+                try:
+                    latest_int = int(latest.replace(".", ""))
+                except:
+                    latest_int = 0
                 # this is to avoid the case where the version is 1.0.10 and the latest is 1.0.2 (possible if user is using the github version)
                 if version_int < latest_int:
                     if version_int == 0:
@@ -251,7 +254,6 @@ class Message(object):
         self.instance = instance
         self.url = self.instance.url
         self.headers = self.instance.headers
-        
 
         try:
             self.id = instance.get_message_id(data)
@@ -333,7 +335,7 @@ class Message(object):
         return r.json()
 
     def mark_as_read(self) -> dict:
-        
+
         payload = {
             "messaging_product": "whatsapp",
             "status": "read",
@@ -349,16 +351,14 @@ class Message(object):
             logging.error(response.json())
             return response.json()
 
-    def send(self,sender = None, preview_url: bool = True) -> dict:
-        
+    def send(self, sender=None, preview_url: bool = True) -> dict:
+
         try:
             sender = dict(self.instance.l)[sender]
-            
-            
 
         except:
             sender = self.instance.phone_number_id
-            
+
         if sender == None:
             sender = self.instance.phone_number_id
 
