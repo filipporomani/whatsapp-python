@@ -49,7 +49,7 @@ def send_template(self, template: str, recipient_id: str, components: str = None
     if sender == None:
         sender = self.phone_number_id
 
-    url = f"https://graph.facebook.com/{self.instance.LATEST}/{sender}/messages"
+    url = f"https://graph.facebook.com/{self.LATEST}/{sender}/messages"
     data = {
         "messaging_product": "whatsapp",
         "to": recipient_id,

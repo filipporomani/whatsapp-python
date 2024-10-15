@@ -41,7 +41,7 @@ def send_button(self, button: Dict[Any, Any], recipient_id: str, sender=None) ->
     if sender == None:
         sender = self.phone_number_id
 
-    url = f"https://graph.facebook.com/{self.instance.LATEST}/{sender}/messages"
+    url = f"https://graph.facebook.com/{self.LATEST}/{sender}/messages"
     data = {
         "messaging_product": "whatsapp",
         "to": recipient_id,
@@ -81,7 +81,7 @@ def send_reply_button(
     if sender == None:
         sender = self.phone_number_id
 
-    url = f"https://graph.facebook.com/{self.instance.LATEST}/{sender}/messages"
+    url = f"https://graph.facebook.com/{self.LATEST}/{sender}/messages"
     if len(button["action"]["buttons"]) > 3:
         raise ValueError("The maximum number of buttons is 3.")
 
