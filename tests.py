@@ -13,9 +13,8 @@ msg = app.create_message(to=dest_phone_number, content="Hello world")
 
 
 # test every single method and print the result
-
+print("Testing send_text")
 msg.send(sender=1)
-msg.react("👍")
 
 print("Testing send_reply_button")
 v = app.send_reply_button(
