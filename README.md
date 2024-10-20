@@ -35,7 +35,7 @@ Documentation is available in the [wiki](https://github.com/filipporomani/whatsa
 
 ## Why choose this library?
 
-The main reason why I decided to fork the original library is that it uses an old version of the API, it's missing many and it's not mantained anymore.
+The main reason why I decided to fork the original `heyoo` library is that it uses an old version of the API, it's missing many and it's not mantained anymore.
 
 In this fork I added app events (to listen to incoming messages) and implemented an easier way to send/receive messages and media by using the `Message` object.
 The API version is always up to date and I'm always adding new features and fixing bugs.
