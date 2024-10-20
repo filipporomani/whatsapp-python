@@ -29,7 +29,6 @@ def upload_media(self, media: str, sender=None) -> Union[Dict[Any, Any], None]:
     if sender == None:
         sender = self.phone_number_id
 
-    url = f"https://graph.facebook.com/{self.instance.LATEST}/{sender}/media"
     form_data = {
         "file": (
             media,
@@ -45,16 +44,16 @@ def upload_media(self, media: str, sender=None) -> Union[Dict[Any, Any], None]:
     logging.info(f"Content-Type: {form_data.content_type}")
     logging.info(f"Uploading media {media}")
     r = requests.post(
-        url=url,
+        f"{self.base_url}/{sender}/media",
         headers=headers,
         data=form_data,
-    )
+        )
     if r.status_code == 200:
         logging.info(f"Media {media} uploaded")
         return r.json()
     logging.info(f"Error uploading media {media}")
     logging.info(f"Status code: {r.status_code}")
-    logging.debug(f"Response: {r.json()}")
+    logging.info(f"Response: {r.json()}")
     return None
 
 
