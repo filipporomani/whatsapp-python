@@ -19,6 +19,8 @@ def create_button(self, button: Dict[Any, Any]) -> Dict[Any, Any]:
         data["body"] = {"text": button.get("body")}
     if button.get("footer"):
         data["footer"] = {"text": button.get("footer")}
+    if button.get("type"):
+        data["type"] = button.get("type")
     return data
 
 
