@@ -53,7 +53,7 @@ def upload_media(self, media: str, sender=None) -> Union[Dict[Any, Any], None]:
         return r.json()
     logging.info(f"Error uploading media {media}")
     logging.info(f"Status code: {r.status_code}")
-    logging.info(f"Response: {r.json()}")
+    logging.debug(f"Response: {r.json()}")  # Changed to debug level
     return None
 
 
@@ -72,7 +72,7 @@ def delete_media(self, media_id: str) -> Union[Dict[Any, Any], None]:
         return r.json()
     logging.info(f"Error deleting media {media_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.info(f"Response: {r.json()}")
+    logging.debug(f"Response: {r.json()}")  # Changed to debug level
     return None
 
 
@@ -99,7 +99,7 @@ def query_media_url(self, media_id: str) -> Union[str, None]:
         return r.json()["url"]
     logging.info(f"Media url not queried for {media_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.info(f"Response: {r.json()}")
+    logging.debug(f"Response: {r.json()}")  # Changed to debug level
     return None
 
 
