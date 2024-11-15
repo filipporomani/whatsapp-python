@@ -5,6 +5,7 @@ from __future__ import annotations
 import requests
 import logging
 import json
+import asyncio
 import aiohttp
 from bs4 import BeautifulSoup
 from fastapi import FastAPI, HTTPException, Request
@@ -17,6 +18,15 @@ from .ext._send_media import send_image, send_video, send_audio, send_location, 
 from .ext._media import upload_media, query_media_url, download_media, delete_media
 from .ext._buttons import send_button, create_button, send_reply_button
 from .ext._static import is_message, get_mobile, get_author, get_name, get_message, get_message_id, get_message_type, get_message_timestamp, get_audio, get_delivery, get_document, get_image, get_sticker, get_interactive_response, get_location, get_video, changed_field
+
+from .async_ext._property import authorized as async_authorized
+from .async_ext._send_others import send_custom_json as async_send_custom_json, send_contacts as async_send_contacts
+from .async_ext._message import send_template as async_send_template
+from .async_ext._send_media import send_image as async_send_image, send_video as async_send_video, send_audio as async_send_audio, send_location as async_send_location, send_sticker as async_send_sticker, send_document as async_send_document
+from .async_ext._media import upload_media as async_upload_media, query_media_url as async_query_media_url, download_media as async_download_media, delete_media as async_delete_media
+from .async_ext._buttons import send_button as async_send_button, create_button as async_create_button, send_reply_button as async_send_reply_button
+from .async_ext._static import is_message as async_is_message, get_mobile as async_get_mobile, get_author as async_get_author, get_name as async_get_name, get_message as async_get_message, get_message_id as async_get_message_id, get_message_type as async_get_message_type, get_message_timestamp as async_get_message_timestamp, get_audio as async_get_audio, get_delivery as async_get_delivery, get_document as async_get_document, get_image as async_get_image, get_sticker as async_get_sticker, get_interactive_response as async_get_interactive_response, get_location as async_get_location, get_video as async_get_video, changed_field as async_changed_field
+
 
 class WhatsApp(object):
     def __init__(self, token: str = "", phone_number_id: dict = "", logger: bool = True, update_check: bool = True, verify_token: str = "", debug: bool = True, version: str = "latest"):
@@ -168,44 +178,42 @@ class WhatsApp(object):
 
     # all the files starting with _ are imported here, and should not be imported directly.
 
-    def import_all():
-        is_message = staticmethod(is_message)
-        get_mobile = staticmethod(get_mobile)
-        get_name = staticmethod(get_name)
-        get_message = staticmethod(get_message)
-        get_message_id = staticmethod(get_message_id)
-        get_message_type = staticmethod(get_message_type)
-        get_message_timestamp = staticmethod(get_message_timestamp)
-        get_audio = staticmethod(get_audio)
-        get_delivery = staticmethod(get_delivery)
-        get_document = staticmethod(get_document)
-        get_image = staticmethod(get_image)
-        get_sticker = staticmethod(get_sticker)
-        get_interactive_response = staticmethod(get_interactive_response)
-        get_location = staticmethod(get_location)
-        get_video = staticmethod(get_video)
-        changed_field = staticmethod(changed_field)
-        get_author = staticmethod(get_author)
+    is_message = staticmethod(is_message)
+    get_mobile = staticmethod(get_mobile)
+    get_name = staticmethod(get_name)
+    get_message = staticmethod(get_message)
+    get_message_id = staticmethod(get_message_id)
+    get_message_type = staticmethod(get_message_type)
+    get_message_timestamp = staticmethod(get_message_timestamp)
+    get_audio = staticmethod(get_audio)
+    get_delivery = staticmethod(get_delivery)
+    get_document = staticmethod(get_document)
+    get_image = staticmethod(get_image)
+    get_sticker = staticmethod(get_sticker)
+    get_interactive_response = staticmethod(get_interactive_response)
+    get_location = staticmethod(get_location)
+    get_video = staticmethod(get_video)
+    changed_field = staticmethod(changed_field)
+    get_author = staticmethod(get_author)
 
-        send_button = send_button
-        create_button = create_button
-        send_reply_button = send_reply_button
-        send_image = send_image
-        send_video = send_video
-        send_audio = send_audio
-        send_location = send_location
-        send_sticker = send_sticker
-        send_document = send_document
-        upload_media = upload_media
-        query_media_url = query_media_url
-        download_media = download_media
-        delete_media = delete_media
-        send_template = send_template
-        send_custom_json = send_custom_json
-        send_contacts = send_contacts
-        authorized = property(authorized)
+    send_button = send_button
+    create_button = create_button
+    send_reply_button = send_reply_button
+    send_image = send_image
+    send_video = send_video
+    send_audio = send_audio
+    send_location = send_location
+    send_sticker = send_sticker
+    send_document = send_document
+    upload_media = upload_media
+    query_media_url = query_media_url
+    download_media = download_media
+    delete_media = delete_media
+    send_template = send_template
+    send_custom_json = send_custom_json
+    send_contacts = send_contacts
+    authorized = property(authorized)
 
-    import_all()
     
     def create_message(self, **kwargs) -> Message:
         """
@@ -400,46 +408,45 @@ class AsyncWhatsApp(WhatsApp):
 
     # all the files starting with _ are imported here, and should not be imported directly.
 
-    def import_all():
-        is_message = staticmethod(is_message)
-        get_mobile = staticmethod(get_mobile)
-        get_name = staticmethod(get_name)
-        get_message = staticmethod(get_message)
-        get_message_id = staticmethod(get_message_id)
-        get_message_type = staticmethod(get_message_type)
-        get_message_timestamp = staticmethod(get_message_timestamp)
-        get_audio = staticmethod(get_audio)
-        get_delivery = staticmethod(get_delivery)
-        get_document = staticmethod(get_document)
-        get_image = staticmethod(get_image)
-        get_sticker = staticmethod(get_sticker)
-        get_interactive_response = staticmethod(get_interactive_response)
-        get_location = staticmethod(get_location)
-        get_video = staticmethod(get_video)
-        changed_field = staticmethod(changed_field)
-        get_author = staticmethod(get_author)
+    is_message = staticmethod(is_message)
+    get_mobile = staticmethod(get_mobile)
+    get_name = staticmethod(get_name)
+    get_message = staticmethod(get_message)
+    get_message_id = staticmethod(get_message_id)
+    get_message_type = staticmethod(get_message_type)
+    get_message_timestamp = staticmethod(get_message_timestamp)
+    get_audio = staticmethod(get_audio)
+    get_delivery = staticmethod(get_delivery)
+    get_document = staticmethod(get_document)
+    get_image = staticmethod(get_image)
+    get_sticker = staticmethod(get_sticker)
+    get_interactive_response = staticmethod(get_interactive_response)
+    get_location = staticmethod(get_location)
+    get_video = staticmethod(get_video)
+    changed_field = staticmethod(changed_field)
+    get_author = staticmethod(get_author)
 
-        send_button = send_button
-        create_button = create_button
-        send_reply_button = send_reply_button
-        send_image = send_image
-        send_video = send_video
-        send_audio = send_audio
-        send_location = send_location
-        send_sticker = send_sticker
-        send_document = send_document
-        upload_media = upload_media
-        query_media_url = query_media_url
-        download_media = download_media
-        delete_media = delete_media
-        send_template = send_template
-        send_custom_json = send_custom_json
-        send_contacts = send_contacts
-        authorized = property(authorized)
-
-    import_all()
+    send_button = async_send_button
+    create_button = async_create_button
+    send_reply_button = async_send_reply_button
+    send_image = async_send_image
+    send_video = async_send_video
+    send_audio = async_send_audio
+    send_location = async_send_location
+    send_sticker = async_send_sticker
+    send_document = async_send_document
+    upload_media = async_upload_media
+    query_media_url = async_query_media_url
+    download_media = async_download_media
+    delete_media = async_delete_media
+    send_template = async_send_template
+    send_custom_json = async_send_custom_json
+    send_contacts = async_send_contacts
+    authorized = property(async_authorized)
     
-    def create_message(self, **kwargs) -> Message:
+
+    
+    def create_message(self, **kwargs) -> AsyncMessage:
         """
         Create a message object
 
@@ -449,7 +456,7 @@ class AsyncWhatsApp(WhatsApp):
             to[str]: The recipient
             rec_type[str]: The recipient type (individual/group)
         """
-        return Message(**kwargs, instance=self)
+        return AsyncMessage(**kwargs, instance=self)
 
     def on_message(self, handler: function):
         """
@@ -632,3 +639,175 @@ class Message(object):
         logging.info(f"Status code: {r.status_code}")
         logging.debug(f"Response: {r.json()}")
         return r.json()
+
+
+
+class AsyncMessage(object):
+    # type: ignore
+    def __init__(self, id: int = None, data: dict = {}, instance: WhatsApp = None, content: str = "", to: str = "", rec_type: str = "individual"):
+        self.instance = instance
+        self.url = self.instance.url
+        self.headers = self.instance.headers
+
+        try:
+            self.id = instance.get_message_id(data)
+        except:
+            self.id = id
+        try:
+            self.type = self.instance.get_message_type(data)
+        except:
+            self.type = "text"
+        self.data = data
+        self.rec = rec_type
+        self.to = to
+        try:
+            self.content = content if content != "" else self.instance.get_message(
+                data)
+        except:
+            self.content = content
+        try:
+            self.name = self.instance.get_name(data)
+        except:
+            self.name = None
+
+        if self.type == "image":
+            try:
+                self.image = self.instance.get_image(data)
+            except:
+                self.image = None
+        if self.type == "sticker":
+            try:
+                self.sticker = self.instance.get_sticker(data)
+            except:
+                self.sticker = None
+        elif self.type == "video":
+            try:
+                self.video = self.instance.get_video(data)
+            except:
+                self.video = None
+        elif self.type == "audio":
+            try:
+                self.audio = self.instance.get_audio(data)
+            except:
+                pass
+        elif self.type == "document":
+            try:
+                self.document = self.instance.get_document(data)
+            except:
+                pass
+        elif self.type == "location":
+            try:
+                self.location = self.instance.get_location(data)
+            except:
+                pass
+        elif self.type == "interactive":
+            try:
+                self.interactive = self.instance.get_interactive_response(data)
+            except:
+                pass
+            
+
+    async def reply(self, reply_text: str = "", preview_url: bool = True) -> asyncio.Future:
+        if self.data == {}:
+            return {"error": "No data provided"}
+        author = self.instance.get_author(self.data)
+        payload = {
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": str(author),
+            "type": "text",
+            "context": {"message_id": self.id},
+            "text": {"preview_url": preview_url, "body": reply_text},
+        }
+        logging.info(f"Replying to {self.id}")
+        async def call():
+            async with aiohttp.ClientSession() as session:
+                async with session.post(self.url, headers=self.headers, json=payload) as response:
+                    if response.status == 200:
+                        logging.info(f"Message sent to {self.instance.get_author(self.data)}")
+                        return await response.json()
+                    logging.info(f"Message not sent to {self.instance.get_author(self.data)}")
+                    logging.info(f"Status code: {response.status}")
+                    logging.error(f"Response: {await response.json()}")
+                    return await response.json()
+        f = asyncio.ensure_future(call())
+        await asyncio.sleep(.001) # make asyncio run the task
+        return f
+    
+    
+    async def mark_as_read(self) -> asyncio.Future:
+
+        payload = {
+            "messaging_product": "whatsapp",
+            "status": "read",
+            "message_id": self.id,
+        }
+        async def call():
+            async with aiohttp.ClientSession() as session:
+                async with session.post(f"{self.instance.url}", headers=self.instance.headers, json=payload) as response:
+                    if response.status == 200:
+                        logging.info(await response.json())
+                        return await response.json()
+                    else:
+                        logging.error(await response.json())
+                        return await response.json()
+        f = asyncio.ensure_future(call())
+        await asyncio.sleep(.001) # make asyncio run the task
+        return f
+        
+    async def send(self, sender=None, preview_url: bool = True) -> asyncio.Future:
+        try:
+            sender = dict(self.instance.l)[sender]
+
+        except:
+            sender = self.instance.phone_number_id
+
+        if sender == None:
+            sender = self.instance.phone_number_id
+
+        url = f"https://graph.facebook.com/{self.instance.LATEST}/{sender}/messages"
+        data = {
+            "messaging_product": "whatsapp",
+            "recipient_type": self.rec,
+            "to": self.to,
+            "type": "text",
+            "text": {"preview_url": preview_url, "body": self.content},
+        }
+        logging.info(f"Sending message to {self.to}")
+        async def call():
+            print("sending")
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, headers=self.headers, json=data) as response:
+                    if response.status == 200:
+                        logging.info(f"Message sent to {self.to}")
+                        return await response.json()
+                    logging.info(f"Message not sent to {self.to}")
+                    logging.info(f"Status code: {response.status}")
+                    logging.error(f"Response: {await response.json()}")
+                    return await response.json()
+        f = asyncio.ensure_future(call())
+        await asyncio.sleep(.001) # make asyncio run the task
+        return f
+    
+    async def react(self, emoji: str) -> asyncio.Future:
+        data = {
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": self.to,
+            "type": "reaction",
+            "reaction": {"message_id": self.id, "emoji": emoji},
+        }
+        logging.info(f"Reacting to {self.id}")
+        async def call():
+            async with aiohttp.ClientSession() as session:
+                async with session.post(self.url, headers=self.headers, json=data) as response:
+                    if response.status == 200:
+                        logging.info(f"Reaction sent to {self.to}")
+                        return await response.json()
+                    logging.info(f"Reaction not sent to {self.to}")
+                    logging.info(f"Status code: {response.status}")
+                    logging.debug(f"Response: {await response.json()}")
+                    return await response.json()
+        f = asyncio.ensure_future(call())
+        await asyncio.sleep(.001)
+        return f
