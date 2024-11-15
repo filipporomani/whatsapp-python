@@ -40,11 +40,14 @@ The main reason why I decided to fork the original `heyoo` library is that it us
 In this fork I added app events (to listen to incoming messages) and implemented an easier way to send/receive messages and media by using the `Message` object.
 The API version is always up to date and I'm always adding new features and fixing bugs.
 
+I also added a full asyncronous version of the library, which is faster and more efficient than the syncronous one.
+
 I fixed some bugs and added many features, however the library can still be improved.
 
 ### Supported features:
 
 - Listening to events (messages, media, etc.)
+- Async version available
 - Sending messages
 - Sending messages from different numbers individually
 - Marking messages as read
