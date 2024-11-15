@@ -1,5 +1,6 @@
 import logging
-import requests
+import aiohttp
+import asyncio
 from typing import Dict, Any
 
 
@@ -24,7 +25,7 @@ def create_button(self, button: Dict[Any, Any]) -> Dict[Any, Any]:
     return data
 
 
-def send_button(self, button: Dict[Any, Any], recipient_id: str, sender=None) -> Dict[Any, Any]:
+async def send_button(self, button: Dict[Any, Any], recipient_id: str, sender=None) -> asyncio.Future:
     """
     Sends an interactive buttons message to a WhatsApp user
 
@@ -51,19 +52,25 @@ def send_button(self, button: Dict[Any, Any], recipient_id: str, sender=None) ->
         "interactive": self.create_button(button),
     }
     logging.info(f"Sending buttons to {recipient_id}")
-    r = requests.post(url, headers=self.headers, json=data)
-    if r.status_code == 200:
-        logging.info(f"Buttons sent to {recipient_id}")
-        return r.json()
-    logging.info(f"Buttons not sent to {recipient_id}")
-    logging.info(f"Status code: {r.status_code}")
-    logging.info(f"Response: {r.json()}")
-    return r.json()
+    async def call():
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, headers=self.headers, json=data) as r:
+                if r.status == 200:
+                    logging.info(f"Buttons sent to {recipient_id}")
+                    return await r.json()
+                logging.info(f"Buttons not sent to {recipient_id}")
+                logging.info(f"Status code: {r.status}")
+                logging.info(f"Response: {await r.json()}")
+                return await r.json()
+    f = asyncio.ensure_future(call())
+    await asyncio.sleep(.001) # make asyncio run the task
+    return f
+        
 
 
-def send_reply_button(
+async def send_reply_button(
     self, button: Dict[Any, Any], recipient_id: str, sender=None
-) -> Dict[Any, Any]:
+) -> asyncio.Future:
     """
     Sends an interactive reply buttons[menu] message to a WhatsApp user
 
@@ -94,11 +101,18 @@ def send_reply_button(
         "type": "interactive",
         "interactive": button,
     }
-    r = requests.post(url, headers=self.headers, json=data)
-    if r.status_code == 200:
-        logging.info(f"Reply buttons sent to {recipient_id}")
-        return r.json()
-    logging.info(f"Reply buttons not sent to {recipient_id}")
-    logging.info(f"Status code: {r.status_code}")
-    logging.info(f"Response: {r.json()}")
-    return r.json()
+    logging.info(f"Sending buttons to {recipient_id}")
+    async def call():
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, headers=self.headers, json=data) as r:
+                if r.status == 200:
+                    logging.info(f"Buttons sent to {recipient_id}")
+                    return await r.json()
+                logging.info(f"Buttons not sent to {recipient_id}")
+                logging.info(f"Status code: {r.status}")
+                logging.info(f"Response: {await r.json()}")
+                return await r.json()
+            
+    f = asyncio.ensure_future(call())
+    await asyncio.sleep(.001) # make asyncio run the task
+    return f

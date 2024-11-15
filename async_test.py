@@ -135,6 +135,8 @@ async def run_test():
         "hello_world", dest_phone_number, sender=1)
     print(f"send_template: {v}") # this returns error if the phone number is not a test phone number
     
+    await asyncio.sleep(10)
+
 
 
 asyncio.run(run_test())

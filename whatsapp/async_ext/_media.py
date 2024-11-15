@@ -1,12 +1,13 @@
 import logging
-import requests
+import aiohttp
+import asyncio
 import os
 import mimetypes
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from typing import Union, Dict, Any
 
 
-def upload_media(self, media: str, sender=None) -> Union[Dict[Any, Any], None]:
+async def upload_media(self, media: str, sender=None) -> asyncio.Future:
     """
     Uploads a media to the cloud api and returns the id of the media
 
@@ -43,21 +44,27 @@ def upload_media(self, media: str, sender=None) -> Union[Dict[Any, Any], None]:
     headers["Content-Type"] = form_data.content_type
     logging.info(f"Content-Type: {form_data.content_type}")
     logging.info(f"Uploading media {media}")
-    r = requests.post(
-        f"{self.base_url}/{sender}/media",
-        headers=headers,
-        data=form_data,
-        )
-    if r.status_code == 200:
-        logging.info(f"Media {media} uploaded")
-        return r.json()
-    logging.info(f"Error uploading media {media}")
-    logging.info(f"Status code: {r.status_code}")
-    logging.debug(f"Response: {r.json()}")  # Changed to debug level
-    return None
+    async def call():
+        async with aiohttp.ClientSession() as session:
+            async with session.post(
+                f"https://graph.facebook.com/{self.LATEST}/{sender}/media",
+                headers=headers,
+                data=form_data,
+            ) as r:
+                if r.status == 200:
+                    logging.info(f"Media {media} uploaded")
+                    return await r.json()
+                logging.info(f"Error uploading media {media}")
+                logging.info(f"Status code: {r.status}")
+                logging.info(f"Response: {await r.json()}")
+                return await r.json()
+    f = asyncio.ensure_future(call())
+    await asyncio.sleep(.001) # make asyncio run the task
+    return f
 
 
-def delete_media(self, media_id: str) -> Union[Dict[Any, Any], None]:
+
+async def delete_media(self, media_id: str) -> asyncio.Future:
     """
     Deletes a media from the cloud api
 
@@ -65,18 +72,25 @@ def delete_media(self, media_id: str) -> Union[Dict[Any, Any], None]:
         media_id[str]: Id of the media to be deleted
     """
     logging.info(f"Deleting media {media_id}")
-    r = requests.delete(
-        f"{self.base_url}/{media_id}", headers=self.headers)
-    if r.status_code == 200:
-        logging.info(f"Media {media_id} deleted")
-        return r.json()
-    logging.info(f"Error deleting media {media_id}")
-    logging.info(f"Status code: {r.status_code}")
-    logging.debug(f"Response: {r.json()}")  # Changed to debug level
-    return None
+    async def call():
+        async with aiohttp.ClientSession() as session:
+            async with session.delete(
+                f"https://graph.facebook.com/{self.LATEST}/{media_id}",
+                headers=self.headers,
+            ) as r:
+                if r.status == 200:
+                    logging.info(f"Media {media_id} deleted")
+                    return await r.json()
+                logging.info(f"Error deleting media {media_id}")
+                logging.info(f"Status code: {r.status}")
+                logging.info(f"Response: {await r.json()}")
+                return await r.json()
+    f = asyncio.ensure_future(call())
+    await asyncio.sleep(.001) # make asyncio run the task
+    return f
 
 
-def query_media_url(self, media_id: str) -> Union[str, None]:
+async def query_media_url(self, media_id: str) -> asyncio.Future:
     """
     Query media url from media id obtained either by manually uploading media or received media
 
@@ -93,19 +107,28 @@ def query_media_url(self, media_id: str) -> Union[str, None]:
     """
 
     logging.info(f"Querying media url for {media_id}")
-    r = requests.get(f"{self.base_url}/{media_id}", headers=self.headers)
-    if r.status_code == 200:
-        logging.info(f"Media url queried for {media_id}")
-        return r.json()["url"]
-    logging.info(f"Media url not queried for {media_id}")
-    logging.info(f"Status code: {r.status_code}")
-    logging.debug(f"Response: {r.json()}")  # Changed to debug level
-    return None
+    async def call():
+        async with aiohttp.ClientSession() as session:
+            async with session.get(
+                f"https://graph.facebook.com/{self.LATEST}/{media_id}",
+                headers=self.headers,
+            ) as r:
+                if r.status == 200:
+                    logging.info(f"Media url for {media_id} queried")
+                    return await r.json()
+                logging.info(f"Error querying media url for {media_id}")
+                logging.info(f"Status code: {r.status}")
+                logging.info(f"Response: {await r.json()}")
+                return await r.json()
+    f = asyncio.ensure_future(call())
+    await asyncio.sleep(.001) # make asyncio run the task
+    return f
 
 
-def download_media(
+
+async def download_media(
     self, media_url: str, mime_type: str, file_path: str = "temp"
-) -> Union[str, None]:
+) -> asyncio.Future:
     """
     Download media from media url obtained either by manually uploading media or received media
 
@@ -124,21 +147,23 @@ def download_media(
         >>> whatsapp.download_media("media_url", "image/jpeg")
         >>> whatsapp.download_media("media_url", "video/mp4", "path/to/file") #do not include the file extension
     """
-    r = requests.get(media_url, headers=self.headers)
-    content = r.content
-    extension = mime_type.split("/")[1]
-    save_file_here = None
-    # create a temporary file
-    try:
-
-        save_file_here = (
-            f"{file_path}.{extension}" if file_path else f"temp.{extension}"
-        )
-        with open(save_file_here, "wb") as f:
-            f.write(content)
-        logging.info(f"Media downloaded to {save_file_here}")
-        return f.name
-    except Exception as e:
-        logging.info(e)
-        logging.error(f"Error downloading media to {save_file_here}")
-        return None
+    logging.info(f"Downloading media from {media_url}")
+    async def call():
+        async with aiohttp.ClientSession() as session:
+            async with session.get(media_url, headers=self.headers) as r:
+                if r.status == 200:
+                    logging.info(f"Media downloaded from {media_url}")
+                    extension = mime_type.split("/")[1]
+                    save_file_here = (
+                        f"{file_path}.{extension}" if file_path else f"temp.{extension}"
+                    )
+                    with open(save_file_here, "wb") as f:
+                        f.write(await r.read())
+                    return save_file_here
+                logging.info(f"Error downloading media from {media_url}")
+                logging.info(f"Status code: {r.status}")
+                logging.info(f"Response: {await r.json()}")
+                return await r.json()
+    f = asyncio.ensure_future(call())
+    await asyncio.sleep(.001) # make asyncio run the task
+    return f
