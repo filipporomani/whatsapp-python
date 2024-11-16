@@ -21,7 +21,14 @@ def react(self, emoji: str) -> dict:
     return r.json()
 
 
-def send_template(self, template: str, recipient_id: str, components: str = None, lang: str = "en_US", sender = None) -> dict:
+def send_template(
+    self,
+    template: str,
+    recipient_id: str,
+    components: str = None,
+    lang: str = "en_US",
+    sender=None,
+) -> dict:
     """
     Sends a template message to a WhatsApp user, Template messages can either be;
         1. Text template
@@ -73,6 +80,7 @@ def send_template(self, template: str, recipient_id: str, components: str = None
 
 # MESSAGE()
 
+
 def reply(self, reply_text: str = "", preview_url: bool = True) -> dict:
     if self.data == {}:
         return {"error": "No data provided"}
@@ -104,7 +112,8 @@ def mark_as_read(self) -> dict:
     }
 
     response = requests.post(
-        f"{self.instance.url}", headers=self.instance.headers, json=payload)
+        f"{self.instance.url}", headers=self.instance.headers, json=payload
+    )
     if response.status_code == 200:
         logging.info(response.json())
         return response.json()

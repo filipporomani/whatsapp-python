@@ -25,7 +25,9 @@ def create_button(self, button: Dict[Any, Any]) -> Dict[Any, Any]:
     return data
 
 
-async def send_button(self, button: Dict[Any, Any], recipient_id: str, sender=None) -> asyncio.Future:
+async def send_button(
+    self, button: Dict[Any, Any], recipient_id: str, sender=None
+) -> asyncio.Future:
     """
     Sends an interactive buttons message to a WhatsApp user
 
@@ -52,6 +54,7 @@ async def send_button(self, button: Dict[Any, Any], recipient_id: str, sender=No
         "interactive": self.create_button(button),
     }
     logging.info(f"Sending buttons to {recipient_id}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.post(url, headers=self.headers, json=data) as r:
@@ -62,10 +65,10 @@ async def send_button(self, button: Dict[Any, Any], recipient_id: str, sender=No
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f
-        
 
 
 async def send_reply_button(
@@ -102,6 +105,7 @@ async def send_reply_button(
         "interactive": button,
     }
     logging.info(f"Sending buttons to {recipient_id}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.post(url, headers=self.headers, json=data) as r:
@@ -112,7 +116,7 @@ async def send_reply_button(
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
-            
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f

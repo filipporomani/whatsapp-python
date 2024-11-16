@@ -4,7 +4,9 @@ import asyncio
 import logging
 
 
-async def send_custom_json(self, data: dict, recipient_id: str = "", sender=None) -> asyncio.Future:
+async def send_custom_json(
+    self, data: dict, recipient_id: str = "", sender=None
+) -> asyncio.Future:
     """
     Sends a custom json to a WhatsApp user. This can be used to send custom objects to the message endpoint.
 
@@ -40,6 +42,7 @@ async def send_custom_json(self, data: dict, recipient_id: str = "", sender=None
             data["to"] = recipient_id
 
     logging.info(f"Sending custom json to {recipient_id}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.post(url, headers=self.headers, json=data) as r:
@@ -50,9 +53,9 @@ async def send_custom_json(self, data: dict, recipient_id: str = "", sender=None
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
-            
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f
 
 
@@ -104,6 +107,7 @@ async def send_contacts(
         "contacts": contacts,
     }
     logging.info(f"Sending contacts to {recipient_id}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.post(url, headers=self.headers, json=data) as r:
@@ -114,7 +118,7 @@ async def send_contacts(
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
-            
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f

@@ -180,6 +180,7 @@ def get_image(data: Dict[Any, Any]) -> Union[Dict, None]:
         if "image" in data["messages"][0]:
             return data["messages"][0]["image"]
 
+
 @staticmethod
 def get_sticker(data: Dict[Any, Any]) -> Union[Dict, None]:
     """ "
@@ -199,6 +200,7 @@ def get_sticker(data: Dict[Any, Any]) -> Union[Dict, None]:
     if "messages" in data:
         if "sticker" in data["messages"][0]:
             return data["messages"][0]["sticker"]
+
 
 @staticmethod
 def get_document(data: Dict[Any, Any]) -> Union[Dict, None]:

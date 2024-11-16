@@ -24,7 +24,9 @@ def create_button(self, button: Dict[Any, Any]) -> Dict[Any, Any]:
     return data
 
 
-def send_button(self, button: Dict[Any, Any], recipient_id: str, sender=None) -> Dict[Any, Any]:
+def send_button(
+    self, button: Dict[Any, Any], recipient_id: str, sender=None
+) -> Dict[Any, Any]:
     """
     Sends an interactive buttons message to a WhatsApp user
 

@@ -44,6 +44,7 @@ async def upload_media(self, media: str, sender=None) -> asyncio.Future:
     headers["Content-Type"] = form_data.content_type
     logging.info(f"Content-Type: {form_data.content_type}")
     logging.info(f"Uploading media {media}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.post(
@@ -58,10 +59,10 @@ async def upload_media(self, media: str, sender=None) -> asyncio.Future:
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
-    return f
 
+    f = asyncio.ensure_future(call())
+    await asyncio.sleep(0.001)  # make asyncio run the task
+    return f
 
 
 async def delete_media(self, media_id: str) -> asyncio.Future:
@@ -72,6 +73,7 @@ async def delete_media(self, media_id: str) -> asyncio.Future:
         media_id[str]: Id of the media to be deleted
     """
     logging.info(f"Deleting media {media_id}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.delete(
@@ -85,8 +87,9 @@ async def delete_media(self, media_id: str) -> asyncio.Future:
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f
 
 
@@ -107,6 +110,7 @@ async def query_media_url(self, media_id: str) -> asyncio.Future:
     """
 
     logging.info(f"Querying media url for {media_id}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.get(
@@ -120,10 +124,10 @@ async def query_media_url(self, media_id: str) -> asyncio.Future:
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
-    return f
 
+    f = asyncio.ensure_future(call())
+    await asyncio.sleep(0.001)  # make asyncio run the task
+    return f
 
 
 async def download_media(
@@ -148,6 +152,7 @@ async def download_media(
         >>> whatsapp.download_media("media_url", "video/mp4", "path/to/file") #do not include the file extension
     """
     logging.info(f"Downloading media from {media_url}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.get(media_url, headers=self.headers) as r:
@@ -164,6 +169,7 @@ async def download_media(
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f

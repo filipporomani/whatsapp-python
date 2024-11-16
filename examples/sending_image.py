@@ -1,3 +1,6 @@
+
+
+
 from os import getenv
 from whatsapp import WhatsApp
 from dotenv import load_dotenv

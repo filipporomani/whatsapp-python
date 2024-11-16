@@ -12,6 +12,7 @@ async def react(self, emoji: str) -> asyncio.Future:
         "reaction": {"message_id": self.id, "emoji": emoji},
     }
     logging.info(f"Reacting to {self.id}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.post(self.url, headers=self.headers, json=data) as r:
@@ -22,13 +23,20 @@ async def react(self, emoji: str) -> asyncio.Future:
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
-            
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f
 
 
-async def send_template(self, template: str, recipient_id: str, components: str = None, lang: str = "en_US", sender = None) -> asyncio.Future:
+async def send_template(
+    self,
+    template: str,
+    recipient_id: str,
+    components: str = None,
+    lang: str = "en_US",
+    sender=None,
+) -> asyncio.Future:
     """
     Sends a template message to a WhatsApp user, Template messages can either be;
         1. Text template
@@ -68,6 +76,7 @@ async def send_template(self, template: str, recipient_id: str, components: str 
         },
     }
     logging.info(f"Sending template to {recipient_id}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.post(url, headers=self.headers, json=data) as r:
@@ -78,12 +87,14 @@ async def send_template(self, template: str, recipient_id: str, components: str 
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f
 
 
 # MESSAGE()
+
 
 async def reply(self, reply_text: str = "", preview_url: bool = True) -> asyncio.Future:
     if self.data == {}:
@@ -98,6 +109,7 @@ async def reply(self, reply_text: str = "", preview_url: bool = True) -> asyncio
         "text": {"preview_url": preview_url, "body": reply_text},
     }
     logging.info(f"Replying to {self.id}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.post(self.url, headers=self.headers, json=payload) as r:
@@ -108,9 +120,9 @@ async def reply(self, reply_text: str = "", preview_url: bool = True) -> asyncio
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
-            
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f
 
 
@@ -122,6 +134,7 @@ async def mark_as_read(self) -> asyncio.Future:
     }
 
     logging.info(f"Marking message {self.id} as read")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.post(self.url, headers=self.headers, json=payload) as r:
@@ -132,9 +145,9 @@ async def mark_as_read(self) -> asyncio.Future:
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
-            
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f
 
 
@@ -148,6 +161,7 @@ async def send(self, preview_url: bool = True) -> asyncio.Future:
         "text": {"preview_url": preview_url, "body": self.content},
     }
     logging.info(f"Sending message to {self.to}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.post(url, headers=self.headers, json=data) as r:
@@ -158,7 +172,7 @@ async def send(self, preview_url: bool = True) -> asyncio.Future:
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
-            
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f

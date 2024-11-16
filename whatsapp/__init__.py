@@ -1,6 +1,7 @@
 """
 Unofficial Python wrapper for the WhatsApp Cloud API.
 """
+
 from __future__ import annotations
 import requests
 import logging
@@ -14,22 +15,93 @@ from .constants import VERSION
 from .ext._property import authorized
 from .ext._send_others import send_custom_json, send_contacts
 from .ext._message import send_template
-from .ext._send_media import send_image, send_video, send_audio, send_location, send_sticker, send_document
+from .ext._send_media import (
+    send_image,
+    send_video,
+    send_audio,
+    send_location,
+    send_sticker,
+    send_document,
+)
 from .ext._media import upload_media, query_media_url, download_media, delete_media
 from .ext._buttons import send_button, create_button, send_reply_button
-from .ext._static import is_message, get_mobile, get_author, get_name, get_message, get_message_id, get_message_type, get_message_timestamp, get_audio, get_delivery, get_document, get_image, get_sticker, get_interactive_response, get_location, get_video, changed_field
+from .ext._static import (
+    is_message,
+    get_mobile,
+    get_author,
+    get_name,
+    get_message,
+    get_message_id,
+    get_message_type,
+    get_message_timestamp,
+    get_audio,
+    get_delivery,
+    get_document,
+    get_image,
+    get_sticker,
+    get_interactive_response,
+    get_location,
+    get_video,
+    changed_field,
+)
 
 from .async_ext._property import authorized as async_authorized
-from .async_ext._send_others import send_custom_json as async_send_custom_json, send_contacts as async_send_contacts
+from .async_ext._send_others import (
+    send_custom_json as async_send_custom_json,
+    send_contacts as async_send_contacts,
+)
 from .async_ext._message import send_template as async_send_template
-from .async_ext._send_media import send_image as async_send_image, send_video as async_send_video, send_audio as async_send_audio, send_location as async_send_location, send_sticker as async_send_sticker, send_document as async_send_document
-from .async_ext._media import upload_media as async_upload_media, query_media_url as async_query_media_url, download_media as async_download_media, delete_media as async_delete_media
-from .async_ext._buttons import send_button as async_send_button, create_button as async_create_button, send_reply_button as async_send_reply_button
-from .async_ext._static import is_message as async_is_message, get_mobile as async_get_mobile, get_author as async_get_author, get_name as async_get_name, get_message as async_get_message, get_message_id as async_get_message_id, get_message_type as async_get_message_type, get_message_timestamp as async_get_message_timestamp, get_audio as async_get_audio, get_delivery as async_get_delivery, get_document as async_get_document, get_image as async_get_image, get_sticker as async_get_sticker, get_interactive_response as async_get_interactive_response, get_location as async_get_location, get_video as async_get_video, changed_field as async_changed_field
+from .async_ext._send_media import (
+    send_image as async_send_image,
+    send_video as async_send_video,
+    send_audio as async_send_audio,
+    send_location as async_send_location,
+    send_sticker as async_send_sticker,
+    send_document as async_send_document,
+)
+from .async_ext._media import (
+    upload_media as async_upload_media,
+    query_media_url as async_query_media_url,
+    download_media as async_download_media,
+    delete_media as async_delete_media,
+)
+from .async_ext._buttons import (
+    send_button as async_send_button,
+    create_button as async_create_button,
+    send_reply_button as async_send_reply_button,
+)
+from .async_ext._static import (
+    is_message as async_is_message,
+    get_mobile as async_get_mobile,
+    get_author as async_get_author,
+    get_name as async_get_name,
+    get_message as async_get_message,
+    get_message_id as async_get_message_id,
+    get_message_type as async_get_message_type,
+    get_message_timestamp as async_get_message_timestamp,
+    get_audio as async_get_audio,
+    get_delivery as async_get_delivery,
+    get_document as async_get_document,
+    get_image as async_get_image,
+    get_sticker as async_get_sticker,
+    get_interactive_response as async_get_interactive_response,
+    get_location as async_get_location,
+    get_video as async_get_video,
+    changed_field as async_changed_field,
+)
 
 
 class WhatsApp(object):
-    def __init__(self, token: str = "", phone_number_id: dict = "", logger: bool = True, update_check: bool = True, verify_token: str = "", debug: bool = True, version: str = "latest"):
+    def __init__(
+        self,
+        token: str = "",
+        phone_number_id: dict = "",
+        logger: bool = True,
+        update_check: bool = True,
+        verify_token: str = "",
+        debug: bool = True,
+        version: str = "latest",
+    ):
         """
         Initialize the WhatsApp Object
 
@@ -50,18 +122,21 @@ class WhatsApp(object):
 
         elif phone_number_id == "":
             logging.error("Phone number ID not provided")
-            raise ValueError(
-                "Phone number ID not provided but required")
+            raise ValueError("Phone number ID not provided but required")
         elif isinstance(phone_number_id, str):
             logging.critical(
-                "The phone number ID should be a dictionary of phone numbers and their IDs. Using strings is deprecated.")
+                "The phone number ID should be a dictionary of phone numbers and their IDs. Using strings is deprecated."
+            )
             raise ValueError(
-                "Phone number ID should be a dictionary of phone numbers and their IDs")
+                "Phone number ID should be a dictionary of phone numbers and their IDs"
+            )
         else:
             pass
 
         self.VERSION = VERSION  # package version
-        r = requests.get("https://developers.facebook.com/docs/graph-api/changelog/").text
+        r = requests.get(
+            "https://developers.facebook.com/docs/graph-api/changelog/"
+        ).text
 
         # dynamically get the latest version of the API
         if version == "latest":
@@ -70,22 +145,26 @@ class WhatsApp(object):
 
             def makeversion(table):
                 result = []
-                allrows = table.findAll('tr')
+                allrows = table.findAll("tr")
                 for row in allrows:
                     result.append([])
-                    allcols = row.findAll('td')
+                    allcols = row.findAll("td")
                     for col in allcols:
                         thestrings = [(s) for s in col.findAll(text=True)]
-                        thetext = ''.join(thestrings)
+                        thetext = "".join(thestrings)
                         result[-1].append(thetext)
                 return result[0][1]
+
             self.LATEST = makeversion(t1[0])  # latest version of the API
         else:
             self.LATEST = version
 
         if update_check is True:
-            latest = str(requests.get(
-                "https://pypi.org/pypi/whatsapp-python/json").json()["info"]["version"])
+            latest = str(
+                requests.get("https://pypi.org/pypi/whatsapp-python/json").json()[
+                    "info"
+                ]["version"]
+            )
             if self.VERSION != latest:
                 try:
                     version_int = int(self.VERSION.replace(".", ""))
@@ -99,18 +178,19 @@ class WhatsApp(object):
                 if version_int < latest_int:
                     if version_int == 0:
                         logging.critical(
-                            f"There was an error while checking for updates, please check for updates manually. This may be due to the version being a post-release version (e.g. 1.0.0.post1) or a pre-release version (e.g. 1.0.0a1). READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED.")
+                            f"There was an error while checking for updates, please check for updates manually. This may be due to the version being a post-release version (e.g. 1.0.0.post1) or a pre-release version (e.g. 1.0.0a1). READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED."
+                        )
                     else:
                         logging.critical(
-                            f"Whatsapp-python is out of date. Please update to the latest version {latest}. READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED.")
+                            f"Whatsapp-python is out of date. Please update to the latest version {latest}. READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED."
+                        )
 
         if token == "":
             logging.error("Token not provided")
             raise ValueError("Token not provided but required")
         if phone_number_id == "":
             logging.error("Phone number ID not provided")
-            raise ValueError(
-                "Phone number ID not provided but required")
+            raise ValueError("Phone number ID not provided but required")
         self.token = token
         self.phone_number_id = phone_number_id
         self.base_url = f"https://graph.facebook.com/{self.LATEST}"
@@ -119,12 +199,13 @@ class WhatsApp(object):
 
         async def base(*args):
             pass
+
         self.message_handler = base
         self.other_handler = base
         self.verification_handler = base
         self.headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.token}"
+            "Authorization": f"Bearer {self.token}",
         }
         if logger is False:
             logging.disable(logging.INFO)
@@ -171,10 +252,9 @@ class WhatsApp(object):
                 return {"success": True}
             except Exception as e:
                 logging.error(f"Error parsing message: {e}")
-                raise HTTPException(status_code=500, detail={
-                    "success": False,
-                    "error": str(e)
-                })
+                raise HTTPException(
+                    status_code=500, detail={"success": False, "error": str(e)}
+                )
 
     # all the files starting with _ are imported here, and should not be imported directly.
 
@@ -214,7 +294,6 @@ class WhatsApp(object):
     send_contacts = send_contacts
     authorized = property(authorized)
 
-    
     def create_message(self, **kwargs) -> Message:
         """
         Create a message object
@@ -259,7 +338,16 @@ class WhatsApp(object):
 
 
 class AsyncWhatsApp(WhatsApp):
-    def __init__(self, token: str = "", phone_number_id: dict = "", logger: bool = True, update_check: bool = True, verify_token: str = "", debug: bool = True, version: str = "latest"):
+    def __init__(
+        self,
+        token: str = "",
+        phone_number_id: dict = "",
+        logger: bool = True,
+        update_check: bool = True,
+        verify_token: str = "",
+        debug: bool = True,
+        version: str = "latest",
+    ):
         """
         Initialize the WhatsApp Object
 
@@ -280,18 +368,21 @@ class AsyncWhatsApp(WhatsApp):
 
         elif phone_number_id == "":
             logging.error("Phone number ID not provided")
-            raise ValueError(
-                "Phone number ID not provided but required")
+            raise ValueError("Phone number ID not provided but required")
         elif isinstance(phone_number_id, str):
             logging.critical(
-                "The phone number ID should be a dictionary of phone numbers and their IDs. Using strings is deprecated.")
+                "The phone number ID should be a dictionary of phone numbers and their IDs. Using strings is deprecated."
+            )
             raise ValueError(
-                "Phone number ID should be a dictionary of phone numbers and their IDs")
+                "Phone number ID should be a dictionary of phone numbers and their IDs"
+            )
         else:
             pass
 
         self.VERSION = VERSION  # package version
-        r = requests.get("https://developers.facebook.com/docs/graph-api/changelog/").text
+        r = requests.get(
+            "https://developers.facebook.com/docs/graph-api/changelog/"
+        ).text
 
         # dynamically get the latest version of the API
         if version == "latest":
@@ -300,22 +391,26 @@ class AsyncWhatsApp(WhatsApp):
 
             def makeversion(table):
                 result = []
-                allrows = table.findAll('tr')
+                allrows = table.findAll("tr")
                 for row in allrows:
                     result.append([])
-                    allcols = row.findAll('td')
+                    allcols = row.findAll("td")
                     for col in allcols:
                         thestrings = [(s) for s in col.findAll(text=True)]
-                        thetext = ''.join(thestrings)
+                        thetext = "".join(thestrings)
                         result[-1].append(thetext)
                 return result[0][1]
+
             self.LATEST = makeversion(t1[0])  # latest version of the API
         else:
             self.LATEST = version
 
         if update_check is True:
-            latest = str(requests.get(
-                "https://pypi.org/pypi/whatsapp-python/json").json()["info"]["version"])
+            latest = str(
+                requests.get("https://pypi.org/pypi/whatsapp-python/json").json()[
+                    "info"
+                ]["version"]
+            )
             if self.VERSION != latest:
                 try:
                     version_int = int(self.VERSION.replace(".", ""))
@@ -329,18 +424,19 @@ class AsyncWhatsApp(WhatsApp):
                 if version_int < latest_int:
                     if version_int == 0:
                         logging.critical(
-                            f"There was an error while checking for updates, please check for updates manually. This may be due to the version being a post-release version (e.g. 1.0.0.post1) or a pre-release version (e.g. 1.0.0a1). READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED.")
+                            f"There was an error while checking for updates, please check for updates manually. This may be due to the version being a post-release version (e.g. 1.0.0.post1) or a pre-release version (e.g. 1.0.0a1). READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED."
+                        )
                     else:
                         logging.critical(
-                            f"Whatsapp-python is out of date. Please update to the latest version {latest}. READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED.")
+                            f"Whatsapp-python is out of date. Please update to the latest version {latest}. READ THE CHANGELOG BEFORE UPDATING. NEW VERSIONS MAY BREAK YOUR CODE IF NOT PROPERLY UPDATED."
+                        )
 
         if token == "":
             logging.error("Token not provided")
             raise ValueError("Token not provided but required")
         if phone_number_id == "":
             logging.error("Phone number ID not provided")
-            raise ValueError(
-                "Phone number ID not provided but required")
+            raise ValueError("Phone number ID not provided but required")
         self.token = token
         self.phone_number_id = phone_number_id
         self.base_url = f"https://graph.facebook.com/{self.LATEST}"
@@ -349,12 +445,13 @@ class AsyncWhatsApp(WhatsApp):
 
         async def base(*args):
             pass
+
         self.message_handler = base
         self.other_handler = base
         self.verification_handler = base
         self.headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.token}"
+            "Authorization": f"Bearer {self.token}",
         }
         if logger is False:
             logging.disable(logging.INFO)
@@ -401,10 +498,9 @@ class AsyncWhatsApp(WhatsApp):
                 return {"success": True}
             except Exception as e:
                 logging.error(f"Error parsing message: {e}")
-                raise HTTPException(status_code=500, detail={
-                    "success": False,
-                    "error": str(e)
-                })
+                raise HTTPException(
+                    status_code=500, detail={"success": False, "error": str(e)}
+                )
 
     # all the files starting with _ are imported here, and should not be imported directly.
 
@@ -443,9 +539,7 @@ class AsyncWhatsApp(WhatsApp):
     send_custom_json = async_send_custom_json
     send_contacts = async_send_contacts
     authorized = property(async_authorized)
-    
 
-    
     def create_message(self, **kwargs) -> AsyncMessage:
         """
         Create a message object
@@ -489,10 +583,17 @@ class AsyncWhatsApp(WhatsApp):
         _run(self.app, host=host, port=port, **options)
 
 
-
 class Message(object):
     # type: ignore
-    def __init__(self, id: int = None, data: dict = {}, instance: WhatsApp = None, content: str = "", to: str = "", rec_type: str = "individual"):
+    def __init__(
+        self,
+        id: int = None,
+        data: dict = {},
+        instance: WhatsApp = None,
+        content: str = "",
+        to: str = "",
+        rec_type: str = "individual",
+    ):
         self.instance = instance
         self.url = self.instance.url
         self.headers = self.instance.headers
@@ -509,8 +610,7 @@ class Message(object):
         self.rec = rec_type
         self.to = to
         try:
-            self.content = content if content != "" else self.instance.get_message(
-                data)
+            self.content = content if content != "" else self.instance.get_message(data)
         except:
             self.content = content
         try:
@@ -585,7 +685,8 @@ class Message(object):
         }
 
         response = requests.post(
-            f"{self.instance.url}", headers=self.instance.headers, json=payload)
+            f"{self.instance.url}", headers=self.instance.headers, json=payload
+        )
         if response.status_code == 200:
             logging.info(response.json())
             return response.json()
@@ -641,10 +742,17 @@ class Message(object):
         return r.json()
 
 
-
 class AsyncMessage(object):
     # type: ignore
-    def __init__(self, id: int = None, data: dict = {}, instance: WhatsApp = None, content: str = "", to: str = "", rec_type: str = "individual"):
+    def __init__(
+        self,
+        id: int = None,
+        data: dict = {},
+        instance: WhatsApp = None,
+        content: str = "",
+        to: str = "",
+        rec_type: str = "individual",
+    ):
         self.instance = instance
         self.url = self.instance.url
         self.headers = self.instance.headers
@@ -661,8 +769,7 @@ class AsyncMessage(object):
         self.rec = rec_type
         self.to = to
         try:
-            self.content = content if content != "" else self.instance.get_message(
-                data)
+            self.content = content if content != "" else self.instance.get_message(data)
         except:
             self.content = content
         try:
@@ -705,9 +812,10 @@ class AsyncMessage(object):
                 self.interactive = self.instance.get_interactive_response(data)
             except:
                 pass
-            
 
-    async def reply(self, reply_text: str = "", preview_url: bool = True) -> asyncio.Future:
+    async def reply(
+        self, reply_text: str = "", preview_url: bool = True
+    ) -> asyncio.Future:
         if self.data == {}:
             return {"error": "No data provided"}
         author = self.instance.get_author(self.data)
@@ -720,21 +828,28 @@ class AsyncMessage(object):
             "text": {"preview_url": preview_url, "body": reply_text},
         }
         logging.info(f"Replying to {self.id}")
+
         async def call():
             async with aiohttp.ClientSession() as session:
-                async with session.post(self.url, headers=self.headers, json=payload) as response:
+                async with session.post(
+                    self.url, headers=self.headers, json=payload
+                ) as response:
                     if response.status == 200:
-                        logging.info(f"Message sent to {self.instance.get_author(self.data)}")
+                        logging.info(
+                            f"Message sent to {self.instance.get_author(self.data)}"
+                        )
                         return await response.json()
-                    logging.info(f"Message not sent to {self.instance.get_author(self.data)}")
+                    logging.info(
+                        f"Message not sent to {self.instance.get_author(self.data)}"
+                    )
                     logging.info(f"Status code: {response.status}")
                     logging.error(f"Response: {await response.json()}")
                     return await response.json()
+
         f = asyncio.ensure_future(call())
-        await asyncio.sleep(.001) # make asyncio run the task
+        await asyncio.sleep(0.001)  # make asyncio run the task
         return f
-    
-    
+
     async def mark_as_read(self) -> asyncio.Future:
 
         payload = {
@@ -742,19 +857,23 @@ class AsyncMessage(object):
             "status": "read",
             "message_id": self.id,
         }
+
         async def call():
             async with aiohttp.ClientSession() as session:
-                async with session.post(f"{self.instance.url}", headers=self.instance.headers, json=payload) as response:
+                async with session.post(
+                    f"{self.instance.url}", headers=self.instance.headers, json=payload
+                ) as response:
                     if response.status == 200:
                         logging.info(await response.json())
                         return await response.json()
                     else:
                         logging.error(await response.json())
                         return await response.json()
+
         f = asyncio.ensure_future(call())
-        await asyncio.sleep(.001) # make asyncio run the task
+        await asyncio.sleep(0.001)  # make asyncio run the task
         return f
-        
+
     async def send(self, sender=None, preview_url: bool = True) -> asyncio.Future:
         try:
             sender = dict(self.instance.l)[sender]
@@ -774,10 +893,13 @@ class AsyncMessage(object):
             "text": {"preview_url": preview_url, "body": self.content},
         }
         logging.info(f"Sending message to {self.to}")
+
         async def call():
             print("sending")
             async with aiohttp.ClientSession() as session:
-                async with session.post(url, headers=self.headers, json=data) as response:
+                async with session.post(
+                    url, headers=self.headers, json=data
+                ) as response:
                     if response.status == 200:
                         logging.info(f"Message sent to {self.to}")
                         return await response.json()
@@ -785,10 +907,11 @@ class AsyncMessage(object):
                     logging.info(f"Status code: {response.status}")
                     logging.error(f"Response: {await response.json()}")
                     return await response.json()
+
         f = asyncio.ensure_future(call())
-        await asyncio.sleep(.001) # make asyncio run the task
+        await asyncio.sleep(0.001)  # make asyncio run the task
         return f
-    
+
     async def react(self, emoji: str) -> asyncio.Future:
         data = {
             "messaging_product": "whatsapp",
@@ -798,9 +921,12 @@ class AsyncMessage(object):
             "reaction": {"message_id": self.id, "emoji": emoji},
         }
         logging.info(f"Reacting to {self.id}")
+
         async def call():
             async with aiohttp.ClientSession() as session:
-                async with session.post(self.url, headers=self.headers, json=data) as response:
+                async with session.post(
+                    self.url, headers=self.headers, json=data
+                ) as response:
                     if response.status == 200:
                         logging.info(f"Reaction sent to {self.to}")
                         return await response.json()
@@ -808,6 +934,7 @@ class AsyncMessage(object):
                     logging.info(f"Status code: {response.status}")
                     logging.debug(f"Response: {await response.json()}")
                     return await response.json()
+
         f = asyncio.ensure_future(call())
-        await asyncio.sleep(.001)
+        await asyncio.sleep(0.001)
         return f

@@ -2,7 +2,9 @@ import logging
 import requests
 
 
-def send_location(self, lat: str, long: str, name: str, address: str, recipient_id: str, sender = None) -> dict:
+def send_location(
+    self, lat: str, long: str, name: str, address: str, recipient_id: str, sender=None
+) -> dict:
     """
     Sends a location message to a WhatsApp user
 
@@ -20,12 +22,10 @@ def send_location(self, lat: str, long: str, name: str, address: str, recipient_
     """
     try:
         sender = dict(self.l)[sender]
-        
-        
 
     except:
         sender = self.phone_number_id
-        
+
     if sender == None:
         sender = self.phone_number_id
 
@@ -59,7 +59,7 @@ def send_image(
     recipient_type: str = "individual",
     caption: str = "",
     link: bool = True,
-    sender = None
+    sender=None,
 ) -> dict:
     """
     Sends an image message to a WhatsApp user
@@ -82,12 +82,10 @@ def send_image(
     """
     try:
         sender = dict(self.l)[sender]
-        
-        
 
     except:
         sender = self.phone_number_id
-        
+
     if sender == None:
         sender = self.phone_number_id
 
@@ -119,7 +117,14 @@ def send_image(
     return r.json()
 
 
-def send_sticker(self, sticker: str, recipient_id: str, recipient_type: str = "individual", link: bool = True, sender = None) -> dict:
+def send_sticker(
+    self,
+    sticker: str,
+    recipient_id: str,
+    recipient_type: str = "individual",
+    link: bool = True,
+    sender=None,
+) -> dict:
     """
     Sends a sticker message to a WhatsApp user
 
@@ -140,12 +145,10 @@ def send_sticker(self, sticker: str, recipient_id: str, recipient_type: str = "i
     """
     try:
         sender = dict(self.l)[sender]
-        
-        
 
     except:
         sender = self.phone_number_id
-        
+
     if sender == None:
         sender = self.phone_number_id
 
@@ -177,7 +180,9 @@ def send_sticker(self, sticker: str, recipient_id: str, recipient_type: str = "i
     return r.json()
 
 
-def send_audio(self, audio: str, recipient_id: str, link: bool = True, sender = None) -> dict:
+def send_audio(
+    self, audio: str, recipient_id: str, link: bool = True, sender=None
+) -> dict:
     """
     Sends an audio message to a WhatsApp user
     Audio messages can either be sent by passing the audio id or by passing the audio link.
@@ -194,12 +199,10 @@ def send_audio(self, audio: str, recipient_id: str, link: bool = True, sender = 
     """
     try:
         sender = dict(self.l)[sender]
-        
-        
 
     except:
         sender = self.phone_number_id
-        
+
     if sender == None:
         sender = self.phone_number_id
 
@@ -230,7 +233,12 @@ def send_audio(self, audio: str, recipient_id: str, link: bool = True, sender = 
 
 
 def send_video(
-    self, video: str, recipient_id: str, caption: str = "", link: bool = True, sender = None
+    self,
+    video: str,
+    recipient_id: str,
+    caption: str = "",
+    link: bool = True,
+    sender=None,
 ) -> dict:
     """ "
     Sends a video message to a WhatsApp user
@@ -249,12 +257,10 @@ def send_video(
     """
     try:
         sender = dict(self.l)[sender]
-        
-        
 
     except:
         sender = self.phone_number_id
-        
+
     if sender == None:
         sender = self.phone_number_id
 
@@ -285,7 +291,13 @@ def send_video(
 
 
 def send_document(
-    self, document: str, recipient_id: str, caption: str = "", link: bool = True, sender = None) -> dict:
+    self,
+    document: str,
+    recipient_id: str,
+    caption: str = "",
+    link: bool = True,
+    sender=None,
+) -> dict:
     """ "
     Sends a document message to a WhatsApp user
     Document messages can either be sent by passing the document id or by passing the document link.
@@ -303,12 +315,10 @@ def send_document(
     """
     try:
         sender = dict(self.l)[sender]
-        
-        
 
     except:
         sender = self.phone_number_id
-        
+
     if sender == None:
         sender = self.phone_number_id
 

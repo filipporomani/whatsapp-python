@@ -9,8 +9,7 @@ app = Flask(__name__)
 
 # Load .env file
 load_dotenv("../.env")
-messenger = WhatsApp(os.getenv("TOKEN"),
-                     phone_number_id=os.getenv("ID"))
+messenger = WhatsApp(os.getenv("TOKEN"), phone_number_id=os.getenv("ID"))
 VERIFY_TOKEN = "30cca545-3838-48b2-80a7-9e43b1ae8ce4"
 
 # Logging
@@ -51,8 +50,7 @@ def hook():
                 message = msg.content
                 name = msg.name
                 logging.info("Message: %s", message)
-                m = Message(instance=messenger, to=mobile,
-                            content="Hello World")
+                m = Message(instance=messenger, to=mobile, content="Hello World")
                 m.send()
 
             elif message_type == "interactive":
@@ -62,8 +60,7 @@ def hook():
                 interactive_type = message_response.get("type")
                 message_id = message_response[interactive_type]["id"]
                 message_text = message_response[interactive_type]["title"]
-                logging.info(
-                    f"Interactive Message; {message_id}: {message_text}")
+                logging.info(f"Interactive Message; {message_id}: {message_text}")
 
             elif message_type == "location":
                 message_location = msg.location
@@ -71,8 +68,7 @@ def hook():
                     return Response(status=400)
                 message_latitude = message_location["latitude"]
                 message_longitude = message_location["longitude"]
-                logging.info("Location: %s, %s",
-                             message_latitude, message_longitude)
+                logging.info("Location: %s, %s", message_latitude, message_longitude)
 
             elif message_type == "image":
                 image = msg.image

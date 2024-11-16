@@ -47,7 +47,7 @@ def upload_media(self, media: str, sender=None) -> Union[Dict[Any, Any], None]:
         f"{self.base_url}/{sender}/media",
         headers=headers,
         data=form_data,
-        )
+    )
     if r.status_code == 200:
         logging.info(f"Media {media} uploaded")
         return r.json()
@@ -65,8 +65,7 @@ def delete_media(self, media_id: str) -> Union[Dict[Any, Any], None]:
         media_id[str]: Id of the media to be deleted
     """
     logging.info(f"Deleting media {media_id}")
-    r = requests.delete(
-        f"{self.base_url}/{media_id}", headers=self.headers)
+    r = requests.delete(f"{self.base_url}/{media_id}", headers=self.headers)
     if r.status_code == 200:
         logging.info(f"Media {media_id} deleted")
         return r.json()

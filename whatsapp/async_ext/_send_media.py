@@ -3,7 +3,9 @@ import aiohttp
 import asyncio
 
 
-async def send_location(self, lat: str, long: str, name: str, address: str, recipient_id: str, sender = None) -> asyncio.Future:
+async def send_location(
+    self, lat: str, long: str, name: str, address: str, recipient_id: str, sender=None
+) -> asyncio.Future:
     """
     Sends a location message to a WhatsApp user
 
@@ -21,12 +23,10 @@ async def send_location(self, lat: str, long: str, name: str, address: str, reci
     """
     try:
         sender = dict(self.l)[sender]
-        
-        
 
     except:
         sender = self.phone_number_id
-        
+
     if sender == None:
         sender = self.phone_number_id
 
@@ -43,6 +43,7 @@ async def send_location(self, lat: str, long: str, name: str, address: str, reci
         },
     }
     logging.info(f"Sending location to {recipient_id}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.post(url, headers=self.headers, json=data) as r:
@@ -53,9 +54,9 @@ async def send_location(self, lat: str, long: str, name: str, address: str, reci
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
-            
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f
 
 
@@ -66,7 +67,7 @@ async def send_image(
     recipient_type: str = "individual",
     caption: str = "",
     link: bool = True,
-    sender = None
+    sender=None,
 ) -> asyncio.Future:
     """
     Sends an image message to a WhatsApp user
@@ -89,12 +90,10 @@ async def send_image(
     """
     try:
         sender = dict(self.l)[sender]
-        
-        
 
     except:
         sender = self.phone_number_id
-        
+
     if sender == None:
         sender = self.phone_number_id
 
@@ -116,6 +115,7 @@ async def send_image(
             "image": {"id": image, "caption": caption},
         }
     logging.info(f"Sending image to {recipient_id}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.post(url, headers=self.headers, json=data) as r:
@@ -126,13 +126,20 @@ async def send_image(
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
-            
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f
 
 
-async def send_sticker(self, sticker: str, recipient_id: str, recipient_type: str = "individual", link: bool = True, sender = None) -> asyncio.Future:
+async def send_sticker(
+    self,
+    sticker: str,
+    recipient_id: str,
+    recipient_type: str = "individual",
+    link: bool = True,
+    sender=None,
+) -> asyncio.Future:
     """
     Sends a sticker message to a WhatsApp user
 
@@ -153,12 +160,10 @@ async def send_sticker(self, sticker: str, recipient_id: str, recipient_type: st
     """
     try:
         sender = dict(self.l)[sender]
-        
-        
 
     except:
         sender = self.phone_number_id
-        
+
     if sender == None:
         sender = self.phone_number_id
 
@@ -180,6 +185,7 @@ async def send_sticker(self, sticker: str, recipient_id: str, recipient_type: st
             "sticker": {"id": sticker},
         }
     logging.info(f"Sending sticker to {recipient_id}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.post(url, headers=self.headers, json=data) as r:
@@ -190,13 +196,15 @@ async def send_sticker(self, sticker: str, recipient_id: str, recipient_type: st
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
-            
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f
 
 
-async def send_audio(self, audio: str, recipient_id: str, link: bool = True, sender = None) -> asyncio.Future:
+async def send_audio(
+    self, audio: str, recipient_id: str, link: bool = True, sender=None
+) -> asyncio.Future:
     """
     Sends an audio message to a WhatsApp user
     Audio messages can either be sent by passing the audio id or by passing the audio link.
@@ -213,12 +221,10 @@ async def send_audio(self, audio: str, recipient_id: str, link: bool = True, sen
     """
     try:
         sender = dict(self.l)[sender]
-        
-        
 
     except:
         sender = self.phone_number_id
-        
+
     if sender == None:
         sender = self.phone_number_id
 
@@ -238,6 +244,7 @@ async def send_audio(self, audio: str, recipient_id: str, link: bool = True, sen
             "audio": {"id": audio},
         }
     logging.info(f"Sending audio to {recipient_id}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.post(url, headers=self.headers, json=data) as r:
@@ -248,14 +255,19 @@ async def send_audio(self, audio: str, recipient_id: str, link: bool = True, sen
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
-            
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f
 
 
 async def send_video(
-    self, video: str, recipient_id: str, caption: str = "", link: bool = True, sender = None
+    self,
+    video: str,
+    recipient_id: str,
+    caption: str = "",
+    link: bool = True,
+    sender=None,
 ) -> asyncio.Future:
     """ "
     Sends a video message to a WhatsApp user
@@ -274,12 +286,10 @@ async def send_video(
     """
     try:
         sender = dict(self.l)[sender]
-        
-        
 
     except:
         sender = self.phone_number_id
-        
+
     if sender == None:
         sender = self.phone_number_id
 
@@ -299,6 +309,7 @@ async def send_video(
             "video": {"id": video, "caption": caption},
         }
     logging.info(f"Sending video to {recipient_id}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.post(url, headers=self.headers, json=data) as r:
@@ -309,15 +320,20 @@ async def send_video(
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
-            
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f
 
 
-
 async def send_document(
-    self, document: str, recipient_id: str, caption: str = "", link: bool = True, sender = None) -> asyncio.Future:
+    self,
+    document: str,
+    recipient_id: str,
+    caption: str = "",
+    link: bool = True,
+    sender=None,
+) -> asyncio.Future:
     """ "
     Sends a document message to a WhatsApp user
     Document messages can either be sent by passing the document id or by passing the document link.
@@ -335,12 +351,10 @@ async def send_document(
     """
     try:
         sender = dict(self.l)[sender]
-        
-        
 
     except:
         sender = self.phone_number_id
-        
+
     if sender == None:
         sender = self.phone_number_id
 
@@ -361,6 +375,7 @@ async def send_document(
         }
 
     logging.info(f"Sending document to {recipient_id}")
+
     async def call():
         async with aiohttp.ClientSession() as session:
             async with session.post(url, headers=self.headers, json=data) as r:
@@ -371,7 +386,7 @@ async def send_document(
                 logging.info(f"Status code: {r.status}")
                 logging.info(f"Response: {await r.json()}")
                 return await r.json()
-            
+
     f = asyncio.ensure_future(call())
-    await asyncio.sleep(.001) # make asyncio run the task
+    await asyncio.sleep(0.001)  # make asyncio run the task
     return f
