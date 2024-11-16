@@ -112,19 +112,19 @@ async def run_test():
     print(f"send_button: {v}")
     print("sending image")
     v = await app.send_image(
-        "https://file-examples.com/storage/feb05093336710053a32bc1/2017/10/file_example_JPG_1MB.jpg", dest_phone_number, sender=1)
+        "https://filesamples.com/samples/image/jpeg/sample_640%C3%97426.jpeg", dest_phone_number, sender=1)
     print(f"send_image: {v}")
     print("sending video")
     v = await app.send_video(
-        "https://file-examples.com/storage/feb05093336710053a32bc1/2017/04/file_example_MP4_480_1_5MG.mp4", dest_phone_number, sender=1)
+        "https://filesamples.com/samples/video/mp4/sample_1280x720_surfing_with_audio.mp4", dest_phone_number, sender=1)
     print(f"send_video: {v}")
     print("sending audio")
     v = await app.send_audio(
-        "https://file-examples.com/storage/feb05093336710053a32bc1/2017/11/file_example_MP3_1MG.mp3", dest_phone_number, sender=1)
+        "https://filesamples.com/samples/audio/mp3/Symphony%20No.6%20(1st%20movement).mp3", dest_phone_number, sender=1)
     print(f"send_audio: {v}")
     print("sending document")
     v = await app.send_document(
-        "https://file-examples.com/storage/feb05093336710053a32bc1/2017/10/file-example_PDF_1MB.pdf", dest_phone_number, sender=1)
+        "https://filesamples.com/samples/document/docx/sample1.docx", dest_phone_number, sender=1)
     print(f"send_document: {v}")
     print("sending location")
     v = await app.send_location("37.7749", "-122.4194", "test",
@@ -135,7 +135,7 @@ async def run_test():
         "hello_world", dest_phone_number, sender=1)
     print(f"send_template: {v}") # this returns error if the phone number is not a test phone number
     
-    await asyncio.sleep(10)
+    await asyncio.sleep(60)
 
 
 
