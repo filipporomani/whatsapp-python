@@ -91,7 +91,7 @@ from .async_ext._static import (
 )
 
 
-class WhatsApp(object):
+class WhatsApp:
     def __init__(
         self,
         token: str = "",
@@ -143,7 +143,7 @@ class WhatsApp(object):
             soup = BeautifulSoup(r, features="html.parser")
             t1 = soup.findAll("table")
 
-            def makeversion(table):
+            def makeversion(table: BeautifulSoup) -> str:
                 result = []
                 allrows = table.findAll("tr")
                 for row in allrows:
@@ -389,7 +389,7 @@ class AsyncWhatsApp(WhatsApp):
             soup = BeautifulSoup(r, features="html.parser")
             t1 = soup.findAll("table")
 
-            def makeversion(table):
+            def makeversion(table: BeautifulSoup) -> str:
                 result = []
                 allrows = table.findAll("tr")
                 for row in allrows:
@@ -583,7 +583,7 @@ class AsyncWhatsApp(WhatsApp):
         _run(self.app, host=host, port=port, **options)
 
 
-class Message(object):
+class Message:
     # type: ignore
     def __init__(
         self,
@@ -742,7 +742,7 @@ class Message(object):
         return r.json()
 
 
-class AsyncMessage(object):
+class AsyncMessage:
     # type: ignore
     def __init__(
         self,
