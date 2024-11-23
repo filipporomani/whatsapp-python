@@ -1,7 +1,8 @@
 <div align="center">
   <img src="https://gist.githubusercontent.com/boywithkeyboard/e8dc5b1810bd29e1d70346ca11d7f09d/raw/7f7eeea482f5047e62944e54182aa26c89cc299a/whatsapp_python.svg" alt="logo" width="128px">
   <h1>whatsapp-python</h1>
-  <p>Free, open-source Python wrapper for the <a href="https://developers.facebook.com/docs/whatsapp/cloud-api">WhatsApp Cloud API</a>.<br>Forked from <a href="https://github.com/Neurotech-HQ/heyoo">Neurotech-HQ/heyoo</a>.</p>
+  <p>Free, open-source Python wrapper for the <a href="https://developers.facebook.com/docs/whatsapp/cloud-api">WhatsApp Cloud API</a>.<br>Forked from <a href="https://github.com/Neurotech-HQ/heyoo">Neurotech-HQ/heyoo</a>.
+  </p>
   <img src="https://img.shields.io/badge/made%20in-italy-008751.svg?style=flat-square" alt="Made in Italy">
   <a href="https://pepy.tech/project/whatsapp-python"><img src="https://static.pepy.tech/personalized-badge/whatsapp-python?period=total&units=none&left_color=grey&right_color=blue&left_text=Downloads" alt="Downloads"></a>
   <a href="https://pepy.tech/project/whatsapp-python"><img src="https://pepy.tech/badge/whatsapp-python/month" alt="Monthly Downloads"></a>
@@ -33,27 +34,22 @@ hatch shell
 
 Documentation is available in the [wiki](https://github.com/filipporomani/whatsapp/wiki) here on GitHub.
 
-## Why choose this library?
+### Key features:
+- Modern interface using `async` and `await`
+- Optimized for high-load workflows using asyncronous programming
+- Always up to date
+- All of the WhatsApp chat UI features supported
 
-The main reason why I decided to fork the original `heyoo` library is that it uses an old version of the API, it's missing many and it's not mantained anymore.
 
-In this fork I added app events (to listen to incoming messages) and implemented an easier way to send/receive messages and media by using the `Message` object.
-The API version is always up to date and I'm always adding new features and fixing bugs.
-
-I also added a full asyncronous version of the library, which is faster and more efficient than the syncronous one.
-
-I fixed some bugs and added many features, however the library can still be improved.
-
-### Supported features:
-
-- Listening to events (messages, media, etc.)
-- Async version available
+### All features
+- Event listener (incoming messages)
+- Async ready
 - Sending messages
 - Sending messages from different numbers individually
 - Marking messages as read
 - Replying to messages
 - Reacting to messages
-- Sending Media (images, audio, video and documents)
+- Sending medias (images, audios, videos, links and documents)
 - Sending location
 - Sending interactive buttons
 - Sending template messages
