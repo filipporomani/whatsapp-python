@@ -1,6 +1,7 @@
 from typing import Any, Dict, List
 import requests
 import logging
+from ..errors import Handle
 
 
 def send_custom_json(self, data: dict, recipient_id: str = "", sender=None):
@@ -46,7 +47,7 @@ def send_custom_json(self, data: dict, recipient_id: str = "", sender=None):
     logging.info(f"Custom json not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
     logging.error(f"Response: {r.json()}")
-    return r.json()
+    return Handle(r.json())
 
 
 def send_contacts(
@@ -104,4 +105,4 @@ def send_contacts(
     logging.info(f"Contacts not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
     logging.error(f"Response: {r.json()}")
-    return r.json()
+    return Handle(r.json())

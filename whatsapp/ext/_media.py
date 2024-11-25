@@ -4,6 +4,7 @@ import os
 import mimetypes
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from typing import Union, Dict, Any
+from ..errors import Handle
 
 
 def upload_media(self, media: str, sender=None) -> Union[Dict[Any, Any], None]:
@@ -54,7 +55,7 @@ def upload_media(self, media: str, sender=None) -> Union[Dict[Any, Any], None]:
     logging.info(f"Error uploading media {media}")
     logging.info(f"Status code: {r.status_code}")
     logging.debug(f"Response: {r.json()}")  # Changed to debug level
-    return None
+    return Handle(r.json())
 
 
 def delete_media(self, media_id: str) -> Union[Dict[Any, Any], None]:
@@ -72,7 +73,7 @@ def delete_media(self, media_id: str) -> Union[Dict[Any, Any], None]:
     logging.info(f"Error deleting media {media_id}")
     logging.info(f"Status code: {r.status_code}")
     logging.debug(f"Response: {r.json()}")  # Changed to debug level
-    return None
+    return Handle(r.json())
 
 
 def query_media_url(self, media_id: str) -> Union[str, None]:
@@ -99,7 +100,7 @@ def query_media_url(self, media_id: str) -> Union[str, None]:
     logging.info(f"Media url not queried for {media_id}")
     logging.info(f"Status code: {r.status_code}")
     logging.debug(f"Response: {r.json()}")  # Changed to debug level
-    return None
+    return Handle(r.json())
 
 
 def download_media(
@@ -124,6 +125,11 @@ def download_media(
         >>> whatsapp.download_media("media_url", "video/mp4", "path/to/file") #do not include the file extension
     """
     r = requests.get(media_url, headers=self.headers)
+    if r.status_code != 200:
+        logging.error(f"Error downloading media from {media_url}")
+        logging.error(f"Status code: {r.status_code}")
+        logging.error(f"Response: {r.json()}")
+        return Handle(r.json())
     content = r.content
     extension = mime_type.split("/")[1]
     save_file_here = None

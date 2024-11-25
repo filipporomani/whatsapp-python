@@ -36,6 +36,7 @@ Documentation is available in the [wiki](https://github.com/filipporomani/whatsa
 
 ### Key features:
 - Modern interface using `async` and `await`
+- Full support for Graph API error handling
 - Optimized for high-load workflows using asyncronous programming
 - Always up to date
 - All of the WhatsApp chat UI features supported
@@ -44,6 +45,7 @@ Documentation is available in the [wiki](https://github.com/filipporomani/whatsa
 ### All features
 - Event listener (incoming messages)
 - Async ready
+- Error handling
 - Sending messages
 - Sending messages from different numbers individually
 - Marking messages as read

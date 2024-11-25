@@ -90,6 +90,8 @@ from .async_ext._static import (
     changed_field as async_changed_field,
 )
 
+from .errors import Handle
+
 
 class WhatsApp:
     def __init__(
@@ -359,7 +361,6 @@ class AsyncWhatsApp(WhatsApp):
 
         # Check if the version is up to date
         logging.getLogger(__name__).addHandler(logging.NullHandler())
-
         self.l = phone_number_id
 
         if isinstance(phone_number_id, dict):
@@ -539,6 +540,9 @@ class AsyncWhatsApp(WhatsApp):
     send_custom_json = async_send_custom_json
     send_contacts = async_send_contacts
     authorized = property(async_authorized)
+    
+    def handle(self, data: dict):
+        return Handle(data)
 
     def create_message(self, **kwargs) -> AsyncMessage:
         """

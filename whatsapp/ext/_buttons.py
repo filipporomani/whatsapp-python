@@ -1,6 +1,7 @@
 import logging
 import requests
 from typing import Dict, Any
+from ..errors import Handle
 
 
 def create_button(self, button: Dict[Any, Any]) -> Dict[Any, Any]:
@@ -60,7 +61,7 @@ def send_button(
     logging.info(f"Buttons not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
     logging.info(f"Response: {r.json()}")
-    return r.json()
+    return Handle(r.json())
 
 
 def send_reply_button(
@@ -103,4 +104,4 @@ def send_reply_button(
     logging.info(f"Reply buttons not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
     logging.info(f"Response: {r.json()}")
-    return r.json()
+    return Handle(r.json())

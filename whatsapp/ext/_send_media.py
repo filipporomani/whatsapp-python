@@ -1,5 +1,6 @@
 import logging
 import requests
+from ..errors import Handle
 
 
 def send_location(
@@ -49,7 +50,7 @@ def send_location(
     logging.info(f"Location not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
     logging.error(r.json())
-    return r.json()
+    return Handle(r.json())
 
 
 def send_image(
@@ -114,7 +115,7 @@ def send_image(
     logging.info(f"Image not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
     logging.error(r.json())
-    return r.json()
+    return Handle(r.json())
 
 
 def send_sticker(
@@ -177,7 +178,7 @@ def send_sticker(
     logging.info(f"Sticker not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
     logging.error(r.json())
-    return r.json()
+    return Handle(r.json())
 
 
 def send_audio(
@@ -229,7 +230,7 @@ def send_audio(
     logging.info(f"Audio not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
     logging.error(f"Response: {r.json()}")
-    return r.json()
+    return Handle(r.json())
 
 
 def send_video(
@@ -287,7 +288,7 @@ def send_video(
     logging.info(f"Video not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
     logging.error(f"Response: {r.json()}")
-    return r.json()
+    return Handle(r.json())
 
 
 def send_document(
@@ -346,4 +347,4 @@ def send_document(
     logging.info(f"Document not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
     logging.error(f"Response: {r.json()}")
-    return r.json()
+    return Handle(r.json())

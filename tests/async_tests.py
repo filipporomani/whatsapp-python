@@ -10,6 +10,7 @@ phone_number_id = {1: getenv("TEST_PHONE_NUMBER_ID")}
 dest_phone_number = getenv("DEST_PHONE_NUMBER")
 
 app = AsyncWhatsApp(token=token, phone_number_id=phone_number_id, update_check=False, logger=True, debug=True)
+syncapp = WhatsApp(token=token, phone_number_id=phone_number_id, update_check=False, logger=True, debug=True)
 loop = asyncio.get_event_loop()
 msg = app.create_message(to=dest_phone_number, content="Hello world")
 
@@ -98,6 +99,28 @@ async def run_test():
         dest_phone_number,
         sender=1,
     )
+    while not v.done():
+        await asyncio.sleep(1)
+    try: app.handle(v.result())
+    except Exception as error:
+        print(f"error: {error}")
+    print("sending wrong button")
+    v = await app.send_button(
+        {
+            "header": "Header Testing",
+            
+        },
+        dest_phone_number,
+        sender=1,
+    )
+    while not v.done():
+        await asyncio.sleep(1)
+    try: app.handle(v.result())
+    except Exception as error:  
+        print(f"error: {error}")
+        raise Exception("Error")
+    
+    
     print(f"send_button: {v}")
     print("sending image")
     v = await app.send_image(
@@ -138,6 +161,9 @@ async def run_test():
         f"send_template: {v}"
     )  # this returns error if the phone number is not a test phone number
 
+
+    
+        
     await asyncio.sleep(60)
 
 async def upload():
@@ -148,6 +174,7 @@ async def upload():
     )
     print(f"upload_media: {f}")
     print(f)
+
     
-    
+asyncio.run(run_test())  
 asyncio.run(upload())

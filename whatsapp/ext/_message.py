@@ -1,5 +1,6 @@
 import logging
 import requests
+from ..errors import Handle
 
 
 def react(self, emoji: str) -> dict:
@@ -18,7 +19,7 @@ def react(self, emoji: str) -> dict:
     logging.info(f"Reaction not sent to {self.to}")
     logging.info(f"Status code: {r.status_code}")
     logging.debug(f"Response: {r.json()}")
-    return r.json()
+    return Handle(r.json())
 
 
 def send_template(
@@ -75,7 +76,7 @@ def send_template(
     logging.info(f"Template not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
     logging.error(f"Response: {r.json()}")
-    return r.json()
+    return Handle(r.json())
 
 
 # MESSAGE()
@@ -101,7 +102,7 @@ def reply(self, reply_text: str = "", preview_url: bool = True) -> dict:
     logging.info(f"Message not sent to {self.instance.get_author(self.data)}")
     logging.info(f"Status code: {r.status_code}")
     logging.error(f"Response: {r.json()}")
-    return r.json()
+    return Handle(r.json())
 
 
 def mark_as_read(self) -> dict:
@@ -119,7 +120,7 @@ def mark_as_read(self) -> dict:
         return response.json()
     else:
         logging.error(response.json())
-        return response.json()
+        return Handle(response.json())
 
 
 def send(self, preview_url: bool = True) -> dict:
@@ -139,4 +140,4 @@ def send(self, preview_url: bool = True) -> dict:
     logging.info(f"Message not sent to {self.to}")
     logging.info(f"Status code: {r.status_code}")
     logging.error(f"Response fddfscsad: {r.json()}")
-    return r.json()
+    return Handle(r.json())
