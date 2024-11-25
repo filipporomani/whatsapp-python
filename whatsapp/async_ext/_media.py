@@ -44,25 +44,18 @@ async def upload_media(self, media: str, sender=None) -> asyncio.Future:
     headers["Content-Type"] = form_data.content_type
     logging.info(f"Content-Type: {form_data.content_type}")
     logging.info(f"Uploading media {media}")
-
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(
-                f"https://graph.facebook.com/{self.LATEST}/{sender}/media",
-                headers=headers,
-                data=form_data,
-            ) as r:
-                if r.status == 200:
-                    logging.info(f"Media {media} uploaded")
-                    return await r.json()
-                logging.info(f"Error uploading media {media}")
-                logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
-                return await r.json()
-
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)  # make asyncio run the task
-    return f
+    r = aiohttp.post(
+        f"{self.base_url}/{sender}/media",
+        headers=headers,
+        data=form_data,
+    )
+    if r.status_code == 200:
+        logging.info(f"Media {media} uploaded")
+        return r.json()
+    logging.info(f"Error uploading media {media}")
+    logging.info(f"Status code: {r.status_code}")
+    logging.debug(f"Response: {r.json()}")  # Changed to debug level
+    return None
 
 
 async def delete_media(self, media_id: str) -> asyncio.Future:

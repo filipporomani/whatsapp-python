@@ -8,7 +8,7 @@ token = getenv("GRAPH_API_TOKEN")
 phone_number_id = {1: getenv("TEST_PHONE_NUMBER_ID")}
 dest_phone_number = getenv("DEST_PHONE_NUMBER")
 
-app = AsyncWhatsApp(token=token, phone_number_id=phone_number_id, update_check=False)
+app = WhatsApp(token=token, phone_number_id=phone_number_id, update_check=False)
 loop = asyncio.get_event_loop()
 msg = app.create_message(to=dest_phone_number, content="Hello world")
 
@@ -138,4 +138,13 @@ async def run_test():
     await asyncio.sleep(60)
 
 
-asyncio.run(run_test())
+async def upload():
+    print("uploading media")
+    v = app.upload_media(
+        'C:/Users///logo.jpg',
+        sender=1
+    )
+    print(f"upload_media: {v}")
+    print("uploading media")
+    
+asyncio.run(upload())
