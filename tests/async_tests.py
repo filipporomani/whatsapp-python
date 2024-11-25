@@ -141,7 +141,7 @@ async def run_test():
 async def upload():
     print("uploading media")
     v = app.upload_media(
-        'C:/Users///logo.jpg',
+        getenv("TEST_IMAGE_PATH"),
         sender=1
     )
     print(f"upload_media: {v}")
