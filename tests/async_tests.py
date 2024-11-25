@@ -2,16 +2,19 @@ from whatsapp import WhatsApp, Message, AsyncWhatsApp
 from dotenv import load_dotenv
 from os import getenv
 import asyncio
+from logging import getLogger, basicConfig, DEBUG
 
 load_dotenv()
 token = getenv("GRAPH_API_TOKEN")
 phone_number_id = {1: getenv("TEST_PHONE_NUMBER_ID")}
 dest_phone_number = getenv("DEST_PHONE_NUMBER")
 
-app = WhatsApp(token=token, phone_number_id=phone_number_id, update_check=False)
+app = AsyncWhatsApp(token=token, phone_number_id=phone_number_id, update_check=False, logger=True, debug=True)
 loop = asyncio.get_event_loop()
 msg = app.create_message(to=dest_phone_number, content="Hello world")
 
+basicConfig(level=DEBUG)
+logger = getLogger(__name__)
 
 async def run_test():
 
@@ -137,14 +140,14 @@ async def run_test():
 
     await asyncio.sleep(60)
 
-
 async def upload():
     print("uploading media")
-    v = app.upload_media(
+    f = await app.upload_media(
         getenv("TEST_IMAGE_PATH"),
         sender=1
     )
-    print(f"upload_media: {v}")
-    print("uploading media")
+    print(f"upload_media: {f}")
+    print(f)
+    
     
 asyncio.run(upload())

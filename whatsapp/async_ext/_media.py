@@ -1,5 +1,6 @@
 import logging
 import aiohttp
+import requests
 import asyncio
 import os
 import mimetypes
@@ -7,7 +8,7 @@ from requests_toolbelt.multipart.encoder import MultipartEncoder
 from typing import Union, Dict, Any
 
 
-async def upload_media(self, media: str, sender=None) -> asyncio.Future:
+async def upload_media(self, media: str, sender=None) -> Union[Dict[str, Any], None]:
     """
     Uploads a media to the cloud api and returns the id of the media
 
@@ -44,7 +45,7 @@ async def upload_media(self, media: str, sender=None) -> asyncio.Future:
     headers["Content-Type"] = form_data.content_type
     logging.info(f"Content-Type: {form_data.content_type}")
     logging.info(f"Uploading media {media}")
-    r = aiohttp.post(
+    r = requests.post(
         f"{self.base_url}/{sender}/media",
         headers=headers,
         data=form_data,
@@ -55,7 +56,7 @@ async def upload_media(self, media: str, sender=None) -> asyncio.Future:
     logging.info(f"Error uploading media {media}")
     logging.info(f"Status code: {r.status_code}")
     logging.debug(f"Response: {r.json()}")  # Changed to debug level
-    return None
+    return r.status_code
 
 
 async def delete_media(self, media_id: str) -> asyncio.Future:
