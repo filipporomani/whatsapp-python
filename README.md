@@ -43,8 +43,8 @@ Documentation is available in the [wiki](https://github.com/filipporomani/whatsa
 
 
 ### All features
-- Event listener (incoming messages)
-- Async ready
+- Event listening (incoming messages)
+- Asyncronous API calls
 - Error handling
 - Sending messages
 - Sending messages from different numbers individually
@@ -57,6 +57,7 @@ Documentation is available in the [wiki](https://github.com/filipporomani/whatsa
 - Sending template messages
 - Parsing messages and media received
 - Sending contacts
+- Uploading media to the Facebook cloud
 
 ## Obtaining the WhatsApp API credentials
 
