@@ -39,7 +39,7 @@ Documentation is available in the [wiki](https://github.com/filipporomani/whatsa
 - Full support for Graph API error handling
 - Optimized for high-load workflows using asyncronous programming
 - Always up to date
-- All of the WhatsApp chat UI features supported
+- All of the WhatsApp Business chat UI features supported
 
 
 ### All features
