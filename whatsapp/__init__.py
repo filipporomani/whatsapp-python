@@ -614,7 +614,7 @@ class Message:
         self.rec = rec_type
 
         try:
-            self.to = self.instance.get_mobile(data)
+            self.to =  to if to != "" else self.instance.get_mobile(data)
         except:
             self.to = to
             
@@ -776,7 +776,10 @@ class AsyncMessage:
             self.type = "text"
         self.data = data
         self.rec = rec_type
-        self.to = to
+        try:
+            self.to =  to if to != "" else self.instance.get_mobile(data)
+        except:
+            self.to = to
         try:
             self.content = content if content != "" else self.instance.get_message(data)
         except:
