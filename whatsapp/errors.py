@@ -1,7 +1,7 @@
 from typing import Union
 
 
-class Handler:
+class Handler(Exception):
     def __init__(self, error: dict):
         self.error = error
 
