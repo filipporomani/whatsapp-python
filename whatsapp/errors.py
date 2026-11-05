@@ -71,7 +71,7 @@ class UnknownAPIException(Exception):  # invoked by code 1
     pass
 
 
-class ServiceUnavailableException(Exception):  # invoked by code 2
+class ServiceUnavailableException(Exception):  # invoked by codes 2, 131016
     pass
 
 
@@ -80,6 +80,10 @@ class WrongPhoneNumberException(Exception):  # invoked by code 33
 
 
 class InvalidParameterException(Exception):  # invoked by code 100
+    pass
+
+
+class UserBlockedException(Exception):  # invoked by code 130403
     pass
 
 
@@ -103,15 +107,15 @@ class InvalidParameterTypeException(Exception):  # invoked by code 131009
     pass
 
 
-class ServiceUnavailableException(Exception):  # invoked by code 131016
-    pass
-
-
 class SamePhoneNumberException(Exception):  # invoked by code 131021
     pass
 
 
 class DeliveryFailureException(Exception):  # invoked by code 131026
+    pass
+
+
+class DisplayNameApprovalException(Exception):  # invoked by code 131037
     pass
 
 
@@ -131,6 +135,10 @@ class MetaDeliveryFailureException(Exception):  # invoked by code 131049
     pass
 
 
+class MarketingOptOutException(Exception):  # invoked by code 131050
+    pass
+
+
 class UnsupportedMessageTypeException(Exception):  # invoked by code 131051
     pass
 
@@ -143,7 +151,19 @@ class MediaLoadFailureException(Exception):  # invoked by code 131053
     pass
 
 
+class MarketingMethodNotAllowedException(Exception):  # invoked by code 131055
+    pass
+
+
 class MaintenanceException(Exception):  # invoked by code 131057
+    pass
+
+
+class MarketingTemplatesDisabledException(Exception):  # invoked by code 131063
+    pass
+
+
+class TemplateClassificationLimitException(ThrottlingException):  # invoked by code 131064
     pass
 
 
@@ -172,6 +192,10 @@ class PausedTemplateException(Exception):  # invoked by code 132015
 
 
 class DisabledTemplateException(Exception):  # invoked by code 132016
+    pass
+
+
+class TemplateValidationException(Exception):  # invoked by code 132018
     pass
 
 
@@ -215,6 +239,22 @@ class RetryLaterException(Exception):  # invoked by code 133015
     pass
 
 
+class PaymentsTermsException(Exception):  # invoked by code 134011
+    pass
+
+
+class MarketingMessagesOnlyException(Exception):  # invoked by code 134100
+    pass
+
+
+class TemplateSyncingException(Exception):  # invoked by code 134101
+    pass
+
+
+class TemplateUnavailableException(Exception):  # invoked by code 134102
+    pass
+
+
 class GenericUserException(Exception):  # invoked by code 135000
     pass
 
@@ -228,7 +268,11 @@ pairings = {
     10: ForbiddenException,
     33: WrongPhoneNumberException,
     100: InvalidParameterException,
+    190: ExpiredTokenException,
     200: ForbiddenException,
+    368: RulesViolationException,
+    80007: UserRateLimitException,
+    130403: UserBlockedException,
     130429: AppRateLimitException,
     130472: ExperimentalNumberException,
     130497: GeoRestrictionException,
@@ -239,16 +283,22 @@ pairings = {
     131016: ServiceUnavailableException,
     131021: SamePhoneNumberException,
     131026: DeliveryFailureException,
+    131031: BlockedAccountException,
+    131037: DisplayNameApprovalException,
     131042: PaymentFailureException,
     131045: PhoneRegistrationFailureException,
     131047: ChatExpiredException,
     131048: SpamException,
     131049: MetaDeliveryFailureException,
+    131050: MarketingOptOutException,
     131051: UnsupportedMessageTypeException,
     131052: MediaDownloadFailureException,
     131053: MediaLoadFailureException,
+    131055: MarketingMethodNotAllowedException,
     131056: CoupleRateLimitException,
     131057: MaintenanceException,
+    131063: MarketingTemplatesDisabledException,
+    131064: TemplateClassificationLimitException,
     132000: ParameterNumberMismatchException,
     132001: ModelNotFoundException,
     132005: TextTooLongException,
@@ -256,6 +306,7 @@ pairings = {
     132012: WrongParameterFormatException,
     132015: PausedTemplateException,
     132016: DisabledTemplateException,
+    132018: TemplateValidationException,
     132068: StreamBlockedException,
     132069: StreamThrottlingException,
     133000: FailedToRevertRegistrationException,
@@ -266,13 +317,12 @@ pairings = {
     133009: TooFastPinAttemptsException,
     133010: UnregisteredNumberException,
     133015: RetryLaterException,
-    80007: UserRateLimitException,
-    131031: BlockedAccountException,
-    131056: CoupleRateLimitException,
-    131057: MaintenanceException,
     133016: RegistrationRateLimitException,
-    368: RulesViolationException,
-    190: ExpiredTokenException,
+    134011: PaymentsTermsException,
+    134100: MarketingMessagesOnlyException,
+    134101: TemplateSyncingException,
+    134102: TemplateUnavailableException,
+    135000: GenericUserException,
 }
 
 

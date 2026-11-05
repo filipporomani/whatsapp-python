@@ -329,3 +329,19 @@ def get_author(data: Dict[Any, Any]) -> Union[str, None]:
         return data["entry"][0]["changes"][0]["value"]["messages"][0]["from"]
     except Exception:
         return None
+
+
+@staticmethod
+def get_reaction(data: Dict[Any, Any]) -> Union[Dict, None]:
+    """
+    Extracts a reaction payload from an inbound messages webhook.
+
+    Args:
+        data[dict]: The data received from the webhook
+    Returns:
+        dict: Reaction details including message_id and emoji
+    """
+    data = data["entry"][0]["changes"][0]["value"]
+    if "messages" in data:
+        if "reaction" in data["messages"][0]:
+            return data["messages"][0]["reaction"]

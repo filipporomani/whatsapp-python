@@ -120,3 +120,111 @@ async def send_reply_button(
     f = asyncio.ensure_future(call())
     await asyncio.sleep(0.001)  # make asyncio run the task
     return f
+
+
+async def send_cta_url(
+    self,
+    body: str,
+    display_text: str,
+    url: str,
+    recipient_id: str,
+    header: str = None,
+    footer: str = None,
+    sender=None,
+) -> asyncio.Future:
+    """
+    Sends an interactive Call-to-Action URL button message.
+
+    REFERENCE: https://developers.facebook.com/docs/whatsapp/cloud-api/messages/interactive-cta-url-messages
+    """
+    try:
+        sender = dict(self.l)[sender]
+    except Exception:
+        sender = self.phone_number_id
+
+    if sender is None:
+        sender = self.phone_number_id
+
+    endpoint = f"https://graph.facebook.com/{self.LATEST}/{sender}/messages"
+    interactive: Dict[Any, Any] = {
+        "type": "cta_url",
+        "body": {"text": body},
+        "action": {
+            "name": "cta_url",
+            "parameters": {"display_text": display_text, "url": url},
+        },
+    }
+    if header:
+        interactive["header"] = {"type": "text", "text": header}
+    if footer:
+        interactive["footer"] = {"text": footer}
+
+    data = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": recipient_id,
+        "type": "interactive",
+        "interactive": interactive,
+    }
+    logging.info(f"Sending CTA URL to {recipient_id}")
+
+    async def call():
+        async with aiohttp.ClientSession() as session:
+            async with session.post(endpoint, headers=self.headers, json=data) as r:
+                if r.status == 200:
+                    logging.info(f"CTA URL sent to {recipient_id}")
+                    return await r.json()
+                logging.info(f"CTA URL not sent to {recipient_id}")
+                logging.info(f"Status code: {r.status}")
+                logging.info(f"Response: {await r.json()}")
+                return await r.json()
+
+    f = asyncio.ensure_future(call())
+    await asyncio.sleep(0.001)
+    return f
+
+
+async def send_location_request(
+    self, body: str, recipient_id: str, sender=None
+) -> asyncio.Future:
+    """
+    Sends a location request message that prompts the user to share their location.
+
+    REFERENCE: https://developers.facebook.com/docs/whatsapp/cloud-api/guides/send-messages/location-request-messages
+    """
+    try:
+        sender = dict(self.l)[sender]
+    except Exception:
+        sender = self.phone_number_id
+
+    if sender is None:
+        sender = self.phone_number_id
+
+    endpoint = f"https://graph.facebook.com/{self.LATEST}/{sender}/messages"
+    data = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": recipient_id,
+        "type": "interactive",
+        "interactive": {
+            "type": "location_request_message",
+            "body": {"text": body},
+            "action": {"name": "send_location"},
+        },
+    }
+    logging.info(f"Sending location request to {recipient_id}")
+
+    async def call():
+        async with aiohttp.ClientSession() as session:
+            async with session.post(endpoint, headers=self.headers, json=data) as r:
+                if r.status == 200:
+                    logging.info(f"Location request sent to {recipient_id}")
+                    return await r.json()
+                logging.info(f"Location request not sent to {recipient_id}")
+                logging.info(f"Status code: {r.status}")
+                logging.info(f"Response: {await r.json()}")
+                return await r.json()
+
+    f = asyncio.ensure_future(call())
+    await asyncio.sleep(0.001)
+    return f

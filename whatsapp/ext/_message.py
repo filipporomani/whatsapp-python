@@ -58,15 +58,17 @@ def send_template(
         sender = self.phone_number_id
 
     url = f"https://graph.facebook.com/{self.LATEST}/{sender}/messages"
+    template_payload = {
+        "name": template,
+        "language": {"code": lang},
+    }
+    if components is not None:
+        template_payload["components"] = components
     data = {
         "messaging_product": "whatsapp",
         "to": recipient_id,
         "type": "template",
-        "template": {
-            "name": template,
-            "language": {"code": lang},
-            "components": components,
-        },
+        "template": template_payload,
     }
     logging.info(f"Sending template to {recipient_id}")
     r = requests.post(url, headers=self.headers, json=data)
@@ -105,12 +107,14 @@ def reply(self, reply_text: str = "", preview_url: bool = True) -> dict:
     return Handle(r.json())
 
 
-def mark_as_read(self) -> dict:
+def mark_as_read(self, typing: bool = False) -> dict:
     payload = {
         "messaging_product": "whatsapp",
         "status": "read",
         "message_id": self.id,
     }
+    if typing:
+        payload["typing_indicator"] = {"type": "text"}
 
     response = requests.post(
         f"{self.instance.url}", headers=self.instance.headers, json=payload

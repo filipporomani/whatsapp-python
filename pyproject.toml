@@ -31,7 +31,15 @@ classifiers=[
 dynamic = [
   "version"
 ]
-dependencies = ["fastapi", "uvicorn", "requests_toolbelt", "asyncio", "aiohttp", "python-dotenv", "BeautifulSoup4"]
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "requests",
+    "requests_toolbelt",
+    "aiohttp",
+    "python-dotenv",
+    "beautifulsoup4",
+]
 
 [project.urls]
 Homepage = "https://github.com/filipporomani/whatsapp-python"
@@ -41,9 +49,17 @@ Download = "https://github.com/filipporomani/whatsapp-python/releases/latest"
 Changelog = "https://github.com/filipporomani/whatsapp-python/releases"
 
 
+[project.optional-dependencies]
+test = ["pytest>=8.0", "httpx"]
+
 [tool.hatch.version]
 path = "whatsapp/constants.py"
 variable = "VERSION"
 
 [tool.hatch.build.targets.wheel]
 packages = ["whatsapp"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-q"

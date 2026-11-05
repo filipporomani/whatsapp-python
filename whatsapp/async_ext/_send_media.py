@@ -203,16 +203,21 @@ async def send_sticker(
 
 
 async def send_audio(
-    self, audio: str, recipient_id: str, link: bool = True, sender=None
+    self,
+    audio: str,
+    recipient_id: str,
+    link: bool = True,
+    sender=None,
+    voice: bool = False,
 ) -> asyncio.Future:
     """
-    Sends an audio message to a WhatsApp user
-    Audio messages can either be sent by passing the audio id or by passing the audio link.
+    Sends an audio or voice message to a WhatsApp user.
 
     Args:
         audio[str]: Audio id or link of the audio
         recipient_id[str]: Phone number of the user with country code wihout +
-        link[bool]: Whether to send an audio id or an audio link, True means that the audio is an id, False means that the audio is a link
+        link[bool]: True sends ``audio`` as a hosted URL (``link``), False as an uploaded media ``id``
+        voice[bool]: When True, send as a WhatsApp voice message (Ogg/OPUS required)
 
     Example:
         >>> from whatsapp import WhatsApp
@@ -229,20 +234,15 @@ async def send_audio(
         sender = self.phone_number_id
 
     url = f"https://graph.facebook.com/{self.LATEST}/{sender}/messages"
-    if link:
-        data = {
-            "messaging_product": "whatsapp",
-            "to": recipient_id,
-            "type": "audio",
-            "audio": {"link": audio},
-        }
-    else:
-        data = {
-            "messaging_product": "whatsapp",
-            "to": recipient_id,
-            "type": "audio",
-            "audio": {"id": audio},
-        }
+    audio_payload = {"link": audio} if link else {"id": audio}
+    if voice:
+        audio_payload["voice"] = True
+    data = {
+        "messaging_product": "whatsapp",
+        "to": recipient_id,
+        "type": "audio",
+        "audio": audio_payload,
+    }
     logging.info(f"Sending audio to {recipient_id}")
 
     async def call():
@@ -333,8 +333,9 @@ async def send_document(
     caption: str = "",
     link: bool = True,
     sender=None,
+    filename: str = None,
 ) -> asyncio.Future:
-    """ "
+    """
     Sends a document message to a WhatsApp user
     Document messages can either be sent by passing the document id or by passing the document link.
 
@@ -342,7 +343,8 @@ async def send_document(
         document[str]: Document id or link of the document
         recipient_id[str]: Phone number of the user with country code wihout +
         caption[str]: Caption of the document
-        link[bool]: Whether to send a document id or a document link, True means that the document is an id, False means that the document is a link
+        link[bool]: True sends ``document`` as a hosted URL (``link``), False as an uploaded media ``id``
+        filename[str]: Optional filename shown to the WhatsApp user
 
     Example:
         >>> from whatsapp import WhatsApp
@@ -359,20 +361,17 @@ async def send_document(
         sender = self.phone_number_id
 
     url = f"https://graph.facebook.com/{self.LATEST}/{sender}/messages"
-    if link:
-        data = {
-            "messaging_product": "whatsapp",
-            "to": recipient_id,
-            "type": "document",
-            "document": {"link": document, "caption": caption},
-        }
-    else:
-        data = {
-            "messaging_product": "whatsapp",
-            "to": recipient_id,
-            "type": "document",
-            "document": {"id": document, "caption": caption},
-        }
+    document_payload = {"link": document} if link else {"id": document}
+    if caption:
+        document_payload["caption"] = caption
+    if filename:
+        document_payload["filename"] = filename
+    data = {
+        "messaging_product": "whatsapp",
+        "to": recipient_id,
+        "type": "document",
+        "document": document_payload,
+    }
 
     logging.info(f"Sending document to {recipient_id}")
 
