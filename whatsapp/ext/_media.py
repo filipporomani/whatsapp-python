@@ -54,7 +54,7 @@ def upload_media(self, media: str, sender=None) -> Union[Dict[Any, Any], None]:
         return r.json()
     logging.info(f"Error uploading media {media}")
     logging.info(f"Status code: {r.status_code}")
-    logging.debug(f"Response: {r.json()}")  # Changed to debug level
+    logging.debug("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -72,7 +72,7 @@ def delete_media(self, media_id: str) -> Union[Dict[Any, Any], None]:
         return r.json()
     logging.info(f"Error deleting media {media_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.debug(f"Response: {r.json()}")  # Changed to debug level
+    logging.debug("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -99,7 +99,7 @@ def query_media_url(self, media_id: str) -> Union[str, None]:
         return r.json()["url"]
     logging.info(f"Media url not queried for {media_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.debug(f"Response: {r.json()}")  # Changed to debug level
+    logging.debug("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -128,7 +128,7 @@ def download_media(
     if r.status_code != 200:
         logging.error(f"Error downloading media from {media_url}")
         logging.error(f"Status code: {r.status_code}")
-        logging.error(f"Response: {r.json()}")
+        logging.error("Request failed (status=%s)", r.status_code)
         return Handle(r.json())
     content = r.content
     extension = mime_type.split("/")[1]

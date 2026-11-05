@@ -18,7 +18,7 @@ def react(self, emoji: str) -> dict:
         return r.json()
     logging.info(f"Reaction not sent to {self.to}")
     logging.info(f"Status code: {r.status_code}")
-    logging.debug(f"Response: {r.json()}")
+    logging.debug("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -58,15 +58,17 @@ def send_template(
         sender = self.phone_number_id
 
     url = f"https://graph.facebook.com/{self.LATEST}/{sender}/messages"
+    template_payload = {
+        "name": template,
+        "language": {"code": lang},
+    }
+    if components is not None:
+        template_payload["components"] = components
     data = {
         "messaging_product": "whatsapp",
         "to": recipient_id,
         "type": "template",
-        "template": {
-            "name": template,
-            "language": {"code": lang},
-            "components": components,
-        },
+        "template": template_payload,
     }
     logging.info(f"Sending template to {recipient_id}")
     r = requests.post(url, headers=self.headers, json=data)
@@ -75,7 +77,7 @@ def send_template(
         return r.json()
     logging.info(f"Template not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(f"Response: {r.json()}")
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -101,25 +103,27 @@ def reply(self, reply_text: str = "", preview_url: bool = True) -> dict:
         return r.json()
     logging.info(f"Message not sent to {self.instance.get_author(self.data)}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(f"Response: {r.json()}")
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
-def mark_as_read(self) -> dict:
+def mark_as_read(self, typing: bool = False) -> dict:
     payload = {
         "messaging_product": "whatsapp",
         "status": "read",
         "message_id": self.id,
     }
+    if typing:
+        payload["typing_indicator"] = {"type": "text"}
 
     response = requests.post(
         f"{self.instance.url}", headers=self.instance.headers, json=payload
     )
     if response.status_code == 200:
-        logging.info(response.json())
+        logging.info("Request succeeded (status=%s)", response.status_code)
         return response.json()
     else:
-        logging.error(response.json())
+        logging.error("Request failed (status=%s)", response.status_code)
         return Handle(response.json())
 
 
@@ -139,5 +143,5 @@ def send(self, preview_url: bool = True) -> dict:
         return r.json()
     logging.info(f"Message not sent to {self.to}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(f"Response fddfscsad: {r.json()}")
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())

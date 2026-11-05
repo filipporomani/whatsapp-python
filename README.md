@@ -48,16 +48,17 @@ Documentation is available in the [wiki](https://github.com/filipporomani/whatsa
 - Error handling
 - Sending messages
 - Sending messages from different numbers individually
-- Marking messages as read
+- Marking messages as read (optional typing indicator)
 - Replying to messages
 - Reacting to messages
-- Sending medias (images, audios, videos, links and documents)
-- Sending location
-- Sending interactive buttons
+- Sending medias (images, audios/voice notes, videos, links and documents)
+- Sending location and location-request prompts
+- Sending interactive buttons, lists, and CTA URL buttons
 - Sending template messages
-- Parsing messages and media received
+- Parsing messages and media received (including reactions)
 - Sending contacts
 - Uploading media to the Facebook cloud
+- Automatic Graph API version discovery with a safe fallback (`v27.0`)
 
 ## Obtaining the WhatsApp API credentials
 

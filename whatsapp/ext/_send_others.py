@@ -46,7 +46,7 @@ def send_custom_json(self, data: dict, recipient_id: str = "", sender=None):
         return r.json()
     logging.info(f"Custom json not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(f"Response: {r.json()}")
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -104,5 +104,5 @@ def send_contacts(
         return r.json()
     logging.info(f"Contacts not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(f"Response: {r.json()}")
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())

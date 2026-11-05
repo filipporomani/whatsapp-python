@@ -21,7 +21,7 @@ async def react(self, emoji: str) -> asyncio.Future:
                     return await r.json()
                 logging.info(f"Reaction not sent to {self.id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -65,15 +65,17 @@ async def send_template(
         sender = self.phone_number_id
 
     url = f"https://graph.facebook.com/{self.LATEST}/{sender}/messages"
+    template_payload = {
+        "name": template,
+        "language": {"code": lang},
+    }
+    if components is not None:
+        template_payload["components"] = components
     data = {
         "messaging_product": "whatsapp",
         "to": recipient_id,
         "type": "template",
-        "template": {
-            "name": template,
-            "language": {"code": lang},
-            "components": components,
-        },
+        "template": template_payload,
     }
     logging.info(f"Sending template to {recipient_id}")
 
@@ -85,7 +87,7 @@ async def send_template(
                     return await r.json()
                 logging.info(f"Template not sent to {recipient_id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -118,7 +120,7 @@ async def reply(self, reply_text: str = "", preview_url: bool = True) -> asyncio
                     return await r.json()
                 logging.info(f"Reply not sent to {self.id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -126,12 +128,14 @@ async def reply(self, reply_text: str = "", preview_url: bool = True) -> asyncio
     return f
 
 
-async def mark_as_read(self) -> asyncio.Future:
+async def mark_as_read(self, typing: bool = False) -> asyncio.Future:
     payload = {
         "messaging_product": "whatsapp",
         "status": "read",
         "message_id": self.id,
     }
+    if typing:
+        payload["typing_indicator"] = {"type": "text"}
 
     logging.info(f"Marking message {self.id} as read")
 
@@ -143,7 +147,7 @@ async def mark_as_read(self) -> asyncio.Future:
                     return await r.json()
                 logging.info(f"Error marking message {self.id} as read")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -170,7 +174,7 @@ async def send(self, preview_url: bool = True) -> asyncio.Future:
                     return await r.json()
                 logging.info(f"Message not sent to {self.to}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())

@@ -51,7 +51,7 @@ async def send_custom_json(
                     return await r.json()
                 logging.info(f"Custom json not sent to {recipient_id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -116,7 +116,7 @@ async def send_contacts(
                     return await r.json()
                 logging.info(f"Contacts not sent to {recipient_id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())

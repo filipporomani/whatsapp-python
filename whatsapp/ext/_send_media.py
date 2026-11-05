@@ -49,7 +49,7 @@ def send_location(
         return r.json()
     logging.info(f"Location not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(r.json())
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -114,7 +114,7 @@ def send_image(
         return r.json()
     logging.info(f"Image not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(r.json())
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -177,21 +177,26 @@ def send_sticker(
         return r.json()
     logging.info(f"Sticker not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(r.json())
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
 def send_audio(
-    self, audio: str, recipient_id: str, link: bool = True, sender=None
+    self,
+    audio: str,
+    recipient_id: str,
+    link: bool = True,
+    sender=None,
+    voice: bool = False,
 ) -> dict:
     """
-    Sends an audio message to a WhatsApp user
-    Audio messages can either be sent by passing the audio id or by passing the audio link.
+    Sends an audio or voice message to a WhatsApp user.
 
     Args:
         audio[str]: Audio id or link of the audio
         recipient_id[str]: Phone number of the user with country code wihout +
-        link[bool]: Whether to send an audio id or an audio link, True means that the audio is an id, False means that the audio is a link
+        link[bool]: True sends ``audio`` as a hosted URL (``link``), False as an uploaded media ``id``
+        voice[bool]: When True, send as a WhatsApp voice message (Ogg/OPUS required)
 
     Example:
         >>> from whatsapp import WhatsApp
@@ -208,20 +213,15 @@ def send_audio(
         sender = self.phone_number_id
 
     url = f"https://graph.facebook.com/{self.LATEST}/{sender}/messages"
-    if link:
-        data = {
-            "messaging_product": "whatsapp",
-            "to": recipient_id,
-            "type": "audio",
-            "audio": {"link": audio},
-        }
-    else:
-        data = {
-            "messaging_product": "whatsapp",
-            "to": recipient_id,
-            "type": "audio",
-            "audio": {"id": audio},
-        }
+    audio_payload = {"link": audio} if link else {"id": audio}
+    if voice:
+        audio_payload["voice"] = True
+    data = {
+        "messaging_product": "whatsapp",
+        "to": recipient_id,
+        "type": "audio",
+        "audio": audio_payload,
+    }
     logging.info(f"Sending audio to {recipient_id}")
     r = requests.post(url, headers=self.headers, json=data)
     if r.status_code == 200:
@@ -229,7 +229,7 @@ def send_audio(
         return r.json()
     logging.info(f"Audio not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(f"Response: {r.json()}")
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -287,7 +287,7 @@ def send_video(
         return r.json()
     logging.info(f"Video not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(f"Response: {r.json()}")
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -298,8 +298,9 @@ def send_document(
     caption: str = "",
     link: bool = True,
     sender=None,
+    filename: str = None,
 ) -> dict:
-    """ "
+    """
     Sends a document message to a WhatsApp user
     Document messages can either be sent by passing the document id or by passing the document link.
 
@@ -307,7 +308,8 @@ def send_document(
         document[str]: Document id or link of the document
         recipient_id[str]: Phone number of the user with country code wihout +
         caption[str]: Caption of the document
-        link[bool]: Whether to send a document id or a document link, True means that the document is an id, False means that the document is a link
+        link[bool]: True sends ``document`` as a hosted URL (``link``), False as an uploaded media ``id``
+        filename[str]: Optional filename shown to the WhatsApp user
 
     Example:
         >>> from whatsapp import WhatsApp
@@ -324,20 +326,17 @@ def send_document(
         sender = self.phone_number_id
 
     url = f"https://graph.facebook.com/{self.LATEST}/{sender}/messages"
-    if link:
-        data = {
-            "messaging_product": "whatsapp",
-            "to": recipient_id,
-            "type": "document",
-            "document": {"link": document, "caption": caption},
-        }
-    else:
-        data = {
-            "messaging_product": "whatsapp",
-            "to": recipient_id,
-            "type": "document",
-            "document": {"id": document, "caption": caption},
-        }
+    document_payload = {"link": document} if link else {"id": document}
+    if caption:
+        document_payload["caption"] = caption
+    if filename:
+        document_payload["filename"] = filename
+    data = {
+        "messaging_product": "whatsapp",
+        "to": recipient_id,
+        "type": "document",
+        "document": document_payload,
+    }
 
     logging.info(f"Sending document to {recipient_id}")
     r = requests.post(url, headers=self.headers, json=data)
@@ -346,5 +345,5 @@ def send_document(
         return r.json()
     logging.info(f"Document not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(f"Response: {r.json()}")
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())

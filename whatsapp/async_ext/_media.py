@@ -55,7 +55,7 @@ async def upload_media(self, media: str, sender=None) -> Union[Dict[str, Any], N
         return r.json()
     logging.info(f"Error uploading media {media}")
     logging.info(f"Status code: {r.status_code}")
-    logging.debug(f"Response: {r.json()}")  # Changed to debug level
+    logging.debug("Request failed (status=%s)", r.status_code)
     return r.status_code
 
 
@@ -79,7 +79,7 @@ async def delete_media(self, media_id: str) -> asyncio.Future:
                     return await r.json()
                 logging.info(f"Error deleting media {media_id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -116,7 +116,7 @@ async def query_media_url(self, media_id: str) -> asyncio.Future:
                     return await r.json()
                 logging.info(f"Error querying media url for {media_id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -161,7 +161,7 @@ async def download_media(
                     return save_file_here
                 logging.info(f"Error downloading media from {media_url}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
