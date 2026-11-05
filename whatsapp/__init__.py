@@ -5,7 +5,6 @@ Unofficial Python wrapper for the WhatsApp Cloud API.
 from __future__ import annotations
 
 import asyncio
-import json
 import logging
 from typing import Any, Callable, Optional, Union
 
@@ -252,9 +251,9 @@ class WhatsApp:
                 data = await r.json()
                 if data is None:
                     return {"success": False}
-                data_str = json.dumps(data, indent=4)
-                # log the data received only if the log level is debug
-                logging.debug(f"Received webhook data: {data_str}")
+                # Avoid logging raw webhook payloads — they contain phone numbers
+                # and message content that CodeQL treats as sensitive clear-text data.
+                logging.debug("Received webhook payload")
 
                 changed = self.changed_field(data)
                 if changed == "messages":
@@ -518,7 +517,7 @@ class Message:
             return r.json()
         logging.info(f"Message not sent to {self.instance.get_author(self.data)}")
         logging.info(f"Status code: {r.status_code}")
-        logging.error(f"Response: {r.json()}")
+        logging.error("Request failed (status=%s)", r.status_code)
         return r.json()
 
     def mark_as_read(self, typing: bool = False) -> dict:
@@ -541,9 +540,9 @@ class Message:
             f"{self.instance.url}", headers=self.instance.headers, json=payload
         )
         if response.status_code == 200:
-            logging.info(response.json())
+            logging.info("Request succeeded (status=%s)", response.status_code)
             return response.json()
-        logging.error(response.json())
+        logging.error("Request failed (status=%s)", response.status_code)
         return response.json()
 
     def show_typing(self) -> dict:
@@ -576,7 +575,7 @@ class Message:
             return r.json()
         logging.info(f"Message not sent to {self.to}")
         logging.info(f"Status code: {r.status_code}")
-        logging.error(f"Response: {r.json()}")
+        logging.error("Request failed (status=%s)", r.status_code)
         return r.json()
 
     def react(self, emoji: str) -> dict:
@@ -594,7 +593,7 @@ class Message:
             return r.json()
         logging.info(f"Reaction not sent to {self.to}")
         logging.info(f"Status code: {r.status_code}")
-        logging.debug(f"Response: {r.json()}")
+        logging.debug("Request failed (status=%s)", r.status_code)
         return r.json()
 
 
@@ -712,7 +711,7 @@ class AsyncMessage:
                         f"Message not sent to {self.instance.get_author(self.data)}"
                     )
                     logging.info(f"Status code: {response.status}")
-                    logging.error(f"Response: {await response.json()}")
+                    logging.error("Request failed (status=%s)", response.status)
                     return await response.json()
 
         f = asyncio.ensure_future(call())
@@ -741,9 +740,9 @@ class AsyncMessage:
                     f"{self.instance.url}", headers=self.instance.headers, json=payload
                 ) as response:
                     if response.status == 200:
-                        logging.info(await response.json())
+                        logging.info("Request succeeded (status=%s)", response.status)
                         return await response.json()
-                    logging.error(await response.json())
+                    logging.error("Request failed (status=%s)", response.status)
                     return await response.json()
 
         f = asyncio.ensure_future(call())
@@ -784,7 +783,7 @@ class AsyncMessage:
                         return await response.json()
                     logging.info(f"Message not sent to {self.to}")
                     logging.info(f"Status code: {response.status}")
-                    logging.error(f"Response: {await response.json()}")
+                    logging.error("Request failed (status=%s)", response.status)
                     return await response.json()
 
         f = asyncio.ensure_future(call())
@@ -811,7 +810,7 @@ class AsyncMessage:
                         return await response.json()
                     logging.info(f"Reaction not sent to {self.to}")
                     logging.info(f"Status code: {response.status}")
-                    logging.debug(f"Response: {await response.json()}")
+                    logging.debug("Request failed (status=%s)", response.status)
                     return await response.json()
 
         f = asyncio.ensure_future(call())

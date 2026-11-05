@@ -52,7 +52,7 @@ async def send_location(
                     return await r.json()
                 logging.info(f"Location not sent to {recipient_id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -124,7 +124,7 @@ async def send_image(
                     return await r.json()
                 logging.info(f"Image not sent to {recipient_id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -194,7 +194,7 @@ async def send_sticker(
                     return await r.json()
                 logging.info(f"Sticker not sent to {recipient_id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -253,7 +253,7 @@ async def send_audio(
                     return await r.json()
                 logging.info(f"Audio not sent to {recipient_id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -318,7 +318,7 @@ async def send_video(
                     return await r.json()
                 logging.info(f"Video not sent to {recipient_id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -383,7 +383,7 @@ async def send_document(
                     return await r.json()
                 logging.info(f"Document not sent to {recipient_id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())

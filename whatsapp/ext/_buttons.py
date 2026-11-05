@@ -60,7 +60,7 @@ def send_button(
         return r.json()
     logging.info(f"Buttons not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.info(f"Response: {r.json()}")
+    logging.info("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -103,7 +103,7 @@ def send_reply_button(
         return r.json()
     logging.info(f"Reply buttons not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.info(f"Response: {r.json()}")
+    logging.info("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -158,7 +158,7 @@ def send_cta_url(
         return r.json()
     logging.info(f"CTA URL not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.info(f"Response: {r.json()}")
+    logging.info("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -197,5 +197,5 @@ def send_location_request(
         return r.json()
     logging.info(f"Location request not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.info(f"Response: {r.json()}")
+    logging.info("Request failed (status=%s)", r.status_code)
     return Handle(r.json())

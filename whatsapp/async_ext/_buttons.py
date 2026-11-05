@@ -63,7 +63,7 @@ async def send_button(
                     return await r.json()
                 logging.info(f"Buttons not sent to {recipient_id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -114,7 +114,7 @@ async def send_reply_button(
                     return await r.json()
                 logging.info(f"Buttons not sent to {recipient_id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -176,7 +176,7 @@ async def send_cta_url(
                     return await r.json()
                 logging.info(f"CTA URL not sent to {recipient_id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -222,7 +222,7 @@ async def send_location_request(
                     return await r.json()
                 logging.info(f"Location request not sent to {recipient_id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())

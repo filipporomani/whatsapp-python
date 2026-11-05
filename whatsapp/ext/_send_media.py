@@ -49,7 +49,7 @@ def send_location(
         return r.json()
     logging.info(f"Location not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(r.json())
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -114,7 +114,7 @@ def send_image(
         return r.json()
     logging.info(f"Image not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(r.json())
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -177,7 +177,7 @@ def send_sticker(
         return r.json()
     logging.info(f"Sticker not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(r.json())
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -229,7 +229,7 @@ def send_audio(
         return r.json()
     logging.info(f"Audio not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(f"Response: {r.json()}")
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -287,7 +287,7 @@ def send_video(
         return r.json()
     logging.info(f"Video not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(f"Response: {r.json()}")
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())
 
 
@@ -345,5 +345,5 @@ def send_document(
         return r.json()
     logging.info(f"Document not sent to {recipient_id}")
     logging.info(f"Status code: {r.status_code}")
-    logging.error(f"Response: {r.json()}")
+    logging.error("Request failed (status=%s)", r.status_code)
     return Handle(r.json())

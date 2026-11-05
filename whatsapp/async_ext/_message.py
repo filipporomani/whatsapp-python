@@ -21,7 +21,7 @@ async def react(self, emoji: str) -> asyncio.Future:
                     return await r.json()
                 logging.info(f"Reaction not sent to {self.id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -87,7 +87,7 @@ async def send_template(
                     return await r.json()
                 logging.info(f"Template not sent to {recipient_id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -120,7 +120,7 @@ async def reply(self, reply_text: str = "", preview_url: bool = True) -> asyncio
                     return await r.json()
                 logging.info(f"Reply not sent to {self.id}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -147,7 +147,7 @@ async def mark_as_read(self, typing: bool = False) -> asyncio.Future:
                     return await r.json()
                 logging.info(f"Error marking message {self.id} as read")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
@@ -174,7 +174,7 @@ async def send(self, preview_url: bool = True) -> asyncio.Future:
                     return await r.json()
                 logging.info(f"Message not sent to {self.to}")
                 logging.info(f"Status code: {r.status}")
-                logging.info(f"Response: {await r.json()}")
+                logging.info("Request failed (status=%s)", r.status)
                 return await r.json()
 
     f = asyncio.ensure_future(call())
