@@ -1,39 +1,46 @@
-# This workflow will upload a Python Package using Twine when a release is created
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+# Upload to PyPI when a GitHub Release is published.
+# https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
 
 name: Upload Python Package
 
 on:
   release:
     types: [published]
+  # Re-run from Actions after workflow fixes (uses the selected branch/ref).
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
   deployment:
-
     runs-on: ubuntu-latest
     environment: publish
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.12'
-    - name: Install packages
-      run: |
-        python -m pip install --upgrade pip
-        pip install build
-    - name: Building...
-      run: python -m build
-    - name: Publish package
-      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
-      with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install build
+
+      - name: Build package
+        run: python -m build
+
+      - name: Check metadata
+        run: |
+          python -m pip install --upgrade "twine>=7"
+          twine check dist/*
+
+      # hatchling emits Metadata-Version 2.5; Twine 6 rejects it.
+      # gh-action-pypi-publish v1.14.2+ ships Twine 7 which accepts 2.5.
+      - name: Publish package
+        uses: pypa/gh-action-pypi-publish@v1.14.3
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
