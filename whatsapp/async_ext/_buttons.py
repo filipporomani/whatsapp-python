@@ -2,6 +2,7 @@ import logging
 import aiohttp
 import asyncio
 from typing import Dict, Any
+from ._helpers import text_object
 
 
 def create_button(self, button: Dict[Any, Any]) -> Dict[Any, Any]:
@@ -15,11 +16,11 @@ def create_button(self, button: Dict[Any, Any]) -> Dict[Any, Any]:
     """
     data = {"type": "list", "action": button.get("action")}
     if button.get("header"):
-        data["header"] = {"type": "text", "text": button.get("header")}
+        data["header"] = text_object(button.get("header"), field="header")
     if button.get("body"):
-        data["body"] = {"text": button.get("body")}
+        data["body"] = text_object(button.get("body"), field="body")
     if button.get("footer"):
-        data["footer"] = {"text": button.get("footer")}
+        data["footer"] = text_object(button.get("footer"), field="footer")
     if button.get("type"):
         data["type"] = button.get("type")
     return data

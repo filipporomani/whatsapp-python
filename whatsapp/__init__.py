@@ -35,6 +35,14 @@ from .ext._buttons import (
     send_cta_url,
     send_location_request,
 )
+from .ext._interactive import (
+    send_flow,
+    send_catalog_message,
+    send_product,
+    send_product_list,
+    send_address_message,
+    send_call_permission_request,
+)
 from .ext._static import (
     is_message,
     get_mobile,
@@ -82,6 +90,14 @@ from .async_ext._buttons import (
     send_reply_button as async_send_reply_button,
     send_cta_url as async_send_cta_url,
     send_location_request as async_send_location_request,
+)
+from .async_ext._interactive import (
+    send_flow as async_send_flow,
+    send_catalog_message as async_send_catalog_message,
+    send_product as async_send_product,
+    send_product_list as async_send_product_list,
+    send_address_message as async_send_address_message,
+    send_call_permission_request as async_send_call_permission_request,
 )
 from .async_ext._static import (
     is_message as async_is_message,
@@ -295,6 +311,12 @@ class WhatsApp:
     send_reply_button = send_reply_button
     send_cta_url = send_cta_url
     send_location_request = send_location_request
+    send_flow = send_flow
+    send_catalog_message = send_catalog_message
+    send_product = send_product
+    send_product_list = send_product_list
+    send_address_message = send_address_message
+    send_call_permission_request = send_call_permission_request
     send_image = send_image
     send_video = send_video
     send_audio = send_audio
@@ -380,6 +402,12 @@ class AsyncWhatsApp(WhatsApp):
     send_reply_button = async_send_reply_button
     send_cta_url = async_send_cta_url
     send_location_request = async_send_location_request
+    send_flow = async_send_flow
+    send_catalog_message = async_send_catalog_message
+    send_product = async_send_product
+    send_product_list = async_send_product_list
+    send_address_message = async_send_address_message
+    send_call_permission_request = async_send_call_permission_request
     send_image = async_send_image
     send_video = async_send_video
     send_audio = async_send_audio
@@ -518,7 +546,7 @@ class Message:
         logging.info(f"Message not sent to {self.instance.get_author(self.data)}")
         logging.info(f"Status code: {r.status_code}")
         logging.error("Request failed (status=%s)", r.status_code)
-        return r.json()
+        return Handle(r.json())
 
     def mark_as_read(self, typing: bool = False) -> dict:
         """
@@ -543,7 +571,7 @@ class Message:
             logging.info("Request succeeded (status=%s)", response.status_code)
             return response.json()
         logging.error("Request failed (status=%s)", response.status_code)
-        return response.json()
+        return Handle(response.json())
 
     def show_typing(self) -> dict:
         """Mark as read and show a typing indicator while preparing a reply."""
@@ -576,7 +604,7 @@ class Message:
         logging.info(f"Message not sent to {self.to}")
         logging.info(f"Status code: {r.status_code}")
         logging.error("Request failed (status=%s)", r.status_code)
-        return r.json()
+        return Handle(r.json())
 
     def react(self, emoji: str) -> dict:
         data = {
@@ -594,7 +622,7 @@ class Message:
         logging.info(f"Reaction not sent to {self.to}")
         logging.info(f"Status code: {r.status_code}")
         logging.debug("Request failed (status=%s)", r.status_code)
-        return r.json()
+        return Handle(r.json())
 
 
 class AsyncMessage:

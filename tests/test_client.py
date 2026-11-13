@@ -34,7 +34,7 @@ def test_pinned_version_sets_urls():
     assert app.LATEST == "v27.0"
     assert app.base_url == "https://graph.facebook.com/v27.0"
     assert app.url == "https://graph.facebook.com/v27.0/123456789/messages"
-    assert app.VERSION == "4.4.0"
+    assert app.VERSION == "4.5.0"
 
 
 def test_create_message_and_send_payload():

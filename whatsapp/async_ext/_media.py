@@ -1,10 +1,8 @@
 import logging
 import aiohttp
-import requests
 import asyncio
 import os
 import mimetypes
-from requests_toolbelt.multipart.encoder import MultipartEncoder
 from typing import Union, Dict, Any
 
 
@@ -25,38 +23,43 @@ async def upload_media(self, media: str, sender=None) -> Union[Dict[str, Any], N
     try:
         sender = dict(self.l)[sender]
 
-    except:
+    except Exception:
         sender = self.phone_number_id
 
-    if sender == None:
+    if sender is None:
         sender = self.phone_number_id
 
-    form_data = {
-        "file": (
-            media,
-            open(os.path.realpath(media), "rb"),
-            mimetypes.guess_type(media)[0],
-        ),
-        "messaging_product": "whatsapp",
-        "type": mimetypes.guess_type(media)[0],
-    }
-    form_data = MultipartEncoder(fields=form_data)
-    headers = self.headers.copy()
-    headers["Content-Type"] = form_data.content_type
-    logging.info(f"Content-Type: {form_data.content_type}")
+    mime = mimetypes.guess_type(media)[0] or "application/octet-stream"
+    path = os.path.realpath(media)
     logging.info(f"Uploading media {media}")
-    r = requests.post(
-        f"{self.base_url}/{sender}/media",
-        headers=headers,
-        data=form_data,
+
+    form = aiohttp.FormData()
+    form.add_field("messaging_product", "whatsapp")
+    form.add_field("type", mime)
+    with open(path, "rb") as fh:
+        file_bytes = fh.read()
+    form.add_field(
+        "file",
+        file_bytes,
+        filename=os.path.basename(path),
+        content_type=mime,
     )
-    if r.status_code == 200:
-        logging.info(f"Media {media} uploaded")
-        return r.json()
-    logging.info(f"Error uploading media {media}")
-    logging.info(f"Status code: {r.status_code}")
-    logging.debug("Request failed (status=%s)", r.status_code)
-    return r.status_code
+
+    headers = {k: v for k, v in self.headers.items() if k.lower() != "content-type"}
+    async with aiohttp.ClientSession() as session:
+        async with session.post(
+            f"{self.base_url}/{sender}/media",
+            headers=headers,
+            data=form,
+        ) as r:
+            payload = await r.json()
+            if r.status == 200:
+                logging.info(f"Media {media} uploaded")
+                return payload
+            logging.info(f"Error uploading media {media}")
+            logging.info(f"Status code: {r.status}")
+            logging.debug("Request failed (status=%s)", r.status)
+            return payload
 
 
 async def delete_media(self, media_id: str) -> asyncio.Future:

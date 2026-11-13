@@ -54,6 +54,8 @@ Documentation is available in the [wiki](https://github.com/filipporomani/whatsa
 - Sending medias (images, audios/voice notes, videos, links and documents)
 - Sending location and location-request prompts
 - Sending interactive buttons, lists, and CTA URL buttons
+- Sending WhatsApp Flows, catalog, product, and product-list messages
+- Sending address-request and call-permission-request messages
 - Sending template messages
 - Parsing messages and media received (including reactions)
 - Sending contacts
