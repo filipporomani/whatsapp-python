@@ -1,5 +1,5 @@
 from os import getenv
-from whatsapp import AsyncWhatsApp, AsyncMessage
+from whatsapp import AsyncWhatsApp
 import asyncio
 from dotenv import load_dotenv
 
@@ -33,8 +33,6 @@ if __name__ == "__main__":
             },
             sender=1,
         )
-        while not response.done():
-            await asyncio.sleep(.1)
-        print(response.result())
-        
+        print(response)
+
     asyncio.run(run_test())

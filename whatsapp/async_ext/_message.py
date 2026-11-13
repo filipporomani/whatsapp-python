@@ -1,9 +1,11 @@
 import logging
 import aiohttp
+
+from ..errors import Handle
 import asyncio
 
 
-async def react(self, emoji: str) -> asyncio.Future:
+async def react(self, emoji: str) -> dict:
     data = {
         "messaging_product": "whatsapp",
         "recipient_type": "individual",
@@ -13,20 +15,16 @@ async def react(self, emoji: str) -> asyncio.Future:
     }
     logging.info(f"Reacting to {self.id}")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(self.url, headers=self.headers, json=data) as r:
-                if r.status == 200:
-                    logging.info(f"Reacted to {self.id}")
-                    return await r.json()
-                logging.info(f"Reaction not sent to {self.id}")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(self.url, headers=self.headers, json=data) as r:
+            if r.status == 200:
+                logging.info(f"Reacted to {self.id}")
                 return await r.json()
+            logging.info(f"Reaction not sent to {self.id}")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)  # make asyncio run the task
-    return f
 
 
 async def send_template(
@@ -36,7 +34,7 @@ async def send_template(
     components: str = None,
     lang: str = "en_US",
     sender=None,
-) -> asyncio.Future:
+) -> dict:
     """
     Sends a template message to a WhatsApp user, Template messages can either be;
         1. Text template
@@ -79,26 +77,22 @@ async def send_template(
     }
     logging.info(f"Sending template to {recipient_id}")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, headers=self.headers, json=data) as r:
-                if r.status == 200:
-                    logging.info(f"Template sent to {recipient_id}")
-                    return await r.json()
-                logging.info(f"Template not sent to {recipient_id}")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, headers=self.headers, json=data) as r:
+            if r.status == 200:
+                logging.info(f"Template sent to {recipient_id}")
                 return await r.json()
+            logging.info(f"Template not sent to {recipient_id}")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)  # make asyncio run the task
-    return f
 
 
 # MESSAGE()
 
 
-async def reply(self, reply_text: str = "", preview_url: bool = True) -> asyncio.Future:
+async def reply(self, reply_text: str = "", preview_url: bool = True) -> dict:
     if self.data == {}:
         return {"error": "No data provided"}
     author = self.instance.get_author(self.data)
@@ -112,23 +106,19 @@ async def reply(self, reply_text: str = "", preview_url: bool = True) -> asyncio
     }
     logging.info(f"Replying to {self.id}")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(self.url, headers=self.headers, json=payload) as r:
-                if r.status == 200:
-                    logging.info(f"Replied to {self.id}")
-                    return await r.json()
-                logging.info(f"Reply not sent to {self.id}")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(self.url, headers=self.headers, json=payload) as r:
+            if r.status == 200:
+                logging.info(f"Replied to {self.id}")
                 return await r.json()
+            logging.info(f"Reply not sent to {self.id}")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)  # make asyncio run the task
-    return f
 
 
-async def mark_as_read(self, typing: bool = False) -> asyncio.Future:
+async def mark_as_read(self, typing: bool = False) -> dict:
     payload = {
         "messaging_product": "whatsapp",
         "status": "read",
@@ -139,23 +129,19 @@ async def mark_as_read(self, typing: bool = False) -> asyncio.Future:
 
     logging.info(f"Marking message {self.id} as read")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(self.url, headers=self.headers, json=payload) as r:
-                if r.status == 200:
-                    logging.info(f"Message {self.id} marked as read")
-                    return await r.json()
-                logging.info(f"Error marking message {self.id} as read")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(self.url, headers=self.headers, json=payload) as r:
+            if r.status == 200:
+                logging.info(f"Message {self.id} marked as read")
                 return await r.json()
+            logging.info(f"Error marking message {self.id} as read")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)  # make asyncio run the task
-    return f
 
 
-async def send(self, preview_url: bool = True) -> asyncio.Future:
+async def send(self, preview_url: bool = True) -> dict:
     url = f"https://graph.facebook.com/{self.LATEST}/{self.sender}/messages"
     data = {
         "messaging_product": "whatsapp",
@@ -166,17 +152,13 @@ async def send(self, preview_url: bool = True) -> asyncio.Future:
     }
     logging.info(f"Sending message to {self.to}")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, headers=self.headers, json=data) as r:
-                if r.status == 200:
-                    logging.info(f"Message sent to {self.to}")
-                    return await r.json()
-                logging.info(f"Message not sent to {self.to}")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, headers=self.headers, json=data) as r:
+            if r.status == 200:
+                logging.info(f"Message sent to {self.to}")
                 return await r.json()
+            logging.info(f"Message not sent to {self.to}")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)  # make asyncio run the task
-    return f

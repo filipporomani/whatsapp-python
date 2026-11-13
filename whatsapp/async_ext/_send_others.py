@@ -1,12 +1,14 @@
 from typing import Any, Dict, List
 import aiohttp
+
+from ..errors import Handle
 import asyncio
 import logging
 
 
 async def send_custom_json(
     self, data: dict, recipient_id: str = "", sender=None
-) -> asyncio.Future:
+) -> dict:
     """
     Sends a custom json to a WhatsApp user. This can be used to send custom objects to the message endpoint.
 
@@ -43,25 +45,21 @@ async def send_custom_json(
 
     logging.info(f"Sending custom json to {recipient_id}")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, headers=self.headers, json=data) as r:
-                if r.status == 200:
-                    logging.info(f"Custom json sent to {recipient_id}")
-                    return await r.json()
-                logging.info(f"Custom json not sent to {recipient_id}")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, headers=self.headers, json=data) as r:
+            if r.status == 200:
+                logging.info(f"Custom json sent to {recipient_id}")
                 return await r.json()
+            logging.info(f"Custom json not sent to {recipient_id}")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)  # make asyncio run the task
-    return f
 
 
 async def send_contacts(
     self, contacts: List[Dict[Any, Any]], recipient_id: str, sender=None
-) -> asyncio.Future:
+) -> dict:
     """send_contacts
 
     Send a list of contacts to a user
@@ -108,17 +106,13 @@ async def send_contacts(
     }
     logging.info(f"Sending contacts to {recipient_id}")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, headers=self.headers, json=data) as r:
-                if r.status == 200:
-                    logging.info(f"Contacts sent to {recipient_id}")
-                    return await r.json()
-                logging.info(f"Contacts not sent to {recipient_id}")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, headers=self.headers, json=data) as r:
+            if r.status == 200:
+                logging.info(f"Contacts sent to {recipient_id}")
                 return await r.json()
+            logging.info(f"Contacts not sent to {recipient_id}")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)  # make asyncio run the task
-    return f

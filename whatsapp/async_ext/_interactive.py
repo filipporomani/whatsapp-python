@@ -8,12 +8,14 @@ from typing import Any, Dict, List, Mapping, Optional, Union
 
 import aiohttp
 
+from ..errors import Handle
+
 from ._helpers import messages_url, optional_header_footer, text_object
 
 
 async def _post_interactive(
     self, recipient_id: str, interactive: Dict[str, Any], sender=None
-) -> asyncio.Future:
+) -> dict:
     endpoint = messages_url(self, sender)
     data = {
         "messaging_product": "whatsapp",
@@ -23,18 +25,14 @@ async def _post_interactive(
         "interactive": interactive,
     }
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(endpoint, headers=self.headers, json=data) as r:
-                payload = await r.json()
-                if r.status == 200:
-                    return payload
-                logging.error("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(endpoint, headers=self.headers, json=data) as r:
+            payload = await r.json()
+            if r.status == 200:
                 return payload
+            logging.error("Request failed (status=%s)", r.status)
+            return Handle(payload)
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)
-    return f
 
 
 async def send_flow(
@@ -52,7 +50,7 @@ async def send_flow(
     footer: Optional[Union[str, Mapping[str, Any]]] = None,
     flow_message_version: str = "3",
     sender=None,
-) -> asyncio.Future:
+) -> dict:
     """Send a WhatsApp Flows interactive message."""
     if bool(flow_id) == bool(flow_name):
         raise ValueError("Provide exactly one of flow_id or flow_name")
@@ -89,7 +87,7 @@ async def send_catalog_message(
     thumbnail_product_retailer_id: Optional[str] = None,
     footer: Optional[Union[str, Mapping[str, Any]]] = None,
     sender=None,
-) -> asyncio.Future:
+) -> dict:
     action: Dict[str, Any] = {"name": "catalog_message"}
     if thumbnail_product_retailer_id:
         action["parameters"] = {
@@ -114,7 +112,7 @@ async def send_product(
     body: Optional[str] = None,
     footer: Optional[Union[str, Mapping[str, Any]]] = None,
     sender=None,
-) -> asyncio.Future:
+) -> dict:
     interactive: Dict[str, Any] = {
         "type": "product",
         "action": {
@@ -139,7 +137,7 @@ async def send_product_list(
     *,
     footer: Optional[Union[str, Mapping[str, Any]]] = None,
     sender=None,
-) -> asyncio.Future:
+) -> dict:
     interactive: Dict[str, Any] = {
         "type": "product_list",
         "header": text_object(header, field="header"),
@@ -161,7 +159,7 @@ async def send_address_message(
     footer: Optional[Union[str, Mapping[str, Any]]] = None,
     parameters: Optional[Mapping[str, Any]] = None,
     sender=None,
-) -> asyncio.Future:
+) -> dict:
     params = dict(parameters or {})
     params.setdefault("country", country)
     interactive: Dict[str, Any] = {
@@ -182,7 +180,7 @@ async def send_call_permission_request(
     header: Optional[Union[str, Mapping[str, Any]]] = None,
     footer: Optional[Union[str, Mapping[str, Any]]] = None,
     sender=None,
-) -> asyncio.Future:
+) -> dict:
     interactive: Dict[str, Any] = {
         "type": "call_permission_request",
         "action": {"name": "call_permission_request"},

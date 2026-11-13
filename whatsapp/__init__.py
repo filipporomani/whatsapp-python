@@ -711,7 +711,7 @@ class AsyncMessage:
 
     async def reply(
         self, reply_text: str = "", preview_url: bool = True
-    ) -> asyncio.Future:
+    ) -> dict:
         if self.data == {}:
             return {"error": "No data provided"}
         author = self.instance.get_author(self.data)
@@ -725,28 +725,23 @@ class AsyncMessage:
         }
         logging.info(f"Replying to {self.id}")
 
-        async def call():
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    self.url, headers=self.headers, json=payload
-                ) as response:
-                    if response.status == 200:
-                        logging.info(
-                            f"Message sent to {self.instance.get_author(self.data)}"
-                        )
-                        return await response.json()
+        async with aiohttp.ClientSession() as session:
+            async with session.post(
+                self.url, headers=self.headers, json=payload
+            ) as response:
+                if response.status == 200:
                     logging.info(
-                        f"Message not sent to {self.instance.get_author(self.data)}"
+                        f"Message sent to {self.instance.get_author(self.data)}"
                     )
-                    logging.info(f"Status code: {response.status}")
-                    logging.error("Request failed (status=%s)", response.status)
                     return await response.json()
+                logging.info(
+                    f"Message not sent to {self.instance.get_author(self.data)}"
+                )
+                logging.info(f"Status code: {response.status}")
+                logging.error("Request failed (status=%s)", response.status)
+                return Handle(await response.json())
 
-        f = asyncio.ensure_future(call())
-        await asyncio.sleep(0.001)  # make asyncio run the task
-        return f
-
-    async def mark_as_read(self, typing: bool = False) -> asyncio.Future:
+    async def mark_as_read(self, typing: bool = False) -> dict:
         """
         Mark this inbound message as read.
 
@@ -762,26 +757,21 @@ class AsyncMessage:
         if typing:
             payload["typing_indicator"] = {"type": "text"}
 
-        async def call():
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    f"{self.instance.url}", headers=self.instance.headers, json=payload
-                ) as response:
-                    if response.status == 200:
-                        logging.info("Request succeeded (status=%s)", response.status)
-                        return await response.json()
-                    logging.error("Request failed (status=%s)", response.status)
+        async with aiohttp.ClientSession() as session:
+            async with session.post(
+                f"{self.instance.url}", headers=self.instance.headers, json=payload
+            ) as response:
+                if response.status == 200:
+                    logging.info("Request succeeded (status=%s)", response.status)
                     return await response.json()
+                logging.error("Request failed (status=%s)", response.status)
+                return Handle(await response.json())
 
-        f = asyncio.ensure_future(call())
-        await asyncio.sleep(0.001)  # make asyncio run the task
-        return f
-
-    async def show_typing(self) -> asyncio.Future:
+    async def show_typing(self) -> dict:
         """Mark as read and show a typing indicator while preparing a reply."""
         return await self.mark_as_read(typing=True)
 
-    async def send(self, sender=None, preview_url: bool = True) -> asyncio.Future:
+    async def send(self, sender=None, preview_url: bool = True) -> dict:
         try:
             sender = dict(self.instance.l)[sender]
 
@@ -801,24 +791,19 @@ class AsyncMessage:
         }
         logging.info(f"Sending message to {self.to}")
 
-        async def call():
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    url, headers=self.headers, json=data
-                ) as response:
-                    if response.status == 200:
-                        logging.info(f"Message sent to {self.to}")
-                        return await response.json()
-                    logging.info(f"Message not sent to {self.to}")
-                    logging.info(f"Status code: {response.status}")
-                    logging.error("Request failed (status=%s)", response.status)
+        async with aiohttp.ClientSession() as session:
+            async with session.post(
+                url, headers=self.headers, json=data
+            ) as response:
+                if response.status == 200:
+                    logging.info(f"Message sent to {self.to}")
                     return await response.json()
+                logging.info(f"Message not sent to {self.to}")
+                logging.info(f"Status code: {response.status}")
+                logging.error("Request failed (status=%s)", response.status)
+                return Handle(await response.json())
 
-        f = asyncio.ensure_future(call())
-        await asyncio.sleep(0.001)  # make asyncio run the task
-        return f
-
-    async def react(self, emoji: str) -> asyncio.Future:
+    async def react(self, emoji: str) -> dict:
         data = {
             "messaging_product": "whatsapp",
             "recipient_type": "individual",
@@ -828,19 +813,15 @@ class AsyncMessage:
         }
         logging.info(f"Reacting to {self.id}")
 
-        async def call():
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    self.url, headers=self.headers, json=data
-                ) as response:
-                    if response.status == 200:
-                        logging.info(f"Reaction sent to {self.to}")
-                        return await response.json()
-                    logging.info(f"Reaction not sent to {self.to}")
-                    logging.info(f"Status code: {response.status}")
-                    logging.debug("Request failed (status=%s)", response.status)
+        async with aiohttp.ClientSession() as session:
+            async with session.post(
+                self.url, headers=self.headers, json=data
+            ) as response:
+                if response.status == 200:
+                    logging.info(f"Reaction sent to {self.to}")
                     return await response.json()
+                logging.info(f"Reaction not sent to {self.to}")
+                logging.info(f"Status code: {response.status}")
+                logging.debug("Request failed (status=%s)", response.status)
+                return Handle(await response.json())
 
-        f = asyncio.ensure_future(call())
-        await asyncio.sleep(0.001)
-        return f

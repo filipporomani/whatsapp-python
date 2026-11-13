@@ -73,7 +73,7 @@ def send_image(
         recipient_id[str]: Phone number of the user with country code wihout +
         recipient_type[str]: Type of the recipient, either individual or group
         caption[str]: Caption of the image
-        link[bool]: Whether to send an image id or an image link, True means that the image is an id, False means that the image is a link
+        link[bool]: Whether to send an image id or an image link, True sends ``image`` as a hosted URL (``link``), False as an uploaded media ``id``
 
 
     Example:
@@ -136,7 +136,7 @@ def send_sticker(
         sticker[str]: Sticker id or link of the sticker
         recipient_id[str]: Phone number of the user with country code wihout +
         recipient_type[str]: Type of the recipient, either individual or group
-        link[bool]: Whether to send an sticker id or an sticker link, True means that the sticker is an id, False means that the image is a link
+        link[bool]: Whether to send an sticker id or an sticker link, True sends ``sticker`` as a hosted URL (``link``), False as an uploaded media ``id``
 
 
     Example:
@@ -249,7 +249,7 @@ def send_video(
         video[str]: Video id or link of the video
         recipient_id[str]: Phone number of the user with country code wihout +
         caption[str]: Caption of the video
-        link[bool]: Whether to send a video id or a video link, True means that the video is an id, False means that the video is a link
+        link[bool]: Whether to send a video id or a video link, True sends ``video`` as a hosted URL (``link``), False as an uploaded media ``id``
 
     example:
         >>> from whatsapp import WhatsApp

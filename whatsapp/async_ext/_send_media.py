@@ -1,11 +1,13 @@
 import logging
 import aiohttp
+
+from ..errors import Handle
 import asyncio
 
 
 async def send_location(
     self, lat: str, long: str, name: str, address: str, recipient_id: str, sender=None
-) -> asyncio.Future:
+) -> dict:
     """
     Sends a location message to a WhatsApp user
 
@@ -44,20 +46,16 @@ async def send_location(
     }
     logging.info(f"Sending location to {recipient_id}")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, headers=self.headers, json=data) as r:
-                if r.status == 200:
-                    logging.info(f"Location sent to {recipient_id}")
-                    return await r.json()
-                logging.info(f"Location not sent to {recipient_id}")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, headers=self.headers, json=data) as r:
+            if r.status == 200:
+                logging.info(f"Location sent to {recipient_id}")
                 return await r.json()
+            logging.info(f"Location not sent to {recipient_id}")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)  # make asyncio run the task
-    return f
 
 
 async def send_image(
@@ -68,7 +66,7 @@ async def send_image(
     caption: str = "",
     link: bool = True,
     sender=None,
-) -> asyncio.Future:
+) -> dict:
     """
     Sends an image message to a WhatsApp user
 
@@ -80,7 +78,7 @@ async def send_image(
         recipient_id[str]: Phone number of the user with country code wihout +
         recipient_type[str]: Type of the recipient, either individual or group
         caption[str]: Caption of the image
-        link[bool]: Whether to send an image id or an image link, True means that the image is an id, False means that the image is a link
+        link[bool]: Whether to send an image id or an image link, True sends ``image`` as a hosted URL (``link``), False as an uploaded media ``id``
 
 
     Example:
@@ -116,20 +114,16 @@ async def send_image(
         }
     logging.info(f"Sending image to {recipient_id}")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, headers=self.headers, json=data) as r:
-                if r.status == 200:
-                    logging.info(f"Image sent to {recipient_id}")
-                    return await r.json()
-                logging.info(f"Image not sent to {recipient_id}")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, headers=self.headers, json=data) as r:
+            if r.status == 200:
+                logging.info(f"Image sent to {recipient_id}")
                 return await r.json()
+            logging.info(f"Image not sent to {recipient_id}")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)  # make asyncio run the task
-    return f
 
 
 async def send_sticker(
@@ -139,7 +133,7 @@ async def send_sticker(
     recipient_type: str = "individual",
     link: bool = True,
     sender=None,
-) -> asyncio.Future:
+) -> dict:
     """
     Sends a sticker message to a WhatsApp user
 
@@ -150,7 +144,7 @@ async def send_sticker(
         sticker[str]: Sticker id or link of the sticker
         recipient_id[str]: Phone number of the user with country code wihout +
         recipient_type[str]: Type of the recipient, either individual or group
-        link[bool]: Whether to send an sticker id or an sticker link, True means that the sticker is an id, False means that the image is a link
+        link[bool]: Whether to send an sticker id or an sticker link, True sends ``sticker`` as a hosted URL (``link``), False as an uploaded media ``id``
 
 
     Example:
@@ -186,20 +180,16 @@ async def send_sticker(
         }
     logging.info(f"Sending sticker to {recipient_id}")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, headers=self.headers, json=data) as r:
-                if r.status == 200:
-                    logging.info(f"Sticker sent to {recipient_id}")
-                    return await r.json()
-                logging.info(f"Sticker not sent to {recipient_id}")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, headers=self.headers, json=data) as r:
+            if r.status == 200:
+                logging.info(f"Sticker sent to {recipient_id}")
                 return await r.json()
+            logging.info(f"Sticker not sent to {recipient_id}")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)  # make asyncio run the task
-    return f
 
 
 async def send_audio(
@@ -209,7 +199,7 @@ async def send_audio(
     link: bool = True,
     sender=None,
     voice: bool = False,
-) -> asyncio.Future:
+) -> dict:
     """
     Sends an audio or voice message to a WhatsApp user.
 
@@ -245,20 +235,16 @@ async def send_audio(
     }
     logging.info(f"Sending audio to {recipient_id}")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, headers=self.headers, json=data) as r:
-                if r.status == 200:
-                    logging.info(f"Audio sent to {recipient_id}")
-                    return await r.json()
-                logging.info(f"Audio not sent to {recipient_id}")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, headers=self.headers, json=data) as r:
+            if r.status == 200:
+                logging.info(f"Audio sent to {recipient_id}")
                 return await r.json()
+            logging.info(f"Audio not sent to {recipient_id}")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)  # make asyncio run the task
-    return f
 
 
 async def send_video(
@@ -268,7 +254,7 @@ async def send_video(
     caption: str = "",
     link: bool = True,
     sender=None,
-) -> asyncio.Future:
+) -> dict:
     """ "
     Sends a video message to a WhatsApp user
     Video messages can either be sent by passing the video id or by passing the video link.
@@ -277,7 +263,7 @@ async def send_video(
         video[str]: Video id or link of the video
         recipient_id[str]: Phone number of the user with country code wihout +
         caption[str]: Caption of the video
-        link[bool]: Whether to send a video id or a video link, True means that the video is an id, False means that the video is a link
+        link[bool]: Whether to send a video id or a video link, True sends ``video`` as a hosted URL (``link``), False as an uploaded media ``id``
 
     example:
         >>> from whatsapp import WhatsApp
@@ -310,20 +296,16 @@ async def send_video(
         }
     logging.info(f"Sending video to {recipient_id}")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, headers=self.headers, json=data) as r:
-                if r.status == 200:
-                    logging.info(f"Video sent to {recipient_id}")
-                    return await r.json()
-                logging.info(f"Video not sent to {recipient_id}")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, headers=self.headers, json=data) as r:
+            if r.status == 200:
+                logging.info(f"Video sent to {recipient_id}")
                 return await r.json()
+            logging.info(f"Video not sent to {recipient_id}")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)  # make asyncio run the task
-    return f
 
 
 async def send_document(
@@ -334,7 +316,7 @@ async def send_document(
     link: bool = True,
     sender=None,
     filename: str = None,
-) -> asyncio.Future:
+) -> dict:
     """
     Sends a document message to a WhatsApp user
     Document messages can either be sent by passing the document id or by passing the document link.
@@ -375,17 +357,13 @@ async def send_document(
 
     logging.info(f"Sending document to {recipient_id}")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, headers=self.headers, json=data) as r:
-                if r.status == 200:
-                    logging.info(f"Document sent to {recipient_id}")
-                    return await r.json()
-                logging.info(f"Document not sent to {recipient_id}")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, headers=self.headers, json=data) as r:
+            if r.status == 200:
+                logging.info(f"Document sent to {recipient_id}")
                 return await r.json()
+            logging.info(f"Document not sent to {recipient_id}")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)  # make asyncio run the task
-    return f

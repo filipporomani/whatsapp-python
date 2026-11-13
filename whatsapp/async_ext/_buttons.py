@@ -1,5 +1,7 @@
 import logging
 import aiohttp
+
+from ..errors import Handle
 import asyncio
 from typing import Dict, Any
 from ._helpers import text_object
@@ -28,7 +30,7 @@ def create_button(self, button: Dict[Any, Any]) -> Dict[Any, Any]:
 
 async def send_button(
     self, button: Dict[Any, Any], recipient_id: str, sender=None
-) -> asyncio.Future:
+) -> dict:
     """
     Sends an interactive buttons message to a WhatsApp user
 
@@ -56,25 +58,21 @@ async def send_button(
     }
     logging.info(f"Sending buttons to {recipient_id}")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, headers=self.headers, json=data) as r:
-                if r.status == 200:
-                    logging.info(f"Buttons sent to {recipient_id}")
-                    return await r.json()
-                logging.info(f"Buttons not sent to {recipient_id}")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, headers=self.headers, json=data) as r:
+            if r.status == 200:
+                logging.info(f"Buttons sent to {recipient_id}")
                 return await r.json()
+            logging.info(f"Buttons not sent to {recipient_id}")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)  # make asyncio run the task
-    return f
 
 
 async def send_reply_button(
     self, button: Dict[Any, Any], recipient_id: str, sender=None
-) -> asyncio.Future:
+) -> dict:
     """
     Sends an interactive reply buttons[menu] message to a WhatsApp user
 
@@ -107,20 +105,16 @@ async def send_reply_button(
     }
     logging.info(f"Sending buttons to {recipient_id}")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, headers=self.headers, json=data) as r:
-                if r.status == 200:
-                    logging.info(f"Buttons sent to {recipient_id}")
-                    return await r.json()
-                logging.info(f"Buttons not sent to {recipient_id}")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, headers=self.headers, json=data) as r:
+            if r.status == 200:
+                logging.info(f"Buttons sent to {recipient_id}")
                 return await r.json()
+            logging.info(f"Buttons not sent to {recipient_id}")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)  # make asyncio run the task
-    return f
 
 
 async def send_cta_url(
@@ -132,7 +126,7 @@ async def send_cta_url(
     header: str = None,
     footer: str = None,
     sender=None,
-) -> asyncio.Future:
+) -> dict:
     """
     Sends an interactive Call-to-Action URL button message.
 
@@ -169,25 +163,21 @@ async def send_cta_url(
     }
     logging.info(f"Sending CTA URL to {recipient_id}")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(endpoint, headers=self.headers, json=data) as r:
-                if r.status == 200:
-                    logging.info(f"CTA URL sent to {recipient_id}")
-                    return await r.json()
-                logging.info(f"CTA URL not sent to {recipient_id}")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(endpoint, headers=self.headers, json=data) as r:
+            if r.status == 200:
+                logging.info(f"CTA URL sent to {recipient_id}")
                 return await r.json()
+            logging.info(f"CTA URL not sent to {recipient_id}")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)
-    return f
 
 
 async def send_location_request(
     self, body: str, recipient_id: str, sender=None
-) -> asyncio.Future:
+) -> dict:
     """
     Sends a location request message that prompts the user to share their location.
 
@@ -215,17 +205,13 @@ async def send_location_request(
     }
     logging.info(f"Sending location request to {recipient_id}")
 
-    async def call():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(endpoint, headers=self.headers, json=data) as r:
-                if r.status == 200:
-                    logging.info(f"Location request sent to {recipient_id}")
-                    return await r.json()
-                logging.info(f"Location request not sent to {recipient_id}")
-                logging.info(f"Status code: {r.status}")
-                logging.info("Request failed (status=%s)", r.status)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(endpoint, headers=self.headers, json=data) as r:
+            if r.status == 200:
+                logging.info(f"Location request sent to {recipient_id}")
                 return await r.json()
+            logging.info(f"Location request not sent to {recipient_id}")
+            logging.info(f"Status code: {r.status}")
+            logging.info("Request failed (status=%s)", r.status)
+            return Handle(await r.json())
 
-    f = asyncio.ensure_future(call())
-    await asyncio.sleep(0.001)
-    return f
