@@ -2,7 +2,7 @@
 
 These scripts call the real WhatsApp Cloud API and require environment variables:
 
-- `GRAPH_API_TOKEN`
+- `TOKEN` (preferred) or `GRAPH_API_TOKEN`
 - `TEST_PHONE_NUMBER_ID`
 - `DEST_PHONE_NUMBER`
 - `TEST_IMAGE_PATH` (async upload smoke only)

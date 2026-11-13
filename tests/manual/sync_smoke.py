@@ -3,9 +3,11 @@ from dotenv import load_dotenv
 from os import getenv
 
 load_dotenv()
-token = getenv("GRAPH_API_TOKEN")
+token = getenv("TOKEN") or getenv("GRAPH_API_TOKEN")
 phone_number_id = {1: getenv("TEST_PHONE_NUMBER_ID")}
 dest_phone_number = getenv("DEST_PHONE_NUMBER")
+if not token:
+    raise SystemExit("Set TOKEN (or GRAPH_API_TOKEN) in Cursor Cloud Agent secrets")
 
 app = WhatsApp(token=token, phone_number_id=phone_number_id, update_check=False)
 msg = app.create_message(to=dest_phone_number, content="Hello world")
